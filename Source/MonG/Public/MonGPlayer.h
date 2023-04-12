@@ -32,13 +32,30 @@ public:
 	class UInputMappingContext* IMC_MonGInput;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_MonGMove;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_MonGMouse;
+	UPROPERTY()
+	class APlayerController* playerController;
+
 	//카메라
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UCameraComponent* camera;
 
-	UPROPERTY()
-	class APlayerController* playerController;
 
-	UFUNCTION()
+	//컨트롤러
+	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	class UMotionControllerComponent* rightHand;
+	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	class UMotionControllerComponent* leftHand;
+	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	class USkeletalMeshComponent* rightMesh;
+	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	class USkeletalMeshComponent* leftMesh;
+	
+
+
+	//동작함수
 	void Move(const FInputActionValue& Values);
+	void Look(const FInputActionValue& Values);
+
 };
