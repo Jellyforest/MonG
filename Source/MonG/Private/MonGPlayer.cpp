@@ -7,6 +7,7 @@
 #include <Engine/LocalPlayer.h>
 #include <Camera/CameraComponent.h>
 #include <MotionControllerComponent.h>
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 AMonGPlayer::AMonGPlayer()
@@ -18,6 +19,9 @@ AMonGPlayer::AMonGPlayer()
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("camera"));
 	camera->SetupAttachment(RootComponent);
 	camera->bUsePawnControlRotation = true;
+	//프리셋세팅
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
+
 
 	//모션컨트롤러
 	rightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightHand"));

@@ -2,6 +2,10 @@
 
 
 #include "DustSpawner.h"
+#include <Components/BoxComponent.h>
+#include <Components/StaticMeshComponent.h>
+#include <Components/ArrowComponent.h>
+#include "Dust.h"
 
 // Sets default values
 ADustSpawner::ADustSpawner()
@@ -9,6 +13,12 @@ ADustSpawner::ADustSpawner()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	spawnerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("spawnerComp"));
+	SetRootComponent(spawnerComp);
+	spawnerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("spawnerMesh"));
+	spawnerMesh->SetupAttachment(spawnerComp);
+	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
+	arrow->SetupAttachment(spawnerComp);
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +32,14 @@ void ADustSpawner::BeginPlay()
 void ADustSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	currentTime += DeltaTime;
+
+	if (currentTime >= coolTime)
+	{
+		GetWorld()->SpawnActor<ADust>(dustSpawn,arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		currentTime = 0;
+	}
 
 }
 

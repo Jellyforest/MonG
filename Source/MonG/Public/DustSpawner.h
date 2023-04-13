@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Dust.h"
 #include "DustSpawner.generated.h"
 
 UCLASS()
@@ -23,4 +24,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UStaticMeshComponent* spawnerMesh;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UBoxComponent* spawnerComp;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UArrowComponent* arrow;
+	float coolTime = 3;
+	float currentTime = 0;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustSpawn;
 };
