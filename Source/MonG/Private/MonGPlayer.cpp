@@ -33,8 +33,8 @@ AMonGPlayer::AMonGPlayer()
 		if (tempMesh.Succeeded())
 		{
 			rightMesh->SetSkeletalMesh(tempMesh.Object);
-			rightMesh->SetRelativeLocation(FVector(-2.9f, -3.5f, 4.5f));
-			rightMesh->SetRelativeRotation(FRotator(-25, -180, 90));
+			rightMesh->SetRelativeLocation(FVector(-2.9f, 3.5f, 4.5f));
+			rightMesh->SetRelativeRotation(FRotator(25, 0, 90));
 		}
 	//모션컨트롤러 왼손 Mesh
 	leftMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("leftMesh"));
@@ -43,8 +43,8 @@ AMonGPlayer::AMonGPlayer()
 	if (tempMesh2.Succeeded())
 	{
 		leftMesh->SetSkeletalMesh(tempMesh2.Object);
-		leftMesh->SetRelativeLocation(FVector(-2.9f, 3.5f, 4.5f));
-		leftMesh->SetRelativeRotation(FRotator(25, 0, 90));
+		leftMesh->SetRelativeLocation(FVector(-2.9f, -3.5f, 4.5f));
+		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
 	}
 
 
