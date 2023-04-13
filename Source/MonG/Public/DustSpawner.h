@@ -4,17 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MonGPlayer.h"
-#include "Dust.generated.h"
+#include "DustSpawner.generated.h"
 
 UCLASS()
-class MONG_API ADust : public AActor
+class MONG_API ADustSpawner : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADust();
+	ADustSpawner();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,16 +22,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	//먼지생김새
-	UPROPERTY(EditAnywhere)
-	class USphereComponent* dustComp;
-	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* dustMesh;
-	//먼지 날아오는 속도
-	float moveSpeed = 500;
-	//먼지 방향
-	FVector monGDirection;
-
 
 };

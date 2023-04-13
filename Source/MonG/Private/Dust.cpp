@@ -4,6 +4,7 @@
 #include "Dust.h"
 #include <Components/SphereComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ADust::ADust()
@@ -12,8 +13,11 @@ ADust::ADust()
 	PrimaryActorTick.bCanEverTick = true;
 
 	dustComp = CreateDefaultSubobject<USphereComponent>(TEXT("dustComp"));
+	SetRootComponent(dustComp);
+	dustComp->SetupAttachment(RootComponent);
 	dustMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("dustMesh"));
-
+	dustMesh->SetupAttachment(RootComponent);
+	
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +25,9 @@ void ADust::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	AMonGPlayer* monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	monGDirection = monGPlayer->GetActorLocation() - GetActorLocation();
+	monGDirection.Normalize();
 }
 
 // Called every frame
@@ -28,5 +35,9 @@ void ADust::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
+
 }
+
+
 
