@@ -43,15 +43,16 @@ public:
 
 
 	//컨트롤러
-	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MotionController")
 	class UMotionControllerComponent* rightHand;
-	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UMotionControllerComponent* leftHand;
-	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* rightMesh;
-	UPROPERTY(VisibleAnywhere, Category="MotionController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* leftMesh;
-	
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
+	class UInputMappingContext* IMC_Hands;
 
 
 	//동작함수
