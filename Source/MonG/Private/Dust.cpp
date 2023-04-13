@@ -14,7 +14,7 @@ ADust::ADust()
 
 	dustComp = CreateDefaultSubobject<USphereComponent>(TEXT("dustComp"));
 	SetRootComponent(dustComp);
-	dustComp->SetupAttachment(RootComponent);
+	
 	dustMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("dustMesh"));
 	dustMesh->SetupAttachment(RootComponent);
 	
