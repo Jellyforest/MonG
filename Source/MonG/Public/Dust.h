@@ -33,6 +33,8 @@ public:
 	float moveSpeed = 500;
 	//먼지 방향
 	FVector monGDirection;
-
+	//삭제
+	float destroyTime = 7;
+	float currentTime = 0;
 
 };

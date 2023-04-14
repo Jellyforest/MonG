@@ -36,8 +36,14 @@ void ADust::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	currentTime += DeltaTime;
+	
 	SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
 
+	if (currentTime > destroyTime)
+	{
+		Destroy();
+	}
 }
 
 

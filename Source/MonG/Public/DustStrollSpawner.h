@@ -3,33 +3,46 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DustSpawner.h"
+#include "GameFramework/Actor.h"
+#include "Dust.h"
 #include "DustStrollSpawner.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class MONG_API ADustStrollSpawner : public ADustSpawner
+class MONG_API ADustStrollSpawner : public AActor
 {
 	GENERATED_BODY()
 	
-public:
+public:	
+	// Sets default values for this actor's properties
 	ADustStrollSpawner();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	float teleportTime = 0;
-	float teleportTime1 = 7;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UStaticMeshComponent* spawnerMesh;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UBoxComponent* spawnerComp;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	class UArrowComponent* arrow;
+	float coolTime = 0.5;
+	float coolCurentTime = 0;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustSpawn;
+
+
+	float teleportTime = 1;
+	float teleportTime1 = 6;
+
 	float currentTime = 0;
-	float moveSpeed = 30;
+	float moveSpeed = 2;
+	float fire = 10;
+	float fireTime = 0;
 	FVector rightDirection;
 	FVector leftDirection;
-
 };
