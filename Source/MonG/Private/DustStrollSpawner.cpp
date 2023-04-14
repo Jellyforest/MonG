@@ -34,7 +34,7 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 		SetActorLocation(GetActorLocation() + GetActorUpVector().RotateAngleAxis(-90, FVector(1, 0, 0)).GetSafeNormal());
 
 	}
-	if (currentTime > 15)
+	if (currentTime > 14)
 	{
 		currentTime = 0;
 	}

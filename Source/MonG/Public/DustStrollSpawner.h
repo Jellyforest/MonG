@@ -25,8 +25,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	float teleportTime = 1;
-	float teleportTime1 = 8;
+	float teleportTime = 0;
+	float teleportTime1 = 7;
 	float currentTime = 0;
 	float moveSpeed = 30;
 	FVector rightDirection;
