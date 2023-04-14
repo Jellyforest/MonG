@@ -97,17 +97,17 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMonGPlayer::Move(const FInputActionValue& Values)
 {
-	FVector2D axis = Values.Get<FVector2D>();
-	AddMovementInput(FVector(1, 0, 0), axis.X);
-	AddMovementInput(FVector(0, 1, 0), axis.Y);
+	//FVector2D axis = Values.Get<FVector2D>();
+	//AddMovementInput(FVector(1, 0, 0), axis.X);
+	//AddMovementInput(FVector(0, 1, 0), axis.Y);
 
 }
 
 void AMonGPlayer::Look(const FInputActionValue& Values)
 {
-	FVector2D axis = Values.Get<FVector2D>();
-	AddControllerYawInput(axis.X);
-	AddControllerPitchInput(axis.Y);
+	//FVector2D axis = Values.Get<FVector2D>();
+	//AddControllerYawInput(axis.X);
+	//AddControllerPitchInput(axis.Y);
 
 }
 
