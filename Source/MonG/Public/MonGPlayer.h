@@ -51,12 +51,32 @@ public:
 	class USkeletalMeshComponent* rightMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* leftMesh;
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UInputMappingContext* IMC_Hands;
+
+	//청소기
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	class UStaticMeshComponent* cleannerMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	class UBoxComponent* cleannerComp;
 
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);
+
+	//청소기 
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//먼지
+	class ADust* dust;
+	FVector monGDirection;
+	float moveSpeed = 5;
+	bool inClenner=false;
+	float deltaTime;
+	float currentTime;
+	float cleaningTime = 1;
+	float cleaningTime1 = 4;
+
 
 };

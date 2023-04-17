@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Dust.h"
-#include "DustStrollSpawner.generated.h"
+#include "LeftDustSpawner.generated.h"
 
 UCLASS()
-class MONG_API ADustStrollSpawner : public AActor
+class MONG_API ALeftDustSpawner : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADustStrollSpawner();
+	ALeftDustSpawner();
 
 protected:
 	// Called when the game starts or when spawned
@@ -45,6 +45,5 @@ public:
 	float fireTime = 0;
 	FVector rightDirection;
 	FVector leftDirection;
-	bool rightspawner = true;
 
 };

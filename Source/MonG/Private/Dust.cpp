@@ -19,6 +19,7 @@ ADust::ADust()
 	dustMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("dustMesh"));
 	dustMesh->SetupAttachment(dustComp);
 	
+	
 }
 
 // Called when the game starts or when spawned
@@ -26,9 +27,12 @@ void ADust::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AMonGPlayer* monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
-	monGDirection = monGPlayer->GetActorLocation() - GetActorLocation();
-	monGDirection.Normalize();
+	//AMonGPlayer* monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	//monGDirection = monGPlayer->GetActorLocation() - GetActorLocation();
+	
+	//monGDirection.Normalize();
+
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 }
 
 // Called every frame
@@ -37,8 +41,23 @@ void ADust::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currentTime += DeltaTime;
-	
-	SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
+
+
+	//SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
+
+	//SetActorLocation(GetActorForwardVector());
+	//if (monGPlayer->inClenner==false)
+	//{
+		//SetActorLocation(GetActorLocation() + GetActorForwardVector() * moveSpeed * DeltaTime);
+		SetActorLocation(GetActorLocation() + GetActorForwardVector() * moveSpeed * DeltaTime);
+	//	UE_LOG(LogTemp, Warning, TEXT("go"));
+
+	//}
+	//if (monGPlayer->inClenner == true)
+	//{
+	///	UE_LOG(LogTemp, Warning, TEXT("stop"));
+	//	
+	//}
 
 	if (currentTime > destroyTime)
 	{

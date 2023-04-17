@@ -8,6 +8,11 @@
 #include <Camera/CameraComponent.h>
 #include <MotionControllerComponent.h>
 #include "Components/CapsuleComponent.h"
+#include <GameFramework/Actor.h>
+#include <Components/BoxComponent.h>
+#include <Components/StaticMeshComponent.h>
+#include "Dust.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AMonGPlayer::AMonGPlayer()
@@ -21,8 +26,7 @@ AMonGPlayer::AMonGPlayer()
 	camera->bUsePawnControlRotation = true;
 	//프리셋세팅
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
-
-
+	
 	//모션컨트롤러
 	rightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightHand"));
 	rightHand->SetupAttachment(RootComponent);
@@ -50,8 +54,15 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeLocation(FVector(-2.9f, -3.5f, 4.5f));
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
 	}
+	
+	//청소기 세팅
+	cleannerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleannerComp"));
+	cleannerComp->SetupAttachment(rightHand);
+	cleannerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleannerMesh"));
+	cleannerMesh->SetupAttachment(cleannerComp);
 
-
+	//청소기 프리셋
+	cleannerComp->SetCollisionProfileName(TEXT("CleannerPreset"));
 
 }
 
@@ -72,6 +83,16 @@ void AMonGPlayer::BeginPlay()
 			subSystem->AddMappingContext(IMC_Hands, 0);
 		}
 	}
+
+	cleannerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
+
+	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+	if (dust)
+	{
+		monGDirection = cleannerMesh->GetComponentLocation()-dust->GetActorLocation();
+		monGDirection.Normalize();
+	}
+	
 }
 
 // Called every frame
@@ -97,17 +118,49 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMonGPlayer::Move(const FInputActionValue& Values)
 {
-	//FVector2D axis = Values.Get<FVector2D>();
-	//AddMovementInput(FVector(1, 0, 0), axis.X);
-	//AddMovementInput(FVector(0, 1, 0), axis.Y);
+	FVector2D axis = Values.Get<FVector2D>();
+	AddMovementInput(FVector(1, 0, 0), axis.X);
+	AddMovementInput(FVector(0, 1, 0), axis.Y);
 
 }
 
 void AMonGPlayer::Look(const FInputActionValue& Values)
 {
-	//FVector2D axis = Values.Get<FVector2D>();
-	//AddControllerYawInput(axis.X);
-	//AddControllerPitchInput(axis.Y);
+	FVector2D axis = Values.Get<FVector2D>();
+	AddControllerYawInput(axis.X);
+	AddControllerPitchInput(axis.Y);
 
+}
+
+void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//inClenner = true;
+	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap"));
+	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap - %s"), *OtherActor->GetName());
+	dust=Cast<ADust>(OtherActor);
+	if (dust != nullptr) 
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("In"));
+		inClenner = true;
+		deltaTime = GetWorld()->DeltaTimeSeconds;
+		currentTime += GetWorld()->DeltaTimeSeconds;
+		if (currentTime < cleaningTime && currentTime < cleaningTime1)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("cleanintimeYat"));
+			dust->moveSpeed = 0;
+
+		}
+		if (currentTime > cleaningTime1)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("cleaninTime"));
+			dust->SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * deltaTime);
+			//currentTime = 0;
+		}
+		
+	}
+	//if (dust)
+	//{
+	////	
+	//}
 }
 

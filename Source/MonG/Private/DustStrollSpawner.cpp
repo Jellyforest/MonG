@@ -37,29 +37,33 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), fireTime);
 	FVector stroll_Right = FVector(0, 930, 250);
 
-	if (fireTime > fire && fireTime<120)
-	{
+	//if (fireTime > fire && fireTime<120)
+	//{
 		if (coolCurentTime >= coolTime)
 		{
 			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 			coolCurentTime = 0;
 		}
-		if (fireTime >15)
-		{
-			fireTime = 0;
-		}
+	//	if (fireTime >15)
+	//	{
+	//		fireTime = 0;
+	//	}
 
-	}
+	//}
 
 	if (currentTime < teleportTime)
 	{
 		SetActorLocation(stroll_Right);
-	}
 
-	if (currentTime > teleportTime && currentTime < teleportTime1)
+	}
+	
+	
+	if (currentTime > teleportTime && currentTime < teleportTime1 )
 	{
 		SetActorLocation(GetActorLocation() + GetActorRightVector().RotateAngleAxis(0, FVector(0, 1, 0)).GetSafeNormal() * moveSpeed);
 	}
+	
+	
 	if (currentTime > teleportTime1)
 	{
 		SetActorLocation(GetActorLocation() + GetActorUpVector().RotateAngleAxis(-90, FVector(1, 0, 0)).GetSafeNormal() * moveSpeed);
@@ -69,8 +73,8 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	{
 		currentTime = 0;
 	}
-
-
+	
+	
 
 	/*
 	FVector stroll_Left = FVector(30, -180, 240);

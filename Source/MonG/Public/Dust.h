@@ -30,11 +30,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* dustMesh;
 	//먼지 날아오는 속도
+	//float moveSpeed = 5;
 	float moveSpeed = 500;
 	//먼지 방향
 	FVector monGDirection;
 	//삭제
-	float destroyTime = 7;
+	float destroyTime = 10;
 	float currentTime = 0;
-
+	UPROPERTY()
+	AMonGPlayer* monGPlayer;
 };
