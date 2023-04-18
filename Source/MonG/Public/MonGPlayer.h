@@ -80,7 +80,6 @@ public:
 	class ADust* dust;
 	FVector monGDirection;
 	float moveSpeed = 5;
-	bool inClenner=false;
 	float deltaTime;
 	float currentTime;
 	float cleaningTime = 1;
