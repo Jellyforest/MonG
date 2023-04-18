@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Dust.h"
-#include "LeftDustSpawner.generated.h"
+#include "DustWaveSpawner.generated.h"
 
 UCLASS()
-class MONG_API ALeftDustSpawner : public AActor
+class MONG_API ADustWaveSpawner : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ALeftDustSpawner();
+	ADustWaveSpawner();
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,13 +35,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
 
-
 	float teleportTime = 1;
-	float teleportTime1 = 6;
+	float teleportTime1 = 3;
 
 	float currentTime = 0;
-	float moveSpeed = 3;
-	float fire = 10;
-	float fireTime = 0;
-
+	float moveSpeed = 2;
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	FVector locationSetting=FVector();
 };

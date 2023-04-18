@@ -35,8 +35,7 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	coolCurentTime += DeltaTime;
 	fireTime += DeltaTime;
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), fireTime);
-	FVector stroll_Right = FVector(0, 930, 250);
-
+	FVector stroll_Right = FVector(-10, 930, 60);
 	//if (fireTime > fire && fireTime<120)
 	//{
 		if (coolCurentTime >= coolTime)
