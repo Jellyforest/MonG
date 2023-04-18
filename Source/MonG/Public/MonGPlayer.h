@@ -34,6 +34,8 @@ public:
 	class UInputAction* IA_MonGMove;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_MonGMouse;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_Cleaning;
 	UPROPERTY()
 	class APlayerController* playerController;
 
@@ -64,6 +66,11 @@ public:
 	//동작함수
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);
+	void Clean();
+
+
+
+
 
 	//청소기 
 	UFUNCTION()

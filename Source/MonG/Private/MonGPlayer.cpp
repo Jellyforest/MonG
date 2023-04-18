@@ -112,6 +112,7 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	{
 		inputSystem->BindAction(IA_MonGMove, ETriggerEvent::Triggered, this, &AMonGPlayer::Move);
 		inputSystem->BindAction(IA_MonGMouse, ETriggerEvent::Triggered, this, &AMonGPlayer::Look);
+		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Started, this, &AMonGPlayer::Clean);
 	}
 
 }
@@ -129,6 +130,17 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 	FVector2D axis = Values.Get<FVector2D>();
 	AddControllerYawInput(axis.X);
 	AddControllerPitchInput(axis.Y);
+
+}
+
+void AMonGPlayer::Clean()
+{
+	//Lintrace 시작위치
+	FVector startPoint = cleannerMesh->GetComponentLocation();
+	//Lintrace 종료위치 
+	FVector endPoint = cleannerMesh->GetComponentLocation() + cleannerMesh->GetForwardVector() * 500;
+	//Linetrace의 충돌 정보를 담을 변수
+	FHitResult hitInfo;
 
 }
 
