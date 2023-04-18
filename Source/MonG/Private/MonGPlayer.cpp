@@ -113,6 +113,7 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_MonGMove, ETriggerEvent::Triggered, this, &AMonGPlayer::Move);
 		inputSystem->BindAction(IA_MonGMouse, ETriggerEvent::Triggered, this, &AMonGPlayer::Look);
 		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Started, this, &AMonGPlayer::Clean);
+		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Completed, this, &AMonGPlayer::StopClean);
 	}
 
 }
@@ -136,11 +137,19 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 void AMonGPlayer::Clean()
 {
 	//Lintrace 시작위치
-	FVector startPoint = cleannerMesh->GetComponentLocation();
+	//FVector startPoint = cleannerMesh->GetComponentLocation();
 	//Lintrace 종료위치 
-	FVector endPoint = cleannerMesh->GetComponentLocation() + cleannerMesh->GetForwardVector() * 500;
+	//FVector endPoint = cleannerMesh->GetComponentLocation() + cleannerMesh->GetForwardVector() * 500;
 	//Linetrace의 충돌 정보를 담을 변수
-	FHitResult hitInfo;
+	//FHitResult hitInfo;
+
+	isClean = true;
+
+}
+
+void AMonGPlayer::StopClean()
+{
+	isClean = false;
 
 }
 
@@ -150,26 +159,32 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap"));
 	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap - %s"), *OtherActor->GetName());
 	dust=Cast<ADust>(OtherActor);
-	if (dust != nullptr) 
+	currentTime += GetWorld()->DeltaTimeSeconds;
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), currentTime);
+	if (isClean == true)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("In"));
-		inClenner = true;
-		deltaTime = GetWorld()->DeltaTimeSeconds;
-		currentTime += GetWorld()->DeltaTimeSeconds;
-		if (currentTime < cleaningTime && currentTime < cleaningTime1)
+		if (dust != nullptr)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("cleanintimeYat"));
-			dust->moveSpeed = 0;
+			
+			//UE_LOG(LogTemp, Warning, TEXT("In"));
+			inClenner = true;
+			deltaTime = GetWorld()->DeltaTimeSeconds;
+			if (currentTime < cleaningTime && currentTime < cleaningTime1)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("cleanintimeYat"));
+				dust->moveSpeed = 0;
+			}
+			if (currentTime > cleaningTime1)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("cleaninTime"));
+				dust->SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * deltaTime);
+				//currentTime = 0;
+			}
 
-		}
-		if (currentTime > cleaningTime1)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("cleaninTime"));
-			dust->SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * deltaTime);
-			//currentTime = 0;
 		}
 		
 	}
+	
 	//if (dust)
 	//{
 	////	

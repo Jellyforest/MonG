@@ -67,6 +67,7 @@ public:
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);
 	void Clean();
+	void StopClean();
 
 
 
@@ -85,5 +86,6 @@ public:
 	float cleaningTime = 1;
 	float cleaningTime1 = 4;
 
+	bool isClean = false;
 
 };
