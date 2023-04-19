@@ -55,7 +55,7 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
 	}
 	
-	//청소기 세팅
+	/*청소기 세팅
 	cleannerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleannerComp"));
 	cleannerComp->SetupAttachment(rightHand);
 	cleannerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleannerMesh"));
@@ -63,7 +63,8 @@ AMonGPlayer::AMonGPlayer()
 
 	//청소기 프리셋
 	cleannerComp->SetCollisionProfileName(TEXT("CleannerPreset"));
-
+	*/
+	
 }
 
 // Called when the game starts or when spawned
@@ -84,17 +85,17 @@ void AMonGPlayer::BeginPlay()
 		}
 	}
 
-	cleannerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
+	//cleannerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	
-	//먼지 방향바꾸기
+	/*먼지 방향바꾸기
 	if (dust)
 	{
 		monGDirection = cleannerMesh->GetComponentLocation()-dust->GetActorLocation();
 		monGDirection.Normalize();
 	}
-	
+	*/
 }
 
 // Called every frame
