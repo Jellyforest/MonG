@@ -101,7 +101,7 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	}
 	if (index >= -270 && index <= 930 && goRight == true || index < -270)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("right"));
+		//UE_LOG(LogTemp, Warning, TEXT("right"));
 		FVector direction = GetActorRightVector()*-1;
 		SetActorLocation(GetActorLocation() + direction * 200 * DeltaTime);
 
@@ -114,12 +114,12 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 
 	if (index >= -270 && index <= 930 && goRight == false || index > 930)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("left"));
+		//UE_LOG(LogTemp, Warning, TEXT("left"));
 
 		FVector direction1 = GetActorRightVector();
 		SetActorLocation(GetActorLocation() + direction1 * 200 * DeltaTime);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%d"), goRight);
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), goRight);
 
 }
 
