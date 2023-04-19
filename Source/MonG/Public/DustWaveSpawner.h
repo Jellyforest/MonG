@@ -42,4 +42,6 @@ public:
 	float moveSpeed = 2;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	FVector locationSetting=FVector();
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	bool up = false;
 };

@@ -35,16 +35,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
 
-
-	float teleportTime = 1;
-	float teleportTime1 = 6;
-
 	float currentTime = 0;
 	float moveSpeed = 3;
 	float fire = 10;
 	float fireTime = 0;
-	FVector rightDirection;
-	FVector leftDirection;
-	bool rightspawner = true;
+	bool goRight = true;
 
 };

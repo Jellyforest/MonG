@@ -37,7 +37,7 @@ void ADustWaveSpawner::Tick(float DeltaTime)
 	/*
 	currentTime += DeltaTime;
 	coolCurentTime += DeltaTime;
-	if (currentTime == 0)
+	if (currentTime >= 0 && currentTime<coolTime)
 	{
 		SetActorLocation(locationSetting);
 	}
@@ -47,7 +47,7 @@ void ADustWaveSpawner::Tick(float DeltaTime)
 		GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		coolCurentTime = 0;
 	}
-	if (currentTime > teleportTime && currentTime < teleportTime1)
+	if (currentTime > teleportTime && currentTime < teleportTime1 && currentTime!=0)
 	{
 		SetActorLocation(GetActorLocation() + GetActorUpVector().RotateAngleAxis(180, FVector(1, 0, 0)).GetSafeNormal() * moveSpeed);
 	}
@@ -59,15 +59,44 @@ void ADustWaveSpawner::Tick(float DeltaTime)
 	{
 		currentTime = 0;
 	}
-	
 	*/
-
-
-	FVector direction = GetActorUpVector() * -1;
-	SetActorLocation(GetActorLocation() + direction * 200 * DeltaTime);
-
+	currentTime += DeltaTime;
+	coolCurentTime += DeltaTime;
+	if (coolCurentTime >= coolTime)
+	{
+		GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		coolCurentTime = 0;
+	}
+	
 	float index = GetActorLocation().Z;
+	
+	if (index <= 40 )
+	{
+		up = true;
+	}
+	if (index >= 40 && index <= 280 && up == true || index < 40)
+	{
+	//	UE_LOG(LogTemp, Warning, TEXT("up"));
+		FVector direction = GetActorUpVector();
+		SetActorLocation(GetActorLocation() + direction * 200 * DeltaTime);
 
+	}
+	
+	if (index>=280)
+	{
+		up = false;
+	}
+	
+	if (index >= 40 && index <= 282 && up == false || index >282)
+	{
+	//	UE_LOG(LogTemp, Warning, TEXT("down"));
+
+		FVector direction1 = GetActorUpVector() * -1;
+		SetActorLocation(GetActorLocation() + direction1 * 200 * DeltaTime);
+	}
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), up);
+	
+	
 
 
 	/*

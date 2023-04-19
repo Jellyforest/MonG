@@ -35,21 +35,22 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	coolCurentTime += DeltaTime;
 	fireTime += DeltaTime;
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), fireTime);
-	FVector stroll_Right = FVector(-10, 930, 60);
 	//if (fireTime > fire && fireTime<120)
 	//{
+	
 		if (coolCurentTime >= coolTime)
 		{
 			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 			coolCurentTime = 0;
 		}
+	
 	//	if (fireTime >15)
 	//	{
 	//		fireTime = 0;
 	//	}
 
 	//}
-
+	/*
 	if (currentTime < teleportTime)
 	{
 		SetActorLocation(stroll_Right);
@@ -72,9 +73,9 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	{
 		currentTime = 0;
 	}
+	*/
 	
 	
-
 	/*
 	FVector stroll_Left = FVector(30, -180, 240);
 	if(currentTime > teleportTime)
@@ -91,6 +92,34 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 		currentTime = 0;
 	}
 	*/
+
+	float index = GetActorLocation().Y;
+
+	if (index <= -270)
+	{
+		goRight = true;
+	}
+	if (index >= -270 && index <= 930 && goRight == true || index < -270)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("right"));
+		FVector direction = GetActorRightVector()*-1;
+		SetActorLocation(GetActorLocation() + direction * 200 * DeltaTime);
+
+	}
+
+	if (index >= 930)
+	{
+		goRight = false;
+	}
+
+	if (index >= -270 && index <= 930 && goRight == false || index > 930)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("left"));
+
+		FVector direction1 = GetActorRightVector();
+		SetActorLocation(GetActorLocation() + direction1 * 200 * DeltaTime);
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%d"), goRight);
 
 }
 
