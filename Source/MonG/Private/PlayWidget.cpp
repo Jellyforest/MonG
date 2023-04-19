@@ -6,8 +6,7 @@
 #include "Components/TextBlock.h"
 
 
-void UPlayWidget::GameTime(float timer)
+void UPlayWidget::GameTime(float Timer)
 {
-	text_Minute->SetText(UKismetTextLibrary::Conv_IntToText((int)timer / 60));
-	text_Second->SetText(UKismetTextLibrary::Conv_IntToText((150 - (int)timer) % 60));
+
 }
