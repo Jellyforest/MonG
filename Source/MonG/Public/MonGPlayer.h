@@ -56,12 +56,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UInputMappingContext* IMC_Hands;
 
-	/*청소기
+	//청소기
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UStaticMeshComponent* cleannerMesh;
+	class UStaticMeshComponent* cleanerMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UBoxComponent* cleannerComp;
-	*/
+	class UBoxComponent* cleanerComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	class UStaticMeshComponent* cleanerHead;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);

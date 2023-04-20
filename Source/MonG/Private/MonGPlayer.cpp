@@ -12,6 +12,7 @@
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include "Dust.h"
+#include "Components/SphereComponent.h"
 #include <Kismet/GameplayStatics.h>
 
 // Sets default values
@@ -55,15 +56,17 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
 	}
 	
-	/*청소기 세팅
-	cleannerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleannerComp"));
-	cleannerComp->SetupAttachment(rightHand);
-	cleannerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleannerMesh"));
-	cleannerMesh->SetupAttachment(cleannerComp);
+	//청소기 세팅
+	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
+	cleanerComp->SetupAttachment(rightHand);
+	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
+	cleanerMesh->SetupAttachment(cleanerComp);
 
 	//청소기 프리셋
-	cleannerComp->SetCollisionProfileName(TEXT("CleannerPreset"));
-	*/
+	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
+	cleanerHead=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
+	cleanerHead->SetupAttachment(cleanerComp);
+
 	
 }
 
@@ -85,17 +88,17 @@ void AMonGPlayer::BeginPlay()
 		}
 	}
 
-	//cleannerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
+	cleanerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	
-	/*먼지 방향바꾸기
+	//먼지 방향바꾸기
 	if (dust)
 	{
-		monGDirection = cleannerMesh->GetComponentLocation()-dust->GetActorLocation();
+		monGDirection = cleanerHead->GetComponentLocation()-dust->GetActorLocation();
 		monGDirection.Normalize();
 	}
-	*/
+	
 }
 
 // Called every frame
@@ -139,13 +142,6 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 
 void AMonGPlayer::Clean()
 {
-	//Lintrace 시작위치
-	//FVector startPoint = cleannerMesh->GetComponentLocation();
-	//Lintrace 종료위치 
-	//FVector endPoint = cleannerMesh->GetComponentLocation() + cleannerMesh->GetForwardVector() * 500;
-	//Linetrace의 충돌 정보를 담을 변수
-	//FHitResult hitInfo;
-
 	//마우스 클릭시 오버랩되게
 	isClean = true;
 
@@ -163,18 +159,36 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap - %s"), *OtherActor->GetName());
 	dust=Cast<ADust>(OtherActor);
 	currentTime += GetWorld()->DeltaTimeSeconds;
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), currentTime);
+	dust->moveSpeed = 3;
+	dust->dustComp->SetSimulatePhysics(false);
+	dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
+	deltaTime = GetWorld()->DeltaTimeSeconds;
+
+	FTimerHandle destroyTimer;
+	FTimerDelegate timerDelegate;
+	timerDelegate.BindLambda([this]()->void {	
+		//if (dust != nullptr)
+		//{
+			//dust->dustComp->SetSimulatePhysics(false);
+			//dust->AttachToComponent(cleannerHead, FAttachmentTransformRules::KeepWorldTransform);
+
+		//}
+	});
+	//GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1, false);
 	if (isClean == true)
 	{
 		if (dust != nullptr)
 		{
+			
+
+
 			//먼지 멈추게함
 			//UE_LOG(LogTemp, Warning, TEXT("In"));
-			deltaTime = GetWorld()->DeltaTimeSeconds;
 			if (currentTime < cleaningTime && currentTime < cleaningTime1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("cleanintimeYat"));
-				dust->moveSpeed = 0;
+				//dust->moveSpeed = 0;
 			}
 			//시간지나면 먼지 방향 바꾸기 진행중
 			if (currentTime > cleaningTime1)
