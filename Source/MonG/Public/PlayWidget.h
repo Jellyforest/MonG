@@ -14,11 +14,13 @@ class MONG_API UPlayWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(VisibleDefaultsOnly, meta=(BindWiget))
-	class UTextBlock* text_Minute;
-	UPROPERTY(VisibleDefaultsOnly, meta=(BindWiget))
-	class UTextBlock* text_Second;
+public:
 
-	void GameTime(float timer);
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* text_Minute;
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* text_Second;
+	
+	void GameTime(float Timer);
 
 };
