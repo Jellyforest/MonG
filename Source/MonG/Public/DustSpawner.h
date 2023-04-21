@@ -30,7 +30,7 @@ public:
 	class UBoxComponent* spawnerComp;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	class UArrowComponent* arrow;
-	float coolTime = 3;
+	float coolTime = 1;
 	float currentTime = 0;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;

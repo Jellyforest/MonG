@@ -21,6 +21,8 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* text_Second;
 	
-	void GameTime(float Timer);
-
+	void GameTime();
+	int timer=300;
+	int minute = 0;
+	int second = 0;
 };

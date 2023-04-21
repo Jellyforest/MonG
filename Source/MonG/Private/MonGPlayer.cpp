@@ -65,8 +65,9 @@ AMonGPlayer::AMonGPlayer()
 	//청소기 프리셋
 	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 	cleanerHead=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
-	cleanerHead->SetupAttachment(cleanerComp);
-
+	cleanerHead->SetupAttachment(rightHand);
+	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
+	cleanerHeadComp->SetupAttachment(cleanerHead);
 	
 }
 
@@ -99,6 +100,7 @@ void AMonGPlayer::BeginPlay()
 		monGDirection.Normalize();
 	}
 	
+	Timer();
 }
 
 // Called every frame
@@ -106,6 +108,9 @@ void AMonGPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), timer);
+	UE_LOG(LogTemp, Warning, TEXT("%d,%d,%d"), minute,timer,second);
 }
 
 // Called to bind functionality to input
@@ -155,57 +160,45 @@ void AMonGPlayer::StopClean()
 
 void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap"));
-	//UE_LOG(LogTemp, Warning, TEXT("overrrrrrrrrrlap - %s"), *OtherActor->GetName());
+	
 	dust=Cast<ADust>(OtherActor);
-	currentTime += GetWorld()->DeltaTimeSeconds;
-	dust->moveSpeed = 3;
+	if (isClean == true)
+	{
+	dust->moveSpeed = 5;
 	dust->dustComp->SetSimulatePhysics(false);
 	dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
-	deltaTime = GetWorld()->DeltaTimeSeconds;
 
 	FTimerHandle destroyTimer;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {	
-		//if (dust != nullptr)
-		//{
-			//dust->dustComp->SetSimulatePhysics(false);
-			//dust->AttachToComponent(cleannerHead, FAttachmentTransformRules::KeepWorldTransform);
-
-		//}
-	});
-	//GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1, false);
-	if (isClean == true)
-	{
 		if (dust != nullptr)
 		{
-			
-
-
-			//먼지 멈추게함
-			//UE_LOG(LogTemp, Warning, TEXT("In"));
-			if (currentTime < cleaningTime && currentTime < cleaningTime1)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("cleanintimeYat"));
-				//dust->moveSpeed = 0;
-			}
-			//시간지나면 먼지 방향 바꾸기 진행중
-			if (currentTime > cleaningTime1)
-			{
-				
-				UE_LOG(LogTemp, Warning, TEXT("cleaninTime"));
-				dust->SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * deltaTime);
-				//currentTime = 0;
-			}
+			dust->Destroy();
 
 		}
-		
+	});
+	GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1.5f, false);
 	}
 	
-	//if (dust)
-	//{
-	////	
-	//}
 }
 
+
+
+
+
+void AMonGPlayer::Timer()
+{
+	FTimerHandle countTime;
+	FTimerDelegate timerDelegate;
+	timerDelegate.BindLambda([this]()->void {
+		timer -= 1; minute = timer / 60; second = timer % 60;
+	 });
+	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
+}
+/*
+timer--;
+UE_LOG(LogTemp, Warning, TEXT("%f"), timer);
+	float time = (300-timer) / 60;
+
+*/
