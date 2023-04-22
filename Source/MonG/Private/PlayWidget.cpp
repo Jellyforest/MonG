@@ -9,14 +9,17 @@
 
 void UPlayWidget::GameTime()
 {
-	//timer += GetWorld()->DeltaTimeSeconds;
-	//float Minute=(300 - timer) / 60;
-	FTimerHandle countTime;
-	FTimerDelegate timerDelegate;
-	timerDelegate.BindLambda([this]()->void {
-		timer -= 1; minute = timer / 60; second = timer % 60;
-		});
-	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
+	//FTimerHandle countTime;
+	//FTimerDelegate timerDelegate;
+	//timerDelegate.BindLambda([this]()->void {
+	//	timer -= 1; minute = timer / 60; second = timer % 60;
+	//	});
+	//	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
+	//	UE_LOG(LogTemp, Warning, TEXT("%s"), minute);
 	
+	FText minutetext = FText::AsNumber(minute);
+
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), minutetext);
+	text_Minute->SetText(minutetext);
 }
 

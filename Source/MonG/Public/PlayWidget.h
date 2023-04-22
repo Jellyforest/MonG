@@ -17,7 +17,7 @@ class MONG_API UPlayWidget : public UUserWidget
 public:
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* text_Minute;
+		class UTextBlock* text_Minute;
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* text_Second;
 	

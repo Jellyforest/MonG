@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "PlayWidget.h"
 #include "MonGPlayer.generated.h"
 
 UCLASS()
@@ -90,8 +91,14 @@ public:
 
 	bool isClean = false;
 	
+
+	//À§Á¬
 	int timer=300;
 	void Timer();
 	int minute = 0;
 	int second = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	TSubclassOf <class UPlayWidget> playWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UPlayWidget* play_UI;
 };

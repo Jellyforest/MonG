@@ -12,6 +12,7 @@
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include "Dust.h"
+#include "PlayWidget.h"
 #include "Components/SphereComponent.h"
 #include <Kismet/GameplayStatics.h>
 
@@ -77,6 +78,7 @@ void AMonGPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
+	play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
 
 	if (playerController)
 	{
@@ -101,6 +103,7 @@ void AMonGPlayer::BeginPlay()
 	}
 	
 	Timer();
+	play_UI->AddToViewport();
 }
 
 // Called every frame
@@ -110,7 +113,7 @@ void AMonGPlayer::Tick(float DeltaTime)
 
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), timer);
-	UE_LOG(LogTemp, Warning, TEXT("%d,%d,%d"), minute,timer,second);
+	//UE_LOG(LogTemp, Warning, TEXT("%d,%d,%d"), minute,timer,second);
 }
 
 // Called to bind functionality to input
@@ -195,6 +198,7 @@ void AMonGPlayer::Timer()
 		timer -= 1; minute = timer / 60; second = timer % 60;
 	 });
 	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
+	
 }
 /*
 timer--;
