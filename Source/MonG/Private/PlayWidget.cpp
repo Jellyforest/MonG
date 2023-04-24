@@ -2,24 +2,24 @@
 
 
 #include "PlayWidget.h"
-#include <Kismet/KismetTextLibrary.h>
 #include "Components/TextBlock.h"
-#include <Engine/World.h>
-#include "Kismet/GameplayStatics.h"
 
-void UPlayWidget::GameTime()
+
+
+void UPlayWidget::NativeConstruct()
 {
-	//FTimerHandle countTime;
-	//FTimerDelegate timerDelegate;
-	//timerDelegate.BindLambda([this]()->void {
-	//	timer -= 1; minute = timer / 60; second = timer % 60;
-	//	});
-	//	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
-	//	UE_LOG(LogTemp, Warning, TEXT("%s"), minute);
-	
-	FText minutetext = FText::AsNumber(minute);
-
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), minutetext);
-	text_Minute->SetText(minutetext);
+	UpdateCanTick();
+	FTimerHandle countTime;
+	FTimerDelegate timerDelegate;
+	timerDelegate.BindLambda([this]()->void {
+		timer -= 1; minute = timer / 60; second = timer % 60;
+	text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
+	text_Second->SetText(FText::FromString(FString::Printf(TEXT("%d"), second)));
+		});
+	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
 }
 
+void UPlayWidget::UpdateCanTick()
+{
+	
+}

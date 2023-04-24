@@ -92,13 +92,17 @@ public:
 	bool isClean = false;
 	
 
-	//À§Á¬
-	int timer=300;
-	void Timer();
-	int minute = 0;
+	/*À§Á¬
+	//int timer=300;
+	//void Timer();
+	//int minute = 0;
 	int second = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
 	TSubclassOf <class UPlayWidget> playWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
 	class UPlayWidget* play_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UWidgetComponent* widgetComp;
+	
 };

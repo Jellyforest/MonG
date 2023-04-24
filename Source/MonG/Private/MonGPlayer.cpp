@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include <UMG/Public/Blueprint/UserWidget.h>
 
 
 #include "MonGPlayer.h"
@@ -15,6 +16,8 @@
 #include "PlayWidget.h"
 #include "Components/SphereComponent.h"
 #include <Kismet/GameplayStatics.h>
+#include "Components/TextBlock.h"
+#include <UMG/Public/Components/WidgetComponent.h>
 
 // Sets default values
 AMonGPlayer::AMonGPlayer()
@@ -62,14 +65,17 @@ AMonGPlayer::AMonGPlayer()
 	cleanerComp->SetupAttachment(rightHand);
 	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
 	cleanerMesh->SetupAttachment(cleanerComp);
-
-	//청소기 프리셋
-	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-	cleanerHead=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
+	cleanerHead = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
 	cleanerHead->SetupAttachment(rightHand);
 	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
 	cleanerHeadComp->SetupAttachment(cleanerHead);
-	
+
+	//청소기 프리셋
+	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
+
+	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
+	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("widgetComp"));
+	widgetComp->SetupAttachment(camera);
 }
 
 // Called when the game starts or when spawned
@@ -101,8 +107,8 @@ void AMonGPlayer::BeginPlay()
 		monGDirection = cleanerHead->GetComponentLocation()-dust->GetActorLocation();
 		monGDirection.Normalize();
 	}
-	
-	Timer();
+	//시간 위젯
+	//Timer();
 	play_UI->AddToViewport();
 }
 
@@ -167,42 +173,40 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust=Cast<ADust>(OtherActor);
 	if (isClean == true)
 	{
-	dust->moveSpeed = 5;
-	dust->dustComp->SetSimulatePhysics(false);
-	dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
+		dust->moveSpeed = 5;
+		dust->dustComp->SetSimulatePhysics(false);
+		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
 
-	FTimerHandle destroyTimer;
-	FTimerDelegate timerDelegate;
-	timerDelegate.BindLambda([this]()->void {	
+		FTimerHandle destroyTimer;
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([this]()->void {	
 		if (dust != nullptr)
 		{
 			dust->Destroy();
-
 		}
-	});
-	GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1.5f, false);
+		});
+		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1.5f, false);
+	
 	}
 	
 }
 
 
 
-
-
+/*
 void AMonGPlayer::Timer()
 {
+	play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
+
 	FTimerHandle countTime;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {
 		timer -= 1; minute = timer / 60; second = timer % 60;
+	play_UI->text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
+	play_UI->text_Second->SetText(FText::FromString(FString::Printf(TEXT("%d"), second)));
 	 });
 	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
 	
 }
-/*
-timer--;
-UE_LOG(LogTemp, Warning, TEXT("%f"), timer);
-	float time = (300-timer) / 60;
-
 */
