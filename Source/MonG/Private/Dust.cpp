@@ -15,9 +15,11 @@ ADust::ADust()
 	dustComp = CreateDefaultSubobject<USphereComponent>(TEXT("dustComp"));
 	SetRootComponent(dustComp);
 	dustComp->SetCollisionProfileName(TEXT("DustPreset"));
+	dustComp->SetSphereRadius(0.5f);
 
 	dustMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("dustMesh"));
 	dustMesh->SetupAttachment(dustComp);
+	dustMesh->SetRelativeScale3D(FVector(0.3f));
 	
 	
 }
@@ -63,6 +65,7 @@ void ADust::Tick(float DeltaTime)
 	{
 		Destroy();
 	}
+	
 }
 
 

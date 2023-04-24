@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "PlayWidget.h"
 #include "MonGPlayer.generated.h"
 
 UCLASS()
@@ -63,6 +64,8 @@ public:
 	class UBoxComponent* cleanerComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class UStaticMeshComponent* cleanerHead;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	class USphereComponent* cleanerHeadComp;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -87,5 +90,19 @@ public:
 	float cleaningTime1 = 4;
 
 	bool isClean = false;
+	
 
+	/*위젯
+	//int timer=300;
+	//void Timer();
+	//int minute = 0;
+	int second = 0;
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
+	TSubclassOf <class UPlayWidget> playWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UPlayWidget* play_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UWidgetComponent* widgetComp;
+	
 };
