@@ -66,6 +66,9 @@ public:
 	class UStaticMeshComponent* cleanerHead;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
+	//청소FX
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
+	class UNiagaraSystem* clean_effect;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -90,7 +93,7 @@ public:
 	float cleaningTime1 = 4;
 
 	bool isClean = false;
-	
+
 
 	/*위젯
 	//int timer=300;

@@ -9,7 +9,8 @@
 #include <Camera/CameraComponent.h>
 #include <MotionControllerComponent.h>
 #include "Components/CapsuleComponent.h"
-#include <GameFramework/Actor.h>
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include "Dust.h"
@@ -158,13 +159,16 @@ void AMonGPlayer::Clean()
 {
 	//마우스 클릭시 오버랩되게
 	isClean = true;
+	//UNiagaraFunctionLibrary::SpawnSystemAttached(clean_effect, cleanerMesh, rightMesh->GetSocketTransform(TEXT("hand_lSocket")), cleanerMesh->GetComponentLocation(), cleanerMesh->GetComponentRotation(), FVector(3000), EAttachLocation::KeepRelativeOffset,true, ENCPoolMethod::None);
+	//FTransform t = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+	//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), clean_effect, GetActorLocation(), GetActorRotation(), true);
 
 }
 
 void AMonGPlayer::StopClean()
 {
 	isClean = false;
-
+	//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), 0, GetActorLocation());
 }
 
 void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -173,6 +177,7 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust=Cast<ADust>(OtherActor);
 	if (isClean == true)
 	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), clean_effect, GetActorLocation());
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);
 		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
