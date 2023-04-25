@@ -39,4 +39,6 @@ public:
 	float currentTime = 0;
 	UPROPERTY()
 	AMonGPlayer* monGPlayer;
+	UPROPERTY(EditAnywhere,Category="Score Settings")
+	int32 score;
 };

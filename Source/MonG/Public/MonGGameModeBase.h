@@ -13,5 +13,9 @@ UCLASS()
 class MONG_API AMonGGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	void AddScore();
+	int32 currentScore;
 	
 };

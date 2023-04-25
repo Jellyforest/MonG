@@ -16,8 +16,10 @@ class MONG_API UPlayWidget : public UUserWidget
 	
 public:
 
-	virtual void NativeConstruct();
-	void UpdateCanTick();
+	virtual void NativeConstruct() override;
+
+	virtual void UpdateCanTick();
+	virtual void Tick(float DeltaTime);
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* text_Minute;
@@ -26,4 +28,6 @@ public:
 	int timer = 300;
 	int minute = 0;
 	int second = 0;
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* text_Score;
 };

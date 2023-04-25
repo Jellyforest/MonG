@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -37,8 +36,9 @@ public:
 	class UInputAction* IA_MonGMouse;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_Cleaning;
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
+	
 
 	//카메라
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -68,7 +68,7 @@ public:
 	class USphereComponent* cleanerHeadComp;
 	//청소FX
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
-	class UNiagaraSystem* clean_effect;
+	TSubclassOf <class ACleaningEffect> cleaningEffect;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -94,13 +94,6 @@ public:
 
 	bool isClean = false;
 
-
-	/*위젯
-	//int timer=300;
-	//void Timer();
-	//int minute = 0;
-	int second = 0;
-	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
 	TSubclassOf <class UPlayWidget> playWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
@@ -108,4 +101,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
 	class UWidgetComponent* widgetComp;
 	
+
+
+
 };

@@ -19,13 +19,16 @@
 #include <Kismet/GameplayStatics.h>
 #include "Components/TextBlock.h"
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Components/ArrowComponent.h>
+#include "CleaningEffect.h"
+#include "MonGGameModeBase.h"
+
 
 // Sets default values
 AMonGPlayer::AMonGPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
 	//카메라
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("camera"));
 	camera->SetupAttachment(RootComponent);
@@ -62,6 +65,7 @@ AMonGPlayer::AMonGPlayer()
 	}
 	
 	//청소기 세팅
+
 	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
 	cleanerComp->SetupAttachment(rightHand);
 	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
@@ -71,6 +75,7 @@ AMonGPlayer::AMonGPlayer()
 	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
 	cleanerHeadComp->SetupAttachment(cleanerHead);
 
+	
 	//청소기 프리셋
 	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 
@@ -117,9 +122,10 @@ void AMonGPlayer::BeginPlay()
 void AMonGPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), timer);
+	//////점수 확인용
+	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+	UE_LOG(LogTemp, Warning, TEXT("%d"), monGgm->currentScore);
 	//UE_LOG(LogTemp, Warning, TEXT("%d,%d,%d"), minute,timer,second);
 }
 
@@ -159,16 +165,16 @@ void AMonGPlayer::Clean()
 {
 	//마우스 클릭시 오버랩되게
 	isClean = true;
-	//UNiagaraFunctionLibrary::SpawnSystemAttached(clean_effect, cleanerMesh, rightMesh->GetSocketTransform(TEXT("hand_lSocket")), cleanerMesh->GetComponentLocation(), cleanerMesh->GetComponentRotation(), FVector(3000), EAttachLocation::KeepRelativeOffset,true, ENCPoolMethod::None);
-	//FTransform t = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
-	//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), clean_effect, GetActorLocation(), GetActorRotation(), true);
 
+	//청소효과
+	AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
+	cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
 }
 
 void AMonGPlayer::StopClean()
 {
+	//마우스 클릭시 오버랩
 	isClean = false;
-	//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), 0, GetActorLocation());
 }
 
 void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -177,7 +183,6 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust=Cast<ADust>(OtherActor);
 	if (isClean == true)
 	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), clean_effect, GetActorLocation());
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);
 		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -188,30 +193,16 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		timerDelegate.BindLambda([this]()->void {	
 		if (dust != nullptr)
 		{
+			//////////점수
+			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+			monGgm->AddScore();
 			dust->Destroy();
 		}
 		});
 		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1.5f, false);
-	
 	}
-	
 }
 
 
 
-/*
-void AMonGPlayer::Timer()
-{
-	play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
-
-	FTimerHandle countTime;
-	FTimerDelegate timerDelegate;
-	timerDelegate.BindLambda([this]()->void {
-		timer -= 1; minute = timer / 60; second = timer % 60;
-	play_UI->text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
-	play_UI->text_Second->SetText(FText::FromString(FString::Printf(TEXT("%d"), second)));
-	 });
-	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
-	
-}
-*/
