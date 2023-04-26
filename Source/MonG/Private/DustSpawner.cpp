@@ -34,10 +34,24 @@ void ADustSpawner::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currentTime += DeltaTime;
+	int32 drawNumber = FMath::RandRange(1, 100);
+	
 
 	if (currentTime >= coolTime)
 	{
-		GetWorld()->SpawnActor<ADust>(dustSpawn,arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		if (drawNumber < pointThree && pointFive < drawNumber)
+		{
+			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
+		if (drawNumber > pointThree)
+		{
+			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
+		if (drawNumber < pointFive)
+		{
+			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
+		
 		currentTime = 0;
 	}
 

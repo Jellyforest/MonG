@@ -34,4 +34,10 @@ public:
 	float currentTime = 0;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
+	
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustP3Spawn;
+
+	int32 pointThree = 30;
+	int32 pointFive = 10;
 };

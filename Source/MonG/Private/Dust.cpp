@@ -44,7 +44,6 @@ void ADust::Tick(float DeltaTime)
 
 	currentTime += DeltaTime;
 
-
 	//SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
 
 	//SetActorLocation(GetActorForwardVector());

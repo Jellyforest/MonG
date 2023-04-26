@@ -10,6 +10,8 @@ void AMonGGameModeBase::AddScore()
 	//Á¡¼ö
 	ADust* dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 
-	int32 count = dust->score;
-	currentScore += count;
+	int32 count = dust->onePointScore;
+	int32 count1 = dust->threePointScore;
+	currentScore += count1;
 }
+ 

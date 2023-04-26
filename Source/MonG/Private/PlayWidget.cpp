@@ -21,15 +21,16 @@ void UPlayWidget::NativeConstruct()
 	
 		});
 	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
-	timerDelegate.BindLambda([this]()->void {
+
+	//점수
+	FTimerHandle countScore;
+	FTimerDelegate timerDelegate1;
+	timerDelegate1.BindLambda([this]()->void {
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore))); });
-	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 0.1, true);
+	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.01, true);
 
-
-	//점수
-	
 }
 
 
