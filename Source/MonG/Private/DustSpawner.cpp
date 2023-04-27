@@ -49,7 +49,7 @@ void ADustSpawner::Tick(float DeltaTime)
 		}
 		if (drawNumber < pointFive)
 		{
-			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+			GetWorld()->SpawnActor<ADust>(dustP4Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		}
 		
 		currentTime = 0;

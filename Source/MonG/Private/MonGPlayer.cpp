@@ -196,7 +196,7 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 			//////////Á¡¼ö
 			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-			monGgm->AddScore();
+			monGgm->AddScore(dust->point);
 			dust->Destroy();
 		}
 		});

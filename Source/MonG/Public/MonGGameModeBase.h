@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Dust.h"
 #include "MonGGameModeBase.generated.h"
 
 /**
@@ -15,7 +16,9 @@ class MONG_API AMonGGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	void AddScore();
+	UPROPERTY()
+	class ADust* dust;
+	void AddScore(int32 score);
 	int32 currentScore;
 	
 };

@@ -40,7 +40,6 @@ public:
 	UPROPERTY()
 	AMonGPlayer* monGPlayer;
 	UPROPERTY(EditAnywhere,Category="Score Settings")
-	int32 onePointScore;
-	UPROPERTY(EditAnywhere,Category="Score Settings")
-	int32 threePointScore;
+	int32 point;
+	
 };

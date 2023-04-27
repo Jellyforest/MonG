@@ -5,13 +5,12 @@
 #include "Dust.h"
 #include <Kismet/GameplayStatics.h>
 
-void AMonGGameModeBase::AddScore()
-{
-	//Á¡¼ö
-	ADust* dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 
-	int32 count = dust->onePointScore;
-	int32 count1 = dust->threePointScore;
-	currentScore += count1;
+void AMonGGameModeBase::AddScore(int32 score)
+{
+	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+	//score = dust->point;
+	currentScore += score;
 }
- 
+
+
