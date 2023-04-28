@@ -65,7 +65,10 @@ void ADust::Tick(float DeltaTime)
 		Destroy();
 	}
 	
+	if (getPoint == true)
+	{
+		point = 0;
+	}
 }
-
 
 

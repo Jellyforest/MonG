@@ -24,7 +24,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//먼지생김새
+
+	//먼지생성
 	UPROPERTY(EditAnywhere)
 	class USphereComponent* dustComp;
 	UPROPERTY(EditAnywhere)
@@ -34,12 +35,14 @@ public:
 	float moveSpeed = 500;
 	//먼지 방향
 	FVector monGDirection;
-	//삭제
+	//시간이 지나면 먼지 삭제
 	float destroyTime = 10;
 	float currentTime = 0;
 	UPROPERTY()
 	AMonGPlayer* monGPlayer;
+	
 	UPROPERTY(EditAnywhere,Category="Score Settings")
 	int32 point;
+	bool getPoint=false;
 	
 };
