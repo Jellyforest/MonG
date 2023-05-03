@@ -31,6 +31,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputMappingContext* IMC_MonGInput;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputMappingContext* IMC_Hand;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_MonGMove;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_MonGMouse;
