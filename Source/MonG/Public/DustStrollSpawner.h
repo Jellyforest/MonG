@@ -49,5 +49,7 @@ public:
 
 	int32 pointThree = 30;
 	int32 pointFive = 5;
+	//»Æ¿Œ
+
 
 };

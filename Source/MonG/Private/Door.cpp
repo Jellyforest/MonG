@@ -60,3 +60,4 @@ void ADoor::OutDoorComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 	doorTimeLine->Reverse();
 }
 
+//È®ÀÎ
