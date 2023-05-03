@@ -69,6 +69,8 @@ public:
 	//청소FX
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	TSubclassOf <class ACleaningEffect> cleaningEffect;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
+   class UHapticFeedbackEffect_Curve* HF_Clean;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
