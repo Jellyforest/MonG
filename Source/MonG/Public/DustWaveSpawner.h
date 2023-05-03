@@ -57,3 +57,5 @@ UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 
 
 };
+//»Æ¿Œ
+

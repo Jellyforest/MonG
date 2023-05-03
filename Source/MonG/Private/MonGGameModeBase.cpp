@@ -12,5 +12,6 @@ void AMonGGameModeBase::AddScore(int32 score)
 	//score = dust->point;
 	currentScore += score;
 }
+//»Æ¿Œ
 
 

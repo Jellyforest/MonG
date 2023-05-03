@@ -30,4 +30,6 @@ public:
 	int second = 0;
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* text_Score;
+	//»Æ¿Œ
+
 };
