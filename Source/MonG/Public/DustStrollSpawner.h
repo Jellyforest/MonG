@@ -34,11 +34,20 @@ public:
 	float coolCurentTime = 0;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
+	
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustP3Spawn;
+
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustP5Spawn;
 
 	float currentTime = 0;
 	float moveSpeed = 3;
 	float fire = 10;
 	float fireTime = 0;
 	bool goRight = true;
+
+	int32 pointThree = 30;
+	int32 pointFive = 5;
 
 };

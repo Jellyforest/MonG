@@ -32,8 +32,18 @@ public:
 	class UArrowComponent* arrow;
 	float coolTime = 0.5;
 	float coolCurentTime = 0;
-	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
+	
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustP3Spawn;
+
+	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	TSubclassOf <ADust> dustP5Spawn;
+
+
+	int32 pointThree = 30;
+	int32 pointFive = 5;
 
 	float teleportTime = 1;
 	float teleportTime1 = 3;
@@ -44,4 +54,6 @@ public:
 	FVector locationSetting=FVector();
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	bool up = false;
+
+
 };

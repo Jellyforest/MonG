@@ -1,7 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include <UMG/Public/Blueprint/UserWidget.h>
-
-
 #include "MonGPlayer.h"
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include "EnhancedInputSubsystems.h"
@@ -21,6 +19,7 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Components/ArrowComponent.h>
 #include "CleaningEffect.h"
+#include "Haptics/HapticFeedbackEffect_Curve.h"
 #include "MonGGameModeBase.h"
 
 
@@ -32,7 +31,8 @@ AMonGPlayer::AMonGPlayer()
 	//카메라
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("camera"));
 	camera->SetupAttachment(RootComponent);
-	camera->bUsePawnControlRotation = true;
+	camera->bUsePawnControlRotation = false;
+
 	//프리셋세팅
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
 	
@@ -78,7 +78,7 @@ AMonGPlayer::AMonGPlayer()
 	
 	//청소기 프리셋
 	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-
+	//시간, 점수 위젯
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
 	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("widgetComp"));
 	widgetComp->SetupAttachment(camera);
@@ -114,7 +114,6 @@ void AMonGPlayer::BeginPlay()
 		monGDirection.Normalize();
 	}
 	//시간 위젯
-	//Timer();
 	play_UI->AddToViewport();
 }
 
@@ -122,11 +121,7 @@ void AMonGPlayer::BeginPlay()
 void AMonGPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//////점수 확인용
-	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-	UE_LOG(LogTemp, Warning, TEXT("%d"), monGgm->currentScore);
-	//UE_LOG(LogTemp, Warning, TEXT("%d,%d,%d"), minute,timer,second);
+
 }
 
 // Called to bind functionality to input
@@ -148,8 +143,8 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AMonGPlayer::Move(const FInputActionValue& Values)
 {
 	FVector2D axis = Values.Get<FVector2D>();
-	AddMovementInput(FVector(1, 0, 0), axis.X);
-	AddMovementInput(FVector(0, 1, 0), axis.Y);
+	AddMovementInput(GetActorForwardVector(), axis.X);
+	AddMovementInput(GetActorRightVector(), axis.Y);
 
 }
 
@@ -163,17 +158,24 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 
 void AMonGPlayer::Clean()
 {
-	//마우스 클릭시 오버랩되게
+	//마우스 클릭시 청소기 돌아가게
 	isClean = true;
 
 	//청소효과
 	AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
 	cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+	//청소기 진동
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->PlayHapticEffect(HF_Clean, EControllerHand::Right);
+	}
+	
 }
 
 void AMonGPlayer::StopClean()
 {
-	//마우스 클릭시 오버랩
+	//마우스 클릭안하면 청소기 안돌아가게
 	isClean = false;
 }
 
@@ -183,26 +185,27 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust=Cast<ADust>(OtherActor);
 	if (isClean == true)
 	{
+		
+
+
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);
 		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
+		//////////점수
+		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+		AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+		monGgm->AddScore(dust->point);
+		dust->getPoint = true;
 
 		FTimerHandle destroyTimer;
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([this]()->void {	
 		if (dust != nullptr)
 		{
-			//////////점수
-			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-			monGgm->AddScore(dust->point);
 			dust->Destroy();
 		}
 		});
-		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 1.5f, false);
+		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
 	}
 }
-
-
-

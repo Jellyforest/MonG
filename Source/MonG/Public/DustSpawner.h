@@ -39,9 +39,9 @@ public:
 	TSubclassOf <ADust> dustP3Spawn;
 
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
-	TSubclassOf <ADust> dustP4Spawn;
+	TSubclassOf <ADust> dustP5Spawn;
 
 
 	int32 pointThree = 30;
-	int32 pointFive = 10;
+	int32 pointFive = 5;
 };
