@@ -25,6 +25,9 @@ ADoor::ADoor()
 void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	doorComp->OnComponentBeginOverlap.AddDynamic(this, &ADoor::InDoorComp);
+	doorComp->OnComponentEndOverlap.AddDynamic(this, &ADoor::OutDoorComp);
 	
 }
 
@@ -38,7 +41,22 @@ void ADoor::Tick(float DeltaTime)
 void ADoor::UpdateTimeLine(float output)
 {
 	// 타임라인 커브(Timeline Curve)의 출력을 바탕으로 문의 새 상대적 위치 설정 및 구성
-	FRotator doorNewRotation = FRotator(0, output, 0);
+	FRotator doorNewRotation = FRotator(-2600, 0, 0);
 	doorMesh->SetRelativeRotation(doorNewRotation);
+}
+
+void ADoor::InDoorComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("in"));
+	FVector startPoint = GetActorLocation();
+	FVector endPoint = startPoint + FVector(0, -200, 0);
+	doorTimeLine->PlayFromStart();
+}
+
+void ADoor::OutDoorComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	UE_LOG(LogTemp, Warning, TEXT("out"));
+
+	doorTimeLine->Reverse();
 }
 

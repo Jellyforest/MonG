@@ -1,7 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include <UMG/Public/Blueprint/UserWidget.h>
-
-
 #include "MonGPlayer.h"
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include "EnhancedInputSubsystems.h"
@@ -21,7 +19,6 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Components/ArrowComponent.h>
 #include "CleaningEffect.h"
-#include "Math/TransformCalculus.h"
 #include "Haptics/HapticFeedbackEffect_Curve.h"
 #include "MonGGameModeBase.h"
 

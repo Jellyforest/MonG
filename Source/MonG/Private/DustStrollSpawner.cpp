@@ -37,11 +37,26 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), fireTime);
 	//if (fireTime > fire && fireTime<120)
 	//{
-	
+	int32 drawNumber = FMath::RandRange(1, 100);
+
 		if (coolCurentTime >= coolTime)
 		{
-			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-			coolCurentTime = 0;
+			if (coolCurentTime >= coolTime)
+			{
+				if (drawNumber < pointThree && pointFive < drawNumber)
+				{
+					GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+				}
+				if (drawNumber >= pointThree)
+				{
+					GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+				}
+				if (drawNumber <= pointFive)
+				{
+					GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+				}
+				coolCurentTime = 0;
+			}
 		}
 	
 	//	if (fireTime >15)

@@ -62,9 +62,21 @@ void ADustWaveSpawner::Tick(float DeltaTime)
 	*/
 	currentTime += DeltaTime;
 	coolCurentTime += DeltaTime;
+	int32 drawNumber = FMath::RandRange(1, 100);
 	if (coolCurentTime >= coolTime)
 	{
-		GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		if (drawNumber < pointThree && pointFive < drawNumber)
+		{
+			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
+		if (drawNumber >= pointThree)
+		{
+			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
+		if (drawNumber <= pointFive)
+		{
+			GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
 		coolCurentTime = 0;
 	}
 	

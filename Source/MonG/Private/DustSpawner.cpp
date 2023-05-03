@@ -43,13 +43,13 @@ void ADustSpawner::Tick(float DeltaTime)
 		{
 			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		}
-		if (drawNumber > pointThree)
+		if (drawNumber >= pointThree)
 		{
 			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		}
-		if (drawNumber < pointFive)
+		if (drawNumber <= pointFive)
 		{
-			GetWorld()->SpawnActor<ADust>(dustP4Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+			GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		}
 		
 		currentTime = 0;
