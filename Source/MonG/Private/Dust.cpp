@@ -60,7 +60,7 @@ void ADust::Tick(float DeltaTime)
 	///	UE_LOG(LogTemp, Warning, TEXT("stop"));
 	//	
 	//}
-
+	//È®ÀÎ
 	if (currentTime > destroyTime)
 	{
 		Destroy();
