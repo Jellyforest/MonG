@@ -32,13 +32,12 @@ void ADustSpawner::BeginPlay()
 void ADustSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
-	currentTime += DeltaTime;
+void ADustSpawner::Fire()
+{
 	int32 drawNumber = FMath::RandRange(1, 100);
-	
 
-	if (currentTime >= coolTime)
-	{
 		if (drawNumber < pointThree && pointFive < drawNumber)
 		{
 			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
@@ -51,10 +50,5 @@ void ADustSpawner::Tick(float DeltaTime)
 		{
 			GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		}
-		
-		currentTime = 0;
-	}
-
-	//»Æ¿Œ
 }
 

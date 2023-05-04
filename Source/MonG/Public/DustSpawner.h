@@ -28,10 +28,9 @@ public:
 	class UStaticMeshComponent* spawnerMesh;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	class UBoxComponent* spawnerComp;
-	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	UPROPERTY(BlueprintReadWrite, Category = "SpawnerSettings")
 	class UArrowComponent* arrow;
-	float coolTime = 1;
-	float currentTime = 0;
+	
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustSpawn;
 	
@@ -41,9 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustP5Spawn;
 
-
 	int32 pointThree = 30;
 	int32 pointFive = 5;
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 };
 
 //»Æ¿Œ

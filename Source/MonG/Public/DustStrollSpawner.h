@@ -51,5 +51,7 @@ public:
 	int32 pointFive = 5;
 	//»Æ¿Œ
 
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 };

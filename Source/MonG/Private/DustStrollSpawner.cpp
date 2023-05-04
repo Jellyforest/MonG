@@ -30,7 +30,7 @@ void ADustStrollSpawner::BeginPlay()
 void ADustStrollSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	/*
 	currentTime += DeltaTime;
 	coolCurentTime += DeltaTime;
 	fireTime += DeltaTime;
@@ -58,7 +58,7 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 				coolCurentTime = 0;
 			}
 		}
-	
+	*/
 	//	if (fireTime >15)
 	//	{
 	//		fireTime = 0;
@@ -107,7 +107,7 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 		currentTime = 0;
 	}
 	*/
-
+	/*
 	float index = GetActorLocation().Y;
 
 	if (index <= -270)
@@ -135,6 +135,24 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 		SetActorLocation(GetActorLocation() + direction1 * 200 * DeltaTime);
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), goRight);
-
+*/
 }
 
+void ADustStrollSpawner::Fire()
+{
+	int32 drawNumber = FMath::RandRange(1, 100);
+
+	if (drawNumber < pointThree && pointFive < drawNumber)
+	{
+		GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+	}
+	if (drawNumber >= pointThree)
+	{
+		GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		//arrow->GetComponentRotation()
+	}
+	if (drawNumber <= pointFive)
+	{
+		GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+	}
+}
