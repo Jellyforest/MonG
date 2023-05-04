@@ -36,6 +36,7 @@ public:
 	TSubclassOf <class ACleaningEffect> cleaningEffect;
 
 	void CleanerClean();
+	UFUNCTION()
 	void OnCleanerComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	//¸ÕÁö
 	class ADust* dust;
