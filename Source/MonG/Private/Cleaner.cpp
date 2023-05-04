@@ -5,6 +5,14 @@
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include <Components/SphereComponent.h>
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "CleaningEffect.h"
+#include "Dust.h"
+#include <Kismet/GameplayStatics.h>
+#include "MonGGameModeBase.h"
+#include "MonGPlayer.h"
+
 
 // Sets default values
 ACleaner::ACleaner()
@@ -21,6 +29,9 @@ ACleaner::ACleaner()
 	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
 	cleanerHeadComp->SetupAttachment(cleanerHead);
 
+	//청소기 프리셋
+	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
+	cleanerMesh->SetCollisionProfileName(TEXT("CleanerMeshPreset"));
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +39,8 @@ void ACleaner::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	cleanerComp->OnComponentBeginOverlap.AddDynamic(this, &ACleaner::OnCleanerComp);
+
 }
 
 // Called every frame
@@ -35,5 +48,41 @@ void ACleaner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACleaner::CleanerClean()
+{
+	
+	//청소효과
+	AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
+	cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+}
+
+void ACleaner::OnCleanerComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	dust = Cast<ADust>(OtherActor);
+	if (monGPlayer->isClean == true)
+	{
+		dust->moveSpeed = 5;
+		dust->dustComp->SetSimulatePhysics(false);
+		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
+		//////////점수
+		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+		AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+		monGgm->AddScore(dust->point);
+		dust->getPoint = true;
+
+		FTimerHandle destroyTimer;
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([this]()->void {
+			if (dust != nullptr)
+			{
+				dust->Destroy();
+			}
+			});
+		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
+	}
 }
 
