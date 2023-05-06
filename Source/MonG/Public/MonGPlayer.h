@@ -54,6 +54,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UMotionControllerComponent* leftHand;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
+	class USphereComponent* rightHandComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
+	class USphereComponent* leftHandComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* rightMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* leftMesh;
@@ -82,7 +86,7 @@ public:
 	void Clean();
 	void StopClean();
 	void Hold();
-
+	void StopHold();
 
 
 
