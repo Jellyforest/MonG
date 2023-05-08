@@ -71,7 +71,6 @@ public:
 	//没家FX
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	TSubclassOf <class ACleaningEffect> cleaningEffect;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UHapticFeedbackEffect_Curve* HF_Clean;
 
@@ -80,7 +79,6 @@ public:
 	void Look(const FInputActionValue& Values);
 	void Clean();
 	void StopClean();
-	void Hold();
 
 
 
@@ -89,11 +87,7 @@ public:
 	//没家扁 
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UPROPERTY()
-	class ACleaner* cleaner;
-
 	//刚瘤
-	UPROPERTY()
 	class ADust* dust;
 	FVector monGDirection;
 	float moveSpeed = 5;
@@ -103,7 +97,6 @@ public:
 	float cleaningTime1 = 4;
 
 	bool isClean = false;
-	bool isHold = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
 	TSubclassOf <class UPlayWidget> playWidget;

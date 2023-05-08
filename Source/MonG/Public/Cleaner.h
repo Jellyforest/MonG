@@ -31,14 +31,7 @@ public:
 	class UStaticMeshComponent* cleanerHead;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
-	//청소FX
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
-	TSubclassOf <class ACleaningEffect> cleaningEffect;
 
-	void CleanerClean();
-	void OnCleanerComp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	//먼지
-	class ADust* dust;
-	class AMonGPlayer* monGPlayer;
+
 
 };

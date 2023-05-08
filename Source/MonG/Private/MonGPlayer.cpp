@@ -21,7 +21,6 @@
 #include "CleaningEffect.h"
 #include "Haptics/HapticFeedbackEffect_Curve.h"
 #include "MonGGameModeBase.h"
-#include "Cleaner.h"
 
 
 // Sets default values
@@ -35,7 +34,7 @@ AMonGPlayer::AMonGPlayer()
 	camera->bUsePawnControlRotation = false;
 
 	//프리셋세팅
-	//GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
 	
 	//모션컨트롤러
 	rightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightHand"));
@@ -77,10 +76,8 @@ AMonGPlayer::AMonGPlayer()
 	cleanerHeadComp->SetupAttachment(cleanerHead);
 
 	
-	/////청소기 프리셋
-	//////cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-	rightHand->SetCollisionProfileName(TEXT("PlayerPreset"));
-	leftHand->SetCollisionProfileName(TEXT("PlayerPreset"));
+	//청소기 프리셋
+	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 	//시간, 점수 위젯
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
 	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("widgetComp"));
@@ -106,9 +103,7 @@ void AMonGPlayer::BeginPlay()
 		}
 	}
 
-	rightHand->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
-	leftHand->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
-	//시간, ->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
+	cleanerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	
@@ -166,12 +161,9 @@ void AMonGPlayer::Clean()
 	//마우스 클릭시 청소기 돌아가게
 	isClean = true;
 
-	/*
 	//청소효과
 	AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
 	cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
-	*/
-	
 	//청소기 진동
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC)
@@ -187,24 +179,9 @@ void AMonGPlayer::StopClean()
 	isClean = false;
 }
 
-void AMonGPlayer::Hold()
-{
-	isHold = true;
-}
-
 void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
-	cleaner = Cast<ACleaner>(OtherActor);
-
-	if (isHold == true)
-	{
-		cleaner->cleanerMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
-		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-	}
-
-	/*
+	
 	dust=Cast<ADust>(OtherActor);
 	if (isClean == true)
 	{
@@ -231,6 +208,5 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		});
 		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
 	}
-	*/
 }
 //확인
