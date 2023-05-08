@@ -35,7 +35,7 @@ AMonGPlayer::AMonGPlayer()
 	camera->bUsePawnControlRotation = false;
 
 	//프리셋세팅
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
+	//GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerPreset"));
 	
 	//모션컨트롤러
 	rightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightHand"));
@@ -141,8 +141,6 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_MonGMouse, ETriggerEvent::Triggered, this, &AMonGPlayer::Look);
 		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Started, this, &AMonGPlayer::Clean);
 		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Completed, this, &AMonGPlayer::StopClean);
-		inputSystem->BindAction(IA_MonGGrap, ETriggerEvent::Started, this, &AMonGPlayer::Hold);
-		inputSystem->BindAction(IA_MonGGrap, ETriggerEvent::Completed, this, &AMonGPlayer::Hold);
 	}
 
 }
@@ -198,12 +196,9 @@ void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 {
 
 	cleaner = Cast<ACleaner>(OtherActor);
-	UE_LOG(LogTemp, Warning, TEXT("OverlapHold"));
 
 	if (isHold == true)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hold==true"));
-
 		cleaner->cleanerMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);

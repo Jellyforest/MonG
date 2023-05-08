@@ -40,8 +40,7 @@ public:
 	class UInputAction* IA_Cleaning;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	class UInputAction* IA_MonGGrap;
+
 
 	//Ä«¸Þ¶ó
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
