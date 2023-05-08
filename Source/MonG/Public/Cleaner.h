@@ -31,8 +31,6 @@ public:
 	class UStaticMeshComponent* cleanerHead;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UBoxComponent* playerOverlapComp;
 	//Ã»¼ÒFX
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	TSubclassOf <class ACleaningEffect> cleaningEffect;

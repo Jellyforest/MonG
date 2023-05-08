@@ -23,7 +23,7 @@
 #include "MonGGameModeBase.h"
 #include "Cleaner.h"
 
-#define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
+
 // Sets default values
 AMonGPlayer::AMonGPlayer()
 {
@@ -41,14 +41,9 @@ AMonGPlayer::AMonGPlayer()
 	rightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightHand"));
 	rightHand->SetupAttachment(RootComponent);
 	rightHand->SetTrackingMotionSource(FName("Right"));
-	rightHandComp = CreateDefaultSubobject<USphereComponent>(TEXT("rightHandComp"));
-	rightHandComp->SetupAttachment(rightHand);
 	leftHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("leftHand"));
 	leftHand->SetupAttachment(RootComponent);
 	leftHand->SetTrackingMotionSource(FName("Left"));
-	leftHandComp = CreateDefaultSubobject<USphereComponent>(TEXT("leftHandComp"));
-	leftHandComp->SetupAttachment(leftHand);
-
 	//모션컨트롤러 오른손 Mesh
 	rightMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("rightMesh"));
 	rightMesh->SetupAttachment(rightHand);
@@ -83,18 +78,13 @@ AMonGPlayer::AMonGPlayer()
 
 	
 	/////청소기 프리셋
-	rightHandComp->SetCollisionProfileName(TEXT("PlayerHandPreset"));
-	rightHand->SetCollisionProfileName(TEXT("PlayerHandPreset"));
-	leftHandComp->SetCollisionProfileName(TEXT("PlayerHandPreset"));
 	//////cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-
+	rightHand->SetCollisionProfileName(TEXT("PlayerPreset"));
+	leftHand->SetCollisionProfileName(TEXT("PlayerPreset"));
 	//시간, 점수 위젯
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
 	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("widgetComp"));
 	widgetComp->SetupAttachment(camera);
-	widgetComp->SetWorldLocation(FVector(249, 2, -46));
-	widgetComp->SetWorldRotation(FRotator(360, 540, 1));
-	widgetComp->SetWorldScale3D(FVector(0.4, 0.4, 0.4));
 }
 
 // Called when the game starts or when spawned
@@ -117,7 +107,7 @@ void AMonGPlayer::BeginPlay()
 	}
 
 	rightHand->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
-	leftHandComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
+	leftHand->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 	//시간, ->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
@@ -152,7 +142,7 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Started, this, &AMonGPlayer::Clean);
 		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Completed, this, &AMonGPlayer::StopClean);
 		inputSystem->BindAction(IA_MonGGrap, ETriggerEvent::Started, this, &AMonGPlayer::Hold);
-		inputSystem->BindAction(IA_MonGGrap, ETriggerEvent::Completed, this, &AMonGPlayer::StopHold);
+		inputSystem->BindAction(IA_MonGGrap, ETriggerEvent::Completed, this, &AMonGPlayer::Hold);
 	}
 
 }
@@ -202,29 +192,21 @@ void AMonGPlayer::StopClean()
 void AMonGPlayer::Hold()
 {
 	isHold = true;
-
-}
-
-void AMonGPlayer::StopHold()
-{
-	isHold = false;
-
 }
 
 void AMonGPlayer::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
 	cleaner = Cast<ACleaner>(OtherActor);
-	PRINTTOScreen(FString::Printf(TEXT("Overlap")));
-
+	UE_LOG(LogTemp, Warning, TEXT("OverlapHold"));
 
 	if (isHold == true)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hold==true"));
-		cleaner->playerOverlapComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		cleaner->cleanerMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-
 	}
 
 	/*

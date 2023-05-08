@@ -21,19 +21,17 @@ ACleaner::ACleaner()
 	PrimaryActorTick.bCanEverTick = true;
 
 	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
-	SetRootComponent(cleanerComp);
+	SetRootComponent(RootComponent);
 	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
 	cleanerMesh->SetupAttachment(cleanerComp);
 	cleanerHead = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
 	cleanerHead->SetupAttachment(cleanerComp);
 	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
 	cleanerHeadComp->SetupAttachment(cleanerHead);
-	playerOverlapComp = CreateDefaultSubobject<UBoxComponent>(TEXT("playerOverlapComp"));
-	playerOverlapComp->SetupAttachment(cleanerMesh);
 
 	//청소기 프리셋
 	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-	playerOverlapComp->SetCollisionProfileName(TEXT("CleanerCompPreset"));
+	cleanerMesh->SetCollisionProfileName(TEXT("CleanerMeshPreset"));
 }
 
 // Called when the game starts or when spawned
