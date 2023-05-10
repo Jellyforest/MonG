@@ -31,7 +31,14 @@ public:
 	class UStaticMeshComponent* cleanerHead;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	class UBoxComponent* cleanerStick;
 
+	void CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-
+	
+	UPROPERTY()
+	class AMonGPlayer* monGPlayer;
+	UPROPERTY()
+	class ADust* dust;
 };

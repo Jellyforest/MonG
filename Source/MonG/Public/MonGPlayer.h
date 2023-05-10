@@ -39,6 +39,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_Cleaning;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_LeftHold;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_RightHold;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
 
 
@@ -50,8 +54,12 @@ public:
 	//컨트롤러
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MotionController")
 	class UMotionControllerComponent* rightHand;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MotionController")
+	class UBoxComponent* right;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UMotionControllerComponent* leftHand;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
+	class UBoxComponent* left;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class USkeletalMeshComponent* rightMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
@@ -73,12 +81,18 @@ public:
 	TSubclassOf <class ACleaningEffect> cleaningEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UHapticFeedbackEffect_Curve* HF_Clean;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
+	class ACleaner* cleaner;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);
 	void Clean();
 	void StopClean();
+	void LeftHold();
+	void LeftPut();
+	void RightHold();
+	void RightPut();
 
 
 
@@ -86,7 +100,11 @@ public:
 
 	//청소기 
 	UFUNCTION()
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+            
 	//먼지
 	class ADust* dust;
 	FVector monGDirection;
@@ -97,7 +115,8 @@ public:
 	float cleaningTime1 = 4;
 
 	bool isClean = false;
-
+	bool isLeftHold = false;
+	bool isRightHold = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
 	TSubclassOf <class UPlayWidget> playWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
@@ -110,4 +129,5 @@ public:
 
 };
 //확인
+
 
