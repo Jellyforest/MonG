@@ -271,34 +271,13 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	dust = Cast<ADust>(OtherActor);
 	if (isLeftHold == true)
 	{
-		PRINTTOScreen(FString::Printf(TEXT("left")));
+		//PRINTTOScreen(FString::Printf(TEXT("left")));
 
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
 	}
 
-	if (isClean == true)
-	{
-		dust->moveSpeed = 5;
-		dust->dustComp->SetSimulatePhysics(false);
-		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
-		//////////Á¡¼ö
-		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-		AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-		monGgm->AddScore(dust->point);
-		dust->getPoint = true;
-
-		FTimerHandle destroyTimer;
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([this]()->void {
-			if (dust != nullptr)
-			{
-				dust->Destroy();
-			}
-			});
-		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
-	}
+	
 }
 
 
