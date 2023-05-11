@@ -28,7 +28,7 @@ public:
 	class UStaticMeshComponent* spawnerMesh;
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	class UBoxComponent* spawnerComp;
-	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "SpawnerSettings")
 	class UArrowComponent* arrow;
 	float coolTime = 0.5;
 	float coolCurentTime = 0;
