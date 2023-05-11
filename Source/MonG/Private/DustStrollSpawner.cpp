@@ -145,7 +145,7 @@ void ADustStrollSpawner::Fire()
 	if (drawNumber < pointThree && pointFive < drawNumber)
 	{
 
-		GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation() + , arrow->GetComponentRotation());
+	//	GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation() + , arrow->GetComponentRotation());
 	
 		
 	}

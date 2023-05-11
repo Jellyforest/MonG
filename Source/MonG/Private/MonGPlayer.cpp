@@ -174,19 +174,21 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 
 void AMonGPlayer::Clean()
 {
-	//마우스 클릭시 청소기 돌아가게
-	isClean = true;
-
-	//청소효과
-	AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
-	cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
-	//청소기 진동
-	APlayerController* PC = Cast<APlayerController>(GetController());
-	if (PC)
+	if (isLeftHold == true || isRightHold == true)
 	{
-		PC->PlayHapticEffect(HF_Clean, EControllerHand::Right);
-	}
+		//마우스 클릭시 청소기 돌아가게
+		isClean = true;
 
+		//청소효과
+		AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
+		cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+		//청소기 진동
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (PC)
+		{
+			PC->PlayHapticEffect(HF_Clean, EControllerHand::Right);
+		}
+	}
 }
 
 void AMonGPlayer::StopClean()
