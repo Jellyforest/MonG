@@ -28,7 +28,16 @@ void ADoor::BeginPlay()
 
 	doorComp->OnComponentBeginOverlap.AddDynamic(this, &ADoor::InDoorComp);
 	doorComp->OnComponentEndOverlap.AddDynamic(this, &ADoor::OutDoorComp);
-	
+	if (doorFloat)
+	{
+		FOnTimelineFloat TimelineCallback;
+		FOnTimelineEventStatic TimelineFinishedCallback;
+
+		TimelineCallback.BindUFunction(this, FName("ControlDoor"));
+		TimelineFinishedCallback.BindUFunction(this, FName{ TEXT("SetState") });
+		updateFloat.AddInterpFloat(doorFloat, TimelineCallback);
+		updateFloat.SetTimelineFinishedFunc(TimelineFinishedCallback);
+	}
 }
 
 // Called every frame
