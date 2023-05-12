@@ -38,7 +38,7 @@ public:
 	class UCurveFloat* doorFloat;
 
 	//업데이트 트랙 이벤트를 처리할 플로트 트랙 시그니처
-	FOnTimelineFloat updateFloat;
+	FTimeline updateFloat;
 
 	//타임라인 그래프에 따라 문의 상대적 위치를 업데이트하는 함수
 	UFUNCTION()
