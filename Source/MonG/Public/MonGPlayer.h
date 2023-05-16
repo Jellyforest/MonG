@@ -84,6 +84,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class ACleaner* cleaner;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class AAllObject* allObject; 
+
 	//동작함수
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);

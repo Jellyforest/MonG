@@ -22,6 +22,7 @@
 #include "Haptics/HapticFeedbackEffect_Curve.h"
 #include "MonGGameModeBase.h"
 #include "Cleaner.h"
+#include "AllObject.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 // Sets default values
@@ -127,7 +128,7 @@ void AMonGPlayer::BeginPlay()
 		monGDirection.Normalize();
 	}
 	//½Ã°£ À§Á¬
-	play_UI->AddToViewport();
+	//play_UI->AddToViewport();
 }
 
 // Called every frame
@@ -252,8 +253,8 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 {
 	PRINTTOScreen(FString::Printf(TEXT("overllap")));
 
+	allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
-	dust = Cast<ADust>(OtherActor);
 	if (cleaner != nullptr)
 	{
 		if (isRightHold == true)
@@ -263,20 +264,26 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			//cleaner->cleanerStick->SetSimulatePhysics(false);
 			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 			//cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+			allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
 }
 
 void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
-	dust = Cast<ADust>(OtherActor);
 	if (isLeftHold == true)
 	{
 		//PRINTTOScreen(FString::Printf(TEXT("left")));
 
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+		allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
+
+
 	}
 
 	
