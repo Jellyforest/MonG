@@ -127,7 +127,7 @@ void AMonGPlayer::BeginPlay()
 		monGDirection.Normalize();
 	}
 	//½Ã°£ À§Á¬
-	play_UI->AddToViewport();
+	//play_UI->AddToViewport();
 }
 
 // Called every frame
