@@ -5,11 +5,13 @@
 #include "Dust.h"
 #include <Kismet/GameplayStatics.h>
 #include "StartWidget.h"
+#include "EndingWidget.h"
 
 
 void AMonGGameModeBase::BeginPlay()
 {
 	start_UI = CreateWidget<UStartWidget>(GetWorld(), startWidget);
+	ending_UI = CreateWidget<UEndingWidget>(GetWorld(), endingWidget);
 	ShowStartUI();
 
 }
@@ -28,8 +30,19 @@ void AMonGGameModeBase::ShowStartUI()
 	{
 		//생성된 위젯을 뷰포트에 그린다.
 
-		start_UI->AddToViewport();
+		//start_UI->AddToViewport();
 		isShowStartUI = true;
+		//UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+	}
+}
+
+void AMonGGameModeBase::ShowEndingUI()
+{
+	if (ending_UI != nullptr)
+	{
+		ending_UI->AddToViewport();
+		isShowEndingUI = true;
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 
 	}

@@ -10,15 +10,26 @@
 
 void UPlayWidget::NativeConstruct()
 {
+
 	Construct();
 	UpdateCanTick();
 	FTimerHandle countTime;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {
-		timer -= 1; minute = timer / 60; second = timer % 60;
-	text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
-	text_Second->SetText(FText::FromString(FString::Printf(TEXT("%d"), second)));
-	
+		if (timer > 0)
+		{
+			timer -= 1; minute = timer / 60; second = timer % 60;
+			text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
+			text_Second->SetText(FText::FromString(FString::Printf(TEXT("%d"), second)));
+		}
+		else if (timer == 0)
+		{
+			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+			timer = 0;
+			monGgm->ShowEndingUI();
+		}
+		
 		});
 	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
 
@@ -26,7 +37,7 @@ void UPlayWidget::NativeConstruct()
 	FTimerHandle countScore;
 	FTimerDelegate timerDelegate1;
 	timerDelegate1.BindLambda([this]()->void {
-	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore))); });
 	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.01, true);
