@@ -43,7 +43,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightHold;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_Quit;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
+
 
 
 	//카메라
@@ -76,13 +79,25 @@ public:
 	class UStaticMeshComponent* cleanerHead;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
-	//청소FX
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
-	TSubclassOf <class ACleaningEffect> cleaningEffect;
+	//청소진동
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UHapticFeedbackEffect_Curve* HF_Clean;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class ACleaner* cleaner;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class AAllObject* allObject; 
+
+	//위젯
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
+	TSubclassOf <class UPlayWidget> playWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UPlayWidget* play_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
+	class UWidgetComponent* widgetComp;
+
+
+	
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -93,7 +108,8 @@ public:
 	void LeftPut();
 	void RightHold();
 	void RightPut();
-
+	void PressUIButten();
+	void UIButten();
 
 
 
@@ -106,6 +122,7 @@ public:
 	
             
 	//먼지
+	UPROPERTY()
 	class ADust* dust;
 	FVector monGDirection;
 	float moveSpeed = 5;
@@ -117,12 +134,7 @@ public:
 	bool isClean = false;
 	bool isLeftHold = false;
 	bool isRightHold = false;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
-	TSubclassOf <class UPlayWidget> playWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
-	class UPlayWidget* play_UI;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
-	class UWidgetComponent* widgetComp;
+	bool onButten = false;
 	
 
 
