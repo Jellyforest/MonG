@@ -25,17 +25,24 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
 	TSubclassOf<class UStartWidget> startWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
+	TSubclassOf<class UEndingWidget> endingWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
 	class UStartWidget* start_UI;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
+	class UEndingWidget* ending_UI;
 	//먼지점수
 	void AddScore(int32 score);
+
+	//위젯
 	void ShowStartUI();
+	void ShowEndingUI();
+
 	//현재점수
 	int32 currentScore;
 
 	
 
 	bool isShowStartUI = false;
-	
+	bool isShowEndingUI = false;
 	
 };

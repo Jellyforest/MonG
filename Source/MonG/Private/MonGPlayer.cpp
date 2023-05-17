@@ -24,6 +24,8 @@
 #include "Cleaner.h"
 #include "AllObject.h"
 #include "StartWidget.h"
+#include "EndingWidget.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
@@ -129,8 +131,7 @@ void AMonGPlayer::BeginPlay()
 		monGDirection = cleanerHead->GetComponentLocation() - dust->GetActorLocation();
 		monGDirection.Normalize();
 	}
-	//½Ã°£ À§Á¬
-	//play_UI->AddToViewport();
+	
 }
 
 // Called every frame
@@ -263,7 +264,7 @@ void AMonGPlayer::PressUIButten()
 
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-	if (monGgm->start_UI != nullptr)
+	if (monGgm->start_UI != nullptr||monGgm->ending_UI !=nullptr)
 	{
 		if (monGgm->isShowStartUI == true)
 		{
@@ -272,6 +273,14 @@ void AMonGPlayer::PressUIButten()
 			monGgm->start_UI->RemoveFromParent();
 			//monGgm->start_UI->widgetSwitcher->SetActiveWidgetIndex(0);
 		}
+		if (monGgm->isShowEndingUI == true)
+		{
+			UGameplayStatics::SetGamePaused(GetWorld(), false);
+			monGgm->ending_UI->RemoveFromParent();
+			APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+			UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
+		}
+
 	}
 }
 
