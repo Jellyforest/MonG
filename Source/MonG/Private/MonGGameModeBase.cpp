@@ -30,9 +30,9 @@ void AMonGGameModeBase::ShowStartUI()
 	{
 		//생성된 위젯을 뷰포트에 그린다.
 
-		//start_UI->AddToViewport();
+		start_UI->AddToViewport();
 		isShowStartUI = true;
-		//UGameplayStatics::SetGamePaused(GetWorld(), true);
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 
 	}
 }
