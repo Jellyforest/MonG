@@ -25,6 +25,8 @@ public:
 	class UTextBlock* text_Minute;
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* text_Second;
+
+	UPROPERTY(EditAnywhere,Category="Timer Settings")
 	int timer = 300;
 	int minute = 0;
 	int second = 0;

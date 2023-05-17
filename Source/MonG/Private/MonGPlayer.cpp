@@ -23,6 +23,8 @@
 #include "MonGGameModeBase.h"
 #include "Cleaner.h"
 #include "AllObject.h"
+#include "StartWidget.h"
+
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 // Sets default values
@@ -154,7 +156,10 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_LeftHold, ETriggerEvent::Completed, this, &AMonGPlayer::LeftPut);
 		inputSystem->BindAction(IA_RightHold, ETriggerEvent::Started, this, &AMonGPlayer::RightHold);
 		inputSystem->BindAction(IA_RightHold, ETriggerEvent::Completed, this, &AMonGPlayer::RightPut);
+		inputSystem->BindAction(IA_Quit, ETriggerEvent::Started, this, &AMonGPlayer::PressUIButten);
+		inputSystem->BindAction(IA_Quit, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 	}
+
 }
 
 void AMonGPlayer::Move(const FInputActionValue& Values)
@@ -179,10 +184,10 @@ void AMonGPlayer::Clean()
 	{
 		//마우스 클릭시 청소기 돌아가게
 		isClean = true;
-
 		//청소효과
-		AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaningEffect, cleanerHeadComp->GetComponentLocation(), cleanerHeadComp->GetComponentRotation());
-		cleanFX->AttachToComponent(cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+		AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaner->cleaningEffect, cleaner->cleanerHeadComp->GetComponentLocation(), cleaner->cleanerHeadComp->GetComponentRotation());
+		cleanFX->AttachToComponent(cleaner->cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+		
 		//청소기 진동
 		APlayerController* PC = Cast<APlayerController>(GetController());
 		if (PC)
@@ -201,7 +206,7 @@ void AMonGPlayer::StopClean()
 void AMonGPlayer::LeftHold()
 {
 	isLeftHold = true;
-	//PRINTTOScreen(FString::Printf(TEXT("Hold")));
+	onButten = true;
 
 
 }
@@ -222,6 +227,7 @@ void AMonGPlayer::LeftPut()
 		cleaner->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		//cleaner->cleanerStick->SetSimulatePhysics(true);
+		onButten = false;
 
 	}
 }
@@ -229,6 +235,8 @@ void AMonGPlayer::LeftPut()
 void AMonGPlayer::RightHold()
 {
 	isRightHold = true;
+	onButten = true;
+
 }
 
 void AMonGPlayer::RightPut()
@@ -239,6 +247,7 @@ void AMonGPlayer::RightPut()
 		{
 			return;
 		}
+		onButten = false;
 
 		// 1. 잡지않은 상태로 전환
 		isRightHold = false;
@@ -247,6 +256,30 @@ void AMonGPlayer::RightPut()
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		//cleaner->cleanerStick->SetSimulatePhysics(true);
 	}
+}
+
+void AMonGPlayer::PressUIButten()
+{
+
+	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+	if (monGgm->start_UI != nullptr)
+	{
+		if (monGgm->isShowStartUI == true)
+		{
+			PRINTTOScreen(FString::Printf(TEXT("PressbuttenUI")));
+			UGameplayStatics::SetGamePaused(GetWorld(), false);
+			monGgm->start_UI->RemoveFromParent();
+			//monGgm->start_UI->widgetSwitcher->SetActiveWidgetIndex(0);
+		}
+	}
+}
+
+void AMonGPlayer::UIButten()
+{
+	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+	monGgm->isShowStartUI = false;
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -264,8 +297,8 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			//cleaner->cleanerStick->SetSimulatePhysics(false);
 			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 			//cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-			allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
+			//allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			//allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
 }
@@ -277,11 +310,10 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	if (isLeftHold == true)
 	{
 		//PRINTTOScreen(FString::Printf(TEXT("left")));
-
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-		allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
+		//allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 
 
 	}

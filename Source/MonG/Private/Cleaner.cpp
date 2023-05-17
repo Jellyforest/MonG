@@ -9,6 +9,7 @@
 #include "MonGGameModeBase.h"
 #include <Kismet/GameplayStatics.h>
 #include "MonGPlayer.h"
+#include "CleaningEffect.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -81,4 +82,5 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
 	}
 }
+
 
