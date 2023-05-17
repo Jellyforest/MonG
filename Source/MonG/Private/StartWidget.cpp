@@ -3,3 +3,7 @@
 
 #include "StartWidget.h"
 
+void UStartWidget::NativeConstruct()
+{
+
+}

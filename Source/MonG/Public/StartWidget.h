@@ -14,8 +14,11 @@ class MONG_API UStartWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+private:
+	virtual void NativeConstruct() override;
+
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
-	class UWidgetSwitcher* widgetSwitcher;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	//class UWidgetSwitcher* widgetSwitcher;
 
 };

@@ -33,7 +33,9 @@ void AMonGGameModeBase::ShowStartUI()
 		start_UI->AddToViewport();
 		isShowStartUI = true;
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-
+	//해야할것 isshowstartui를이용해서 move안되게 고개 돌리는 것만 되게
+	//저걸 또 이용해서 점수유아이 나중에 나오게하기
+	// 브이알에서 시작 유아이보이게하기
 	}
 }
 

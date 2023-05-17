@@ -44,13 +44,6 @@ void UPlayWidget::NativeConstruct()
 
 }
 
-
-	
-void UPlayWidget::UpdateCanTick()
-{
-
-}
-
 void UPlayWidget::Tick(float DeltaTime)
 {
 	/*

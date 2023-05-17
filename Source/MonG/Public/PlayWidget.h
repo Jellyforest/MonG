@@ -18,7 +18,6 @@ public:
 
 	virtual void NativeConstruct() override;
 
-	virtual void UpdateCanTick();
 	virtual void Tick(float DeltaTime);
 
 	UPROPERTY(meta = (BindWidget))
