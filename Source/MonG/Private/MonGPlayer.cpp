@@ -95,7 +95,7 @@ AMonGPlayer::AMonGPlayer()
 	//cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 	//시간, 점수 위젯
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
-	play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
+	//play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
 	playWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("playWidgetComp"));
 	playWidgetComp->SetupAttachment(camera);
 	playWidgetComp->SetWorldLocation(FVector(249, 2, -46));
@@ -284,7 +284,7 @@ void AMonGPlayer::PressUIButten()
 		}
 		if (monGgm->isShowEndingUI == true)
 		{
-			UGameplayStatics::SetGamePaused(GetWorld(), false);
+		//	UGameplayStatics::SetGamePaused(GetWorld(), false);
 			monGgm->ending_UI->RemoveFromParent();
 			APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 			UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
