@@ -95,16 +95,11 @@ public:
 	class UPlayWidget* play_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
 	class UWidgetComponent* playWidgetComp;
-	//시작위젯
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
-	TSubclassOf <class UStartWidget> startWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
-	class UStartWidget* start_UI;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
-	class UWidgetComponent* startWidgetComp;
-
-
 	
+	//시작위젯
+	UPROPERTY()
+	class AActorStartWidget* actorStartWidget;
+
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -142,7 +137,7 @@ public:
 	bool isLeftHold = false;
 	bool isRightHold = false;
 	bool onButten = false;
-	
+	bool isGameStart = false;
 
 
 

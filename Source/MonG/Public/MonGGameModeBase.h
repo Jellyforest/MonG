@@ -30,6 +30,8 @@ public:
 	class UStartWidget* start_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
 	class UEndingWidget* ending_UI;
+
+
 	//먼지점수
 	void AddScore(int32 score);
 
