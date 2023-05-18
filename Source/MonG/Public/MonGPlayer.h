@@ -88,13 +88,20 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class AAllObject* allObject; 
 
-	//¿ß¡¨
+	//Ω√∞£¿ß¡¨
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
 	TSubclassOf <class UPlayWidget> playWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
 	class UPlayWidget* play_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
-	class UWidgetComponent* widgetComp;
+	class UWidgetComponent* playWidgetComp;
+	//Ω√¿€¿ß¡¨
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	TSubclassOf <class UStartWidget> startWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	class UStartWidget* start_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	class UWidgetComponent* startWidgetComp;
 
 
 	

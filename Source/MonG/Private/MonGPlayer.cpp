@@ -94,11 +94,16 @@ AMonGPlayer::AMonGPlayer()
 	//cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 	//Ω√∞£, ¡°ºˆ ¿ß¡¨
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
-	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("widgetComp"));
-	widgetComp->SetupAttachment(camera);
-	widgetComp->SetWorldLocation(FVector(249, 2, -46));
-	widgetComp->SetWorldRotation(FRotator(0.1, 540, 360));
-	widgetComp->SetWorldScale3D(FVector((0.437500)));
+	playWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("playWidgetComp"));
+	playWidgetComp->SetupAttachment(camera);
+	playWidgetComp->SetWorldLocation(FVector(249, 2, -46));
+	playWidgetComp->SetWorldRotation(FRotator(0.1, 540, 360));
+	playWidgetComp->SetWorldScale3D(FVector((0.437500)));
+
+	//Ω√¿€¿ß¡¨
+	start_UI = CreateDefaultSubobject<UStartWidget>(TEXT("start_UI"));
+	startWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("startWidgetComp"));
+	startWidgetComp->SetupAttachment(camera);
 }
 
 // Called when the game starts or when spawned
@@ -107,7 +112,9 @@ void AMonGPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
-	play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
+	start_UI = CreateWidget<UStartWidget>(GetWorld(), startWidget);
+	
+	
 
 	if (playerController)
 	{
@@ -264,13 +271,14 @@ void AMonGPlayer::PressUIButten()
 
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-	if (monGgm->start_UI != nullptr||monGgm->ending_UI !=nullptr)
+	if (start_UI != nullptr||monGgm->ending_UI !=nullptr)
 	{
 		if (monGgm->isShowStartUI == true)
 		{
 			PRINTTOScreen(FString::Printf(TEXT("PressbuttenUI")));
-			UGameplayStatics::SetGamePaused(GetWorld(), false);
-			monGgm->start_UI->RemoveFromParent();
+			//UGameplayStatics::SetGamePaused(GetWorld(), false);
+			start_UI->RemoveFromParent();
+			play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
 			//monGgm->start_UI->widgetSwitcher->SetActiveWidgetIndex(0);
 		}
 		if (monGgm->isShowEndingUI == true)
