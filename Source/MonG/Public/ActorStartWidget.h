@@ -23,4 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	TSubclassOf <class UStartWidget> startWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	class UStartWidget* start_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartWidget")
+	class UWidgetComponent* startWidgetComp;
+
+
+	bool isShowStartUI = false;
 };

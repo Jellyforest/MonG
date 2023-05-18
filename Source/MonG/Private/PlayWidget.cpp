@@ -5,18 +5,20 @@
 #include "Components/TextBlock.h"
 #include "MonGGameModeBase.h"
 #include <Kismet/GameplayStatics.h>
+#include "MonGPlayer.h"
 
 
 
 void UPlayWidget::NativeConstruct()
 {
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 
 	Construct();
 	UpdateCanTick();
 	FTimerHandle countTime;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {
-		if (timer > 0)
+		if (timer > 0 && monGPlayer->isGameStart == true)
 		{
 			timer -= 1; minute = timer / 60; second = timer % 60;
 			text_Minute->SetText(FText::FromString(FString::Printf(TEXT("0%d"), minute)));
