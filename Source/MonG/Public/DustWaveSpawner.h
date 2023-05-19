@@ -40,6 +40,9 @@ UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustP5Spawn;
+	
+	UPROPERTY()
+	class AMonGPlayer* monGPlayer;
 
 
 	int32 pointThree = 30;

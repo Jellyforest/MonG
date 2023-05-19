@@ -5,6 +5,8 @@
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include <Components/ArrowComponent.h>
+#include "MonGPlayer.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ADustStrollSpawner::ADustStrollSpawner()
@@ -24,6 +26,8 @@ void ADustStrollSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+
 }
 
 // Called every frame
@@ -140,22 +144,27 @@ void ADustStrollSpawner::Tick(float DeltaTime)
 
 void ADustStrollSpawner::Fire()
 {
-	int32 drawNumber = FMath::RandRange(1, 100);
-
-	if (drawNumber < pointThree && pointFive < drawNumber)
+	if (monGPlayer->isGameStart == true)
 	{
 
-		GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		int32 drawNumber = FMath::RandRange(1, 100);
+
+		if (drawNumber < pointThree && pointFive < drawNumber)
+		{
+
+			GetWorld()->SpawnActor<ADust>(dustP3Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 	
 		
+		}
+		if (drawNumber >= pointThree)
+		{
+			GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+			//arrow->GetComponentRotation()
+		}
+		if (drawNumber <= pointFive)
+		{
+			GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		}
 	}
-	if (drawNumber >= pointThree)
-	{
-		GetWorld()->SpawnActor<ADust>(dustSpawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-		//arrow->GetComponentRotation()
-	}
-	if (drawNumber <= pointFive)
-	{
-		GetWorld()->SpawnActor<ADust>(dustP5Spawn, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-	}
+
 }

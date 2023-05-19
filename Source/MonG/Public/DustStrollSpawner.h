@@ -41,6 +41,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
 	TSubclassOf <ADust> dustP5Spawn;
 
+	UPROPERTY()
+	class AMonGPlayer* monGPlayer;
+
+
 	float currentTime = 0;
 	float moveSpeed = 3;
 	float fire = 10;
