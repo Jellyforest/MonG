@@ -29,6 +29,7 @@ void ADustStrollSpawner::BeginPlay()
 	
 	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 
+
 }
 
 // Called every frame
@@ -168,4 +169,9 @@ void ADustStrollSpawner::Fire()
 		}
 	}
 
+}
+
+void ADustStrollSpawner::Death()
+{
+	Destroy();
 }

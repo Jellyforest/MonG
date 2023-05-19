@@ -53,9 +53,12 @@ public:
 
 	int32 pointThree = 30;
 	int32 pointFive = 5;
+	int32 HP = 300;
 	//»Æ¿Œ
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	UFUNCTION(BlueprintCallable)
+	void Death();
 };

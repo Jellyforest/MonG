@@ -27,9 +27,15 @@ public:
 	class USphereComponent* bulletComp;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WaterBulletSettings")
 	class UStaticMeshComponent* bulletMesh;
+	UPROPERTY()
+	class ADustStrollSpawner* dustStrollSpawner;
 
 	float currentTime = 0; 
 	float moveSpeed = 200;
 	float destroyTime = 7;
+	
+	UFUNCTION()
+	void WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 };

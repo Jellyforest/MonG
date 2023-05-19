@@ -66,7 +66,7 @@ void ACleaner::Tick(float DeltaTime)
 void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	dust = Cast<ADust>(OtherActor);
-	PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
+	//PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
 
 	if (monGPlayer->isLeftClean == true||monGPlayer->isRightClean == true)
 	{
