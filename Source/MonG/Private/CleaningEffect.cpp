@@ -23,24 +23,15 @@ ACleaningEffect::ACleaningEffect()
 void ACleaningEffect::BeginPlay()
 {
 	Super::BeginPlay();
-	player= Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 }
 
 // Called every frame
 void ACleaningEffect::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (player->isClean == false)
+	if (monGPlayer->isRightClean == false && monGPlayer->isLeftClean == false)
 	{
 		Destroy();
 	}
 }
-
-void ACleaningEffect::CleanTimeOff()
-{
-	
-
-
-}
-
-//»Æ¿Œ

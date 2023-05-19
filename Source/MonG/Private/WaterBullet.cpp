@@ -16,7 +16,7 @@ AWaterBullet::AWaterBullet()
 	SetRootComponent(RootComponent);
 	bulletMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bulletMesh"));
 	bulletMesh->SetupAttachment(bulletComp);
-
+	bulletComp->SetCollisionProfileName(TEXT("WaterBulletPreset"));
 }
 
 // Called when the game starts or when spawned

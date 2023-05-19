@@ -55,5 +55,6 @@ public:
 	class ADust* dust;
 
 	FVector monGDirection;
+	bool isShoot = false;
 
 };

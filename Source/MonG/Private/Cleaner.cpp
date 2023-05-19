@@ -68,7 +68,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust = Cast<ADust>(OtherActor);
 	PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
 
-	if (monGPlayer->isClean == true)
+	if (monGPlayer->isLeftClean == true||monGPlayer->isRightClean == true)
 	{
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);
@@ -95,6 +95,10 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 
 void ACleaner::Shoot()
 {
-	GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+	if (monGPlayer->isLeftClean == false && monGPlayer->isRightClean == false)
+	{
+		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		isShoot = true;
+	}
 }
 

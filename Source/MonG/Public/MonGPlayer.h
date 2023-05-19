@@ -102,7 +102,8 @@ public:
 	void Look(const FInputActionValue& Values);
 	void LeftClean();
 	void RightClean();
-	void StopClean();
+	void LeftStopClean();
+	void RightStopClean();
 	void LeftHold();
 	void LeftPut();
 	void RightHold();
@@ -124,14 +125,14 @@ public:
 	UPROPERTY()
 	class ADust* dust;
 
-	bool isClean = false;
+	bool isLeftClean = false;
+	bool isRightClean = false;
 	bool isLeftHold = false;
 	bool isRightHold = false;
 	bool onButten = false;
 	bool isGameStart = false;
 	bool isRightCleanerHold = false;
 	bool isLeftCleanerHold =false;
-	
 
 
 };
