@@ -171,7 +171,3 @@ void ADustStrollSpawner::Fire()
 
 }
 
-void ADustStrollSpawner::Death()
-{
-	Destroy();
-}

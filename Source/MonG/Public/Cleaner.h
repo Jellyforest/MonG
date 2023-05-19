@@ -57,4 +57,7 @@ public:
 	FVector monGDirection;
 	bool isShoot = false;
 
+	int32 bullet = 15;
+
+
 };

@@ -97,6 +97,7 @@ void ACleaner::Shoot()
 {
 	if (monGPlayer->isLeftClean == false && monGPlayer->isRightClean == false)
 	{
+
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
 		isShoot = true;
 	}
