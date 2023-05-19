@@ -23,25 +23,37 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category="CleanerSettings")
 	class UStaticMeshComponent* cleanerMesh;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category="CleanerSettings")
 	class UBoxComponent* cleanerComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category="CleanerSettings")
 	class UStaticMeshComponent* cleanerHead;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category="CleanerSettings")
 	class USphereComponent* cleanerHeadComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category="CleanerSettings")
 	class UBoxComponent* cleanerStick;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	TSubclassOf <class ACleaningEffect> cleaningEffect;
+	
+	//waterBullet
+	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
+	class UArrowComponent* arrow;
+	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
+	TSubclassOf<class AWaterBullet> waterBullet;
+ 
 
 	UFUNCTION()
 	void CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION(BlueprintCallable, Category = "WaterBulletSettings")
+	void Shoot();
 
 	
 	UPROPERTY()
 	class AMonGPlayer* monGPlayer;
 	UPROPERTY()
 	class ADust* dust;
+
+	FVector monGDirection;
+
 };

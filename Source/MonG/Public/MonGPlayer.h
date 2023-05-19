@@ -37,13 +37,17 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_MonGMouse;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	class UInputAction* IA_Cleaning;
+	class UInputAction* IA_LeftCleaning;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_RightCleaning;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_LeftHold;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightHold;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_Quit;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_RightA;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
 
@@ -70,15 +74,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UInputMappingContext* IMC_Hands;
 
-	//청소기
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UStaticMeshComponent* cleanerMesh;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UBoxComponent* cleanerComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class UStaticMeshComponent* cleanerHead;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="CleanerSettings")
-	class USphereComponent* cleanerHeadComp;
+	
 	//청소진동
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UHapticFeedbackEffect_Curve* HF_Clean;
@@ -104,15 +100,16 @@ public:
 	//동작함수
 	void Move(const FInputActionValue& Values);
 	void Look(const FInputActionValue& Values);
-	void Clean();
+	void LeftClean();
+	void RightClean();
 	void StopClean();
 	void LeftHold();
 	void LeftPut();
 	void RightHold();
 	void RightPut();
-	void PressUIButten();
+	void PressUIBulletButten();
 	void UIButten();
-
+	void PressRightBulletButten();
 
 
 
@@ -126,19 +123,15 @@ public:
 	//먼지
 	UPROPERTY()
 	class ADust* dust;
-	FVector monGDirection;
-	float moveSpeed = 5;
-	float deltaTime;
-	float currentTime;
-	float cleaningTime = 1;
-	float cleaningTime1 = 4;
 
 	bool isClean = false;
 	bool isLeftHold = false;
 	bool isRightHold = false;
 	bool onButten = false;
 	bool isGameStart = false;
-
+	bool isRightCleanerHold = false;
+	bool isLeftCleanerHold =false;
+	
 
 
 };
