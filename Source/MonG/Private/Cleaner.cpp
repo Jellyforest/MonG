@@ -10,6 +10,8 @@
 #include <Kismet/GameplayStatics.h>
 #include "MonGPlayer.h"
 #include "CleaningEffect.h"
+#include <Components/ArrowComponent.h>
+#include "WaterBullet.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -33,6 +35,8 @@ ACleaner::ACleaner()
 	//cleanerStick->SetCollisionObjectType(ECC_GameTraceChannel6);
 
 	cleanerStick->SetCollisionProfileName(TEXT("CleanerStickPreset"));
+	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
+	arrow->SetupAttachment(cleanerHead);
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +47,12 @@ void ACleaner::BeginPlay()
 
 	cleanerComp->OnComponentBeginOverlap.AddDynamic(this, &ACleaner::CleaningTime);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
-
+	//먼지 방향바꾸기
+	if (dust)
+	{
+		monGDirection = cleanerHead->GetComponentLocation() - dust->GetActorLocation();
+		monGDirection.Normalize();
+	}
 }
 
 // Called every frame
@@ -57,9 +66,9 @@ void ACleaner::Tick(float DeltaTime)
 void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	dust = Cast<ADust>(OtherActor);
-	PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
+	//PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
 
-	if (monGPlayer->isClean == true)
+	if (monGPlayer->isLeftClean == true||monGPlayer->isRightClean == true)
 	{
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);
@@ -83,4 +92,14 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	}
 }
 
+
+void ACleaner::Shoot()
+{
+	if (monGPlayer->isLeftClean == false && monGPlayer->isRightClean == false)
+	{
+
+		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		isShoot = true;
+	}
+}
 

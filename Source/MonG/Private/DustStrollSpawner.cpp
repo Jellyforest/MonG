@@ -15,6 +15,7 @@ ADustStrollSpawner::ADustStrollSpawner()
 	PrimaryActorTick.bCanEverTick = true;
 	spawnerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("spawnerComp"));
 	SetRootComponent(spawnerComp);
+	spawnerComp->SetCollisionProfileName(TEXT("MonGBossPreset"));
 	spawnerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("spawnerMesh"));
 	spawnerMesh->SetupAttachment(spawnerComp);
 	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
@@ -27,6 +28,7 @@ void ADustStrollSpawner::BeginPlay()
 	Super::BeginPlay();
 	
 	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+
 
 }
 
@@ -168,3 +170,4 @@ void ADustStrollSpawner::Fire()
 	}
 
 }
+

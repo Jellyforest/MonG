@@ -7,9 +7,8 @@
 #include <Camera/CameraComponent.h>
 #include <MotionControllerComponent.h>
 #include "Components/CapsuleComponent.h"
-#include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
 #include <Components/BoxComponent.h>
+#include <NiagaraComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include "Dust.h"
 #include "PlayWidget.h"
@@ -79,23 +78,8 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90)); 
 	}
 
-	//청소기 세팅
-
-	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
-	cleanerComp->SetupAttachment(rightHand);
-	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
-	cleanerMesh->SetupAttachment(cleanerComp);
-	cleanerHead = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
-	cleanerHead->SetupAttachment(rightHand);
-	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));
-	cleanerHeadComp->SetupAttachment(cleanerHead);
-
-
-	//청소기 프리셋
-	//cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
 	//시간, 점수 위젯
 	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
-	//play_UI = CreateWidget<UPlayWidget>(GetWorld(), playWidget);
 	playWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("playWidgetComp"));
 	playWidgetComp->SetupAttachment(camera);
 	playWidgetComp->SetWorldLocation(FVector(249, 2, -46));
@@ -127,17 +111,11 @@ void AMonGPlayer::BeginPlay()
 		}
 	}
 
-	//cleanerComp->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::OnOverlap);
 	right->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::RightOnOverlap);
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 
-	//먼지 방향바꾸기
-	if (dust)
-	{
-		monGDirection = cleanerHead->GetComponentLocation() - dust->GetActorLocation();
-		monGDirection.Normalize();
-	}
+
 	
 }
 
@@ -158,14 +136,18 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	{
 		inputSystem->BindAction(IA_MonGMove, ETriggerEvent::Triggered, this, &AMonGPlayer::Move);
 		inputSystem->BindAction(IA_MonGMouse, ETriggerEvent::Triggered, this, &AMonGPlayer::Look);
-		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Started, this, &AMonGPlayer::Clean);
-		inputSystem->BindAction(IA_Cleaning, ETriggerEvent::Completed, this, &AMonGPlayer::StopClean);
+		inputSystem->BindAction(IA_LeftCleaning, ETriggerEvent::Started, this, &AMonGPlayer::LeftClean);
+		inputSystem->BindAction(IA_RightCleaning, ETriggerEvent::Started, this, &AMonGPlayer::RightClean);
+		inputSystem->BindAction(IA_LeftCleaning, ETriggerEvent::Completed, this, &AMonGPlayer::LeftStopClean);
+		inputSystem->BindAction(IA_RightCleaning, ETriggerEvent::Completed, this, &AMonGPlayer::RightStopClean);
 		inputSystem->BindAction(IA_LeftHold, ETriggerEvent::Started, this, &AMonGPlayer::LeftHold);
 		inputSystem->BindAction(IA_LeftHold, ETriggerEvent::Completed, this, &AMonGPlayer::LeftPut);
 		inputSystem->BindAction(IA_RightHold, ETriggerEvent::Started, this, &AMonGPlayer::RightHold);
 		inputSystem->BindAction(IA_RightHold, ETriggerEvent::Completed, this, &AMonGPlayer::RightPut);
-		inputSystem->BindAction(IA_Quit, ETriggerEvent::Started, this, &AMonGPlayer::PressUIButten);
+		inputSystem->BindAction(IA_Quit, ETriggerEvent::Started, this, &AMonGPlayer::PressUIBulletButten);
+		inputSystem->BindAction(IA_RightA, ETriggerEvent::Started, this, &AMonGPlayer::PressRightBulletButten);
 		inputSystem->BindAction(IA_Quit, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
+		inputSystem->BindAction(IA_RightA, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 	}
 
 }
@@ -186,29 +168,79 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 
 }
 
-void AMonGPlayer::Clean()
+void AMonGPlayer::LeftClean()
 {
-	if (isLeftHold == true || isRightHold == true)
+	
+	if (isLeftCleanerHold == true)
 	{
-		//마우스 클릭시 청소기 돌아가게
-		isClean = true;
-		//청소효과
-		AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaner->cleaningEffect, cleaner->cleanerHeadComp->GetComponentLocation(), cleaner->cleanerHeadComp->GetComponentRotation());
-		cleanFX->AttachToComponent(cleaner->cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
-		
-		//청소기 진동
-		APlayerController* PC = Cast<APlayerController>(GetController());
-		if (PC)
+		if (isLeftHold == true)
 		{
-			PC->PlayHapticEffect(HF_Clean, EControllerHand::Right);
+
+			if (cleaner != nullptr)
+			{
+				PRINTTOScreen(FString::Printf(TEXT("leftCleeeeeeaning")));
+				//마우스 클릭시 청소기 돌아가게
+				isLeftClean = true;
+				//청소효과
+				AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaner->cleaningEffect, cleaner->cleanerHeadComp->GetComponentLocation(), cleaner->cleanerHeadComp->GetComponentRotation());
+				cleanFX->AttachToComponent(cleaner->cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+				APlayerController* PC = Cast<APlayerController>(GetController());
+				//청소기 진동
+				if (isLeftHold == true)
+				{
+					if (PC)
+					{
+						PC->PlayHapticEffect(HF_Clean, EControllerHand::Left);
+					}
+				}
+			}
+
 		}
+			
+		
 	}
 }
 
-void AMonGPlayer::StopClean()
+void AMonGPlayer::RightClean()
+{
+	if (isRightCleanerHold == true)
+	{
+		if (isRightHold == true)
+		{
+
+			if (cleaner != nullptr)
+			{
+				//마우스 클릭시 청소기 돌아가게
+				isRightClean = true;
+				//청소효과
+				AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaner->cleaningEffect, cleaner->cleanerHeadComp->GetComponentLocation(), cleaner->cleanerHeadComp->GetComponentRotation());
+				cleanFX->AttachToComponent(cleaner->cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+				APlayerController* PC = Cast<APlayerController>(GetController());
+				//청소기 진동
+				if (isRightHold == true)
+				{
+					if (PC)
+					{
+						PC->PlayHapticEffect(HF_Clean, EControllerHand::Right);
+					}
+				}
+			}
+		}
+
+	}
+}
+
+
+void AMonGPlayer::LeftStopClean()
 {
 	//마우스 클릭안하면 청소기 안돌아가게
-	isClean = false;
+	isLeftClean = false;
+
+}
+
+void AMonGPlayer::RightStopClean()
+{
+	isRightClean = false;
 }
 
 void AMonGPlayer::LeftHold()
@@ -231,11 +263,10 @@ void AMonGPlayer::LeftPut()
 
 		// 1. 잡지않은 상태로 전환
 		isLeftHold = false;
-		PRINTTOScreen(FString::Printf(TEXT("put")));
 		cleaner->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		//cleaner->cleanerStick->SetSimulatePhysics(true);
 		onButten = false;
+
 
 	}
 }
@@ -259,14 +290,12 @@ void AMonGPlayer::RightPut()
 
 		// 1. 잡지않은 상태로 전환
 		isRightHold = false;
-		//PRINTTOScreen(FString::Printf(TEXT("put")));
 		cleaner->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		//cleaner->cleanerStick->SetSimulatePhysics(true);
 	}
 }
 
-void AMonGPlayer::PressUIButten()
+void AMonGPlayer::PressUIBulletButten()
 {
 
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
@@ -275,22 +304,28 @@ void AMonGPlayer::PressUIButten()
 	{
 		if (actorStartWidget->isShowStartUI == true)
 		{
-			PRINTTOScreen(FString::Printf(TEXT("PressbuttenUI")));
-			//UGameplayStatics::SetGamePaused(GetWorld(), false);
 			actorStartWidget->Destroy();
 			playWidgetComp->SetVisibility(true);
 			isGameStart = true;
-			//monGgm->start_UI->widgetSwitcher->SetActiveWidgetIndex(0);
 		}
 		if (monGgm->isShowEndingUI == true)
 		{
-		//	UGameplayStatics::SetGamePaused(GetWorld(), false);
 			monGgm->ending_UI->RemoveFromParent();
 			APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 			UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
 		}
 
 	}
+	if (isLeftCleanerHold == true)
+	{
+		//PRINTTOScreen(FString::Printf(TEXT("left")));
+
+		if (cleaner != nullptr)
+		{
+			cleaner->Shoot();
+		}
+	}
+
 }
 
 void AMonGPlayer::UIButten()
@@ -298,31 +333,47 @@ void AMonGPlayer::UIButten()
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
 	monGgm->isShowStartUI = false;
+	if (cleaner != nullptr)
+	{
+		cleaner->isShoot = false;
+	}
+}
+
+void AMonGPlayer::PressRightBulletButten()
+{
+	//PRINTTOScreen(FString::Printf(TEXT("right")));
+
+	if (isRightCleanerHold == true)
+	{
+		if (cleaner != nullptr)
+		{
+			cleaner->Shoot();
+		}
+	}
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	PRINTTOScreen(FString::Printf(TEXT("overllap")));
-
+	//PRINTTOScreen(FString::Printf(TEXT("overllap")));
+	isRightCleanerHold = true;
+	isLeftCleanerHold = false;
 	allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
 	if (cleaner != nullptr)
 	{
 		if (isRightHold == true)
 		{
-			PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
+			//PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			//cleaner->cleanerStick->SetSimulatePhysics(false);
 			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
-			//cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-			//allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			//allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
 }
 
 void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	isLeftCleanerHold = true;
+	isRightCleanerHold = false;
 	allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
 	if (isLeftHold == true)
@@ -330,15 +381,8 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 		//PRINTTOScreen(FString::Printf(TEXT("left")));
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
-		//allObject->objectComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		//allObject->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
-
-
 	}
-
-	
 }
 
 
 
-//확인

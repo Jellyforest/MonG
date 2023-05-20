@@ -30,8 +30,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UNiagaraComponent* clean_effect;
 
-	void CleanTimeOff();
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
-	class AMonGPlayer* player;
+	class AMonGPlayer* monGPlayer;
 
 };
