@@ -31,7 +31,7 @@ public:
 	class ADustStrollSpawner* dustStrollSpawner;
 
 	float currentTime = 0; 
-	float moveSpeed = 200;
+	float moveSpeed = 500;
 	float destroyTime = 7;
 	
 	UFUNCTION()
