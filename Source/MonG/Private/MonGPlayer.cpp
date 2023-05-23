@@ -154,9 +154,12 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMonGPlayer::Move(const FInputActionValue& Values)
 {
-	FVector2D axis = Values.Get<FVector2D>();
-	AddMovementInput(GetActorForwardVector(), axis.X);
-	AddMovementInput(GetActorRightVector(), axis.Y);
+	if (isGameStart == true)
+	{
+		FVector2D axis = Values.Get<FVector2D>();
+		AddMovementInput(GetActorForwardVector(), axis.X);
+		AddMovementInput(GetActorRightVector(), axis.Y);
+	}
 
 }
 

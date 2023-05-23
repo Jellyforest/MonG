@@ -33,6 +33,9 @@ public:
 	float currentTime = 0; 
 	float moveSpeed = 500;
 	float destroyTime = 7;
+
+	UPROPERTY(EditAnywhere,Category="Score Settings")
+	int32 point=3000;
 	
 	UFUNCTION()
 	void WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

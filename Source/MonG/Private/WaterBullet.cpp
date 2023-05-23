@@ -6,6 +6,7 @@
 #include <Components/SphereComponent.h>
 #include "DustStrollSpawner.h"
 #include <Kismet/GameplayStatics.h>
+#include "MonGGameModeBase.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -50,6 +51,8 @@ void AWaterBullet::Tick(float DeltaTime)
 void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	dustStrollSpawner = Cast<ADustStrollSpawner>(OtherActor);
+	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
 	if (dustStrollSpawner != nullptr)
 	{
 
@@ -61,7 +64,9 @@ void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* 
 		}
 		if (dustStrollSpawner->HP == 0)
 		{
+			monGgm->AddScore(point);
 			dustStrollSpawner->Destroy();
+
 		}
 	}
 

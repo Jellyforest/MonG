@@ -18,7 +18,7 @@ void AMonGGameModeBase::BeginPlay()
 
 void AMonGGameModeBase::AddScore(int32 score)
 {
-	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+	//dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	//score = dust->point;
 	currentScore += score;
 
