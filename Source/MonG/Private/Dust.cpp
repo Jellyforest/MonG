@@ -29,11 +29,6 @@ ADust::ADust()
 void ADust::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	//AMonGPlayer* monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
-	//monGDirection = monGPlayer->GetActorLocation() - GetActorLocation();
-	
-	//monGDirection.Normalize();
 
 	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 }
@@ -44,23 +39,8 @@ void ADust::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currentTime += DeltaTime;
-
-	//SetActorLocation(GetActorLocation() + monGDirection * moveSpeed * DeltaTime);
-
-	//SetActorLocation(GetActorForwardVector());
-	//if (monGPlayer->inClenner==false)
-	//{
-		//SetActorLocation(GetActorLocation() + GetActorForwardVector() * moveSpeed * DeltaTime);
 		SetActorLocation(GetActorLocation() + GetActorForwardVector() * moveSpeed * DeltaTime);
-	//	UE_LOG(LogTemp, Warning, TEXT("go"));
-
-	//}
-	//if (monGPlayer->inClenner == true)
-	//{
-	///	UE_LOG(LogTemp, Warning, TEXT("stop"));
-	//	
-	//}
-	//È®ÀÎ
+	
 	if (currentTime > destroyTime)
 	{
 		Destroy();
