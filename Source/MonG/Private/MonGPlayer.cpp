@@ -26,6 +26,7 @@
 #include "EndingWidget.h"
 #include <Kismet/KismetSystemLibrary.h>
 #include "ActorStartWidget.h"
+#include "Marker.h"
 
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
@@ -86,7 +87,7 @@ AMonGPlayer::AMonGPlayer()
 	playWidgetComp->SetWorldRotation(FRotator(0.1, 540, 360));
 	playWidgetComp->SetWorldScale3D(FVector((0.437500)));
 
-	
+
 }
 
 // Called when the game starts or when spawned
@@ -98,7 +99,6 @@ void AMonGPlayer::BeginPlay()
 	actorStartWidget= Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
 
 	playWidgetComp->SetVisibility(false);
-
 
 	if (playerController)
 	{
@@ -266,6 +266,8 @@ void AMonGPlayer::LeftPut()
 
 		// 1. 잡지않은 상태로 전환
 		isLeftHold = false;
+		isLeftCleanerHold = false;
+		isRightCleanerHold = false;
 		cleaner->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		onButten = false;
@@ -293,8 +295,15 @@ void AMonGPlayer::RightPut()
 
 		// 1. 잡지않은 상태로 전환
 		isRightHold = false;
+		isLeftCleanerHold = false;
+		isRightCleanerHold = false;
 		cleaner->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	}
+	if (marker != nullptr)
+	{
+		marker->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		marker->markerComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 }
 
@@ -321,6 +330,7 @@ void AMonGPlayer::PressUIBulletButten()
 	}
 	if (isLeftCleanerHold == true)
 	{
+		isRightCleanerHold = false;
 		//PRINTTOScreen(FString::Printf(TEXT("left")));
 
 		if (cleaner != nullptr)
@@ -348,6 +358,7 @@ void AMonGPlayer::PressRightBulletButten()
 
 	if (isRightCleanerHold == true)
 	{
+		isLeftCleanerHold = false;
 		if (cleaner != nullptr)
 		{
 			cleaner->Shoot();
@@ -358,16 +369,26 @@ void AMonGPlayer::PressRightBulletButten()
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//PRINTTOScreen(FString::Printf(TEXT("overllap")));
-	isRightCleanerHold = true;
-	isLeftCleanerHold = false;
-	allObject = Cast<AAllObject>(OtherActor);
+
+	//allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
+	marker = Cast<AMarker>(OtherActor);
 	if (cleaner != nullptr)
 	{
 		if (isRightHold == true)
 		{
+			isRightCleanerHold = true;
+			isLeftCleanerHold = false;
 			//PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
+		}
+	}
+	if (marker != nullptr)
+	{
+		if (isRightHold == true)
+		{
+			marker->markerComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
@@ -375,16 +396,21 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	isLeftCleanerHold = true;
-	isRightCleanerHold = false;
-	allObject = Cast<AAllObject>(OtherActor);
+	
+	//allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
-	if (isLeftHold == true)
+	if (cleaner != nullptr)
 	{
-		//PRINTTOScreen(FString::Printf(TEXT("left")));
-		cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+		if (isLeftHold == true)
+		{
+			isLeftCleanerHold = true;
+			isRightCleanerHold = false;
+			//PRINTTOScreen(FString::Printf(TEXT("left")));
+			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+		}
 	}
+	
 }
 
 
