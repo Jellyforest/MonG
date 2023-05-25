@@ -36,3 +36,8 @@ void AMarker::Tick(float DeltaTime)
 
 }
 
+void AMarker::Drawing()
+{
+
+}
+

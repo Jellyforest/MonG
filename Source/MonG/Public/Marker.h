@@ -30,4 +30,7 @@ public:
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
 	class UStaticMeshComponent* markerLead;
 
+	UFUNCTION()
+	void Drawing();
+
 };

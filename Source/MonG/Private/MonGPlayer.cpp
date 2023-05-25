@@ -302,6 +302,7 @@ void AMonGPlayer::RightPut()
 	}
 	if (marker != nullptr)
 	{
+		isRightHold = false;
 		marker->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		marker->markerComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
@@ -364,6 +365,13 @@ void AMonGPlayer::PressRightBulletButten()
 			cleaner->Shoot();
 		}
 	}
+	if (marker != nullptr)
+	{
+		if (isRightHold == true)
+		{
+
+		}
+	}
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -386,10 +394,13 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 	if (marker != nullptr)
 	{
+		PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
+
 		if (isRightHold == true)
 		{
+
 			marker->markerComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
+			marker->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
 }
