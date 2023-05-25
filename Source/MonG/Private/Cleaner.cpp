@@ -24,10 +24,10 @@ ACleaner::ACleaner()
 	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
 	SetRootComponent(RootComponent);
 	cleanerComp->SetCollisionProfileName(TEXT("CleanerPreset"));
-	cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
-	cleanerMesh->SetupAttachment(cleanerComp);
+	//cleanerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerMesh"));
+	//cleanerMesh->SetupAttachment(cleanerComp);
 	cleanerStick = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerStick"));
-	cleanerStick->SetupAttachment(cleanerMesh);
+	cleanerStick->SetupAttachment(cleanerComp);
 	cleanerHead = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("cleanerHead"));
 	cleanerHead->SetupAttachment(cleanerComp);
 	cleanerHeadComp = CreateDefaultSubobject<USphereComponent>(TEXT("CleanerHeadComp"));

@@ -80,7 +80,6 @@ public:
 	class UHapticFeedbackEffect_Curve* HF_Clean;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class ACleaner* cleaner;
-
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class AAllObject* allObject; 
 
@@ -95,6 +94,12 @@ public:
 	//시작위젯
 	UPROPERTY()
 	class AActorStartWidget* actorStartWidget;
+
+	//마커펜
+	UPROPERTY()
+	class AMarker* marker;
+
+
 
 
 	//동작함수
@@ -111,7 +116,7 @@ public:
 	void PressUIBulletButten();
 	void UIButten();
 	void PressRightBulletButten();
-
+	
 
 
 	//청소기 
