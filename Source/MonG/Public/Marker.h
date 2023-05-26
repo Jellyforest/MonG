@@ -29,8 +29,13 @@ public:
 	class UStaticMeshComponent* markerMesh;
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
 	class UStaticMeshComponent* markerLead;
+	//UPROPERTY()
+	//class APostit* postit;
 
 	UFUNCTION()
-	void Drawing();
+	void DrawingLine();
+//	UFUNCTION()
+	//bool HitTest(FVector startPos, FVector endPos, FHitResult& hitInfo);
+
 
 };

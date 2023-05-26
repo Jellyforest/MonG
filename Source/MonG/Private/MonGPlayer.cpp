@@ -369,7 +369,7 @@ void AMonGPlayer::PressRightBulletButten()
 	{
 		if (isRightHold == true)
 		{
-
+			marker->DrawingLine();
 		}
 	}
 }
