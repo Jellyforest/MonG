@@ -79,15 +79,13 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90)); 
 	}
 
-	//½Ã°£, Á¡¼ö À§Á¬
-	play_UI = CreateDefaultSubobject<UPlayWidget>(TEXT("play_UI"));
-	playWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("playWidgetComp"));
-	playWidgetComp->SetupAttachment(camera);
-	playWidgetComp->SetWorldLocation(FVector(249, 2, -46));
-	playWidgetComp->SetWorldRotation(FRotator(0.1, 540, 360));
-	playWidgetComp->SetWorldScale3D(FVector((0.437500)));
-
-
+	//endingÀ§Á¬
+	ending_UI = CreateDefaultSubobject<UEndingWidget>(TEXT("ending_UI"));
+	endWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("endWidgetComp"));
+	endWidgetComp->SetupAttachment(camera);
+	endWidgetComp->SetWorldLocation(FVector(249, 2, -46));
+	endWidgetComp->SetWorldRotation(FRotator(0.1, 540, 360));
+	endWidgetComp->SetWorldScale3D(FVector((0.437500)));
 }
 
 // Called when the game starts or when spawned
@@ -95,10 +93,10 @@ void AMonGPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	endWidgetComp->SetVisibility(false);
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
 	actorStartWidget= Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
-
-	playWidgetComp->SetVisibility(false);
+	playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
 
 	if (playerController)
 	{
@@ -313,22 +311,27 @@ void AMonGPlayer::PressUIBulletButten()
 
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-	if (actorStartWidget != nullptr||monGgm->ending_UI !=nullptr)
+	if (actorStartWidget != nullptr)
 	{
 		if (actorStartWidget->isShowStartUI == true)
 		{
 			actorStartWidget->Destroy();
-			playWidgetComp->SetVisibility(true);
 			isGameStart = true;
 		}
-		if (monGgm->isShowEndingUI == true)
+	}
+	if (endingWidget != nullptr)
+	{
+		if (playWidget->isEnd == true)
 		{
-			monGgm->ending_UI->RemoveFromParent();
-			APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
-			UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
+			endWidgetComp->SetVisibility(false);
+			isGameStart = true;
+			//APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+			//UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
 		}
 
 	}
+		
+	
 	if (isLeftCleanerHold == true)
 	{
 		isRightCleanerHold = false;
@@ -372,6 +375,12 @@ void AMonGPlayer::PressRightBulletButten()
 			marker->DrawingLine();
 		}
 	}
+}
+
+void AMonGPlayer::GameEnding()
+{
+	endWidgetComp->SetVisibility(true);
+
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

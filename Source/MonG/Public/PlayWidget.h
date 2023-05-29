@@ -34,5 +34,6 @@ public:
 	UPROPERTY()
 	class AMonGPlayer* monGPlayer;
 
+	bool isEnd = false;
 
 };

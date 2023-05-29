@@ -83,14 +83,18 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class AAllObject* allObject; 
 
-	//Ω√∞£¿ß¡¨
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayTime")
-	TSubclassOf <class UPlayWidget> playWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
-	class UPlayWidget* play_UI;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="PlayTime")
-	class UWidgetComponent* playWidgetComp;
+	//ending¿ß¡¨
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EndingWidget")
+	TSubclassOf <class UEndingWidget> endingWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EndingWidget")
+	class UEndingWidget* ending_UI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EndingWidget")
+	class UWidgetComponent* endWidgetComp;
 	
+	//∞‘¿”«√∑π¿ß¡¨
+	UPROPERTY()
+	class UPlayWidget* playWidget;
+
 	//Ω√¿€¿ß¡¨
 	UPROPERTY()
 	class AActorStartWidget* actorStartWidget;
@@ -117,6 +121,8 @@ public:
 	void UIButten();
 	void PressRightBulletButten();
 	
+	//ending¿ß¡¨ «‘ºˆ
+	void GameEnding();
 
 
 	//√ªº“±‚ 
@@ -141,6 +147,5 @@ public:
 
 
 };
-//»Æ¿Œ
 
 
