@@ -32,10 +32,17 @@ public:
 	UPROPERTY()
 	class APostit* postit;
 
+	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
+	class UMaterial* markerMat;
+	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
+	class UDecalComponent* RangeDecal;
+
+	//UPROPERTY()
+	//TSubclassOf <class mark> cleaningEffect;
+
+
 	UFUNCTION(BlueprintCallable)
 	void DrawingLine();
-//	UFUNCTION()
-	//bool HitTest(FVector startPos, FVector endPos, FHitResult& hitInfo);
 
 
 };
