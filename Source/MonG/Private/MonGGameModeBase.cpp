@@ -22,6 +22,8 @@ void AMonGGameModeBase::AddScore(int32 score)
 	//score = dust->point;
 	currentScore += score;
 
+	FString filePath = FString("../../../Content/SaveScore/ScoreData.txt");
+
 }
 
 void AMonGGameModeBase::ShowStartUI()

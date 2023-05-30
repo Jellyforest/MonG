@@ -6,6 +6,8 @@
 #include "MonGGameModeBase.h"
 #include <Kismet/GameplayStatics.h>
 #include "MonGPlayer.h"
+#include "EndingWidget.h"
+#include <UMG/Public/Components/WidgetComponent.h>
 
 
 
@@ -28,8 +30,11 @@ void UPlayWidget::NativeConstruct()
 		{
 			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-			timer = 0;
-			monGgm->ShowEndingUI();
+			monGPlayer->GameEnding();
+			monGPlayer->isGameStart = false;
+			isEnd = true;
+			timer = -1;
+			//monGgm->ShowEndingUI();
 		}
 		
 		});

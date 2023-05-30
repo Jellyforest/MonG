@@ -45,17 +45,15 @@ void AMarker::DrawingLine()
 {
 	FVector startPos = markerLead->GetComponentLocation();
 	FVector endPos = startPos + markerLead->GetForwardVector() * 10000;
-	FHitResult hitInfo;
+	FHitResult drawInfo;
 	FCollisionQueryParams params;
 	//params.AddIgnoredActor(this);
-	bool ishit = GetWorld()->LineTraceSingleByChannel(hitInfo, startPos, endPos, ECC_GameTraceChannel10, params);
-	if (ishit)
+	bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
+	if (isdraw)
 	{
 		PRINTTOScreen(FString::Printf(TEXT("Overlap")));
-
-
-		auto postIt = Cast<APostit>(hitInfo.GetActor());
-		if (postIt)
+		postit = Cast<APostit>(drawInfo.GetActor());
+		if (postit)
 		{
 			DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
 
