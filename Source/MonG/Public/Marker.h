@@ -33,7 +33,7 @@ public:
 	class APostit* postit;
 
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
-	class UMaterial* markerMat;
+	class UMaterialInterface* M_Marker;
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
 	class UDecalComponent* RangeDecal;
 

@@ -22,8 +22,12 @@ AMarker::AMarker()
 	markerLead = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("markerLead"));
 	markerLead->SetupAttachment(markerComp);
 	markerComp->SetCollisionProfileName(TEXT("CleanerStickPreset"));
-	markerMat = CreateDefaultSubobject<UMaterial>(TEXT("markerMat"));
-
+	//M_Marker = CreateDefaultSubobject<UMaterialInterface>(TEXT("M_Marker"));
+	ConstructorHelpers::FObjectFinder<UMaterialInterface>tempMat(TEXT("/Script/Engine.Material'/Game/JY/Blueprints/M_Marker.M_Marker'"));
+	if (tempMat.Succeeded())
+	{
+		M_Marker = tempMat.Object;
+	}
 
 }
 
@@ -45,29 +49,29 @@ void AMarker::Tick(float DeltaTime)
 void AMarker::DrawingLine()
 {
 	FVector startPos = markerLead->GetComponentLocation();
-	FVector endPos = startPos + markerLead->GetForwardVector() * 10;
+	FVector endPos = startPos + markerLead->GetForwardVector() * 1;
 	FHitResult drawInfo;
 	FCollisionQueryParams params;
 	//params.AddIgnoredActor(this);
-	FVector NewSize(10);
+	FVector NewSize = FVector(300);
 	FRotator NewRotator;
 	bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
-	if (isdraw)
+	if (isdraw && M_Marker)
 	{
 		PRINTTOScreen(FString::Printf(TEXT("Overlap")));
 		postit = Cast<APostit>(drawInfo.GetActor());
 		if (postit)
 		{
 			DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
-			RangeDecal = UGameplayStatics::SpawnDecalAtLocation(this, markerMat, NewSize, endPos, NewRotator, 0.0f);
+			RangeDecal = UGameplayStatics::SpawnDecalAtLocation(this, M_Marker, NewSize, startPos, NewRotator, 0.0f);
 			RangeDecal->SetRelativeRotation(NewRotator);
-				//SetFadeOut(0.0f, 1.0f);
+			RangeDecal->SetRelativeScale3D(FVector(0.05f));
+			//SetFadeOut(0.0f, 1.0f);
 
 		}
 	}
 
 
 }
-
 
 
