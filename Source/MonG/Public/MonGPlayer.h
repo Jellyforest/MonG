@@ -49,6 +49,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightA;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_RightDraw;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
 
 
@@ -120,6 +122,8 @@ public:
 	void PressUIBulletButten();
 	void UIButten();
 	void PressRightBulletButten();
+	//그림그리기
+	void RightDrawing();
 	
 	//ending위젯 함수
 	void GameEnding();
