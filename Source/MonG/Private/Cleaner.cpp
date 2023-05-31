@@ -18,7 +18,7 @@
 // Sets default values
 ACleaner::ACleaner()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	cleanerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("cleanerComp"));
@@ -68,7 +68,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	dust = Cast<ADust>(OtherActor);
 	//PRINTTOScreen(FString::Printf(TEXT("cleanerOverlap")));
 
-	if (monGPlayer->isLeftClean == true || monGPlayer->isRightClean == true)
+	if (monGPlayer->isLeftClean == true||monGPlayer->isRightClean == true)
 	{
 		dust->moveSpeed = 5;
 		dust->dustComp->SetSimulatePhysics(false);

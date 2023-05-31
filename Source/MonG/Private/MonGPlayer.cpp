@@ -76,8 +76,9 @@ AMonGPlayer::AMonGPlayer()
 	{
 		leftMesh->SetSkeletalMesh(tempMesh2.Object);
 		leftMesh->SetRelativeLocation(FVector(-2.9f, 0.5f, 4.5f));
-		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
+		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90)); 
 	}
+
 	//ending¿ß¡¨
 	ending_UI = CreateDefaultSubobject<UEndingWidget>(TEXT("ending_UI"));
 	endWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("endWidgetComp"));
@@ -94,7 +95,7 @@ void AMonGPlayer::BeginPlay()
 
 	endWidgetComp->SetVisibility(false);
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
-	actorStartWidget = Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
+	actorStartWidget= Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
 	playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
 
 	if (playerController)
@@ -107,9 +108,13 @@ void AMonGPlayer::BeginPlay()
 			subSystem->AddMappingContext(IMC_Hand, 0);
 		}
 	}
+
 	right->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::RightOnOverlap);
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+
+
+	
 }
 
 // Called every frame
@@ -141,8 +146,8 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Started, this, &AMonGPlayer::PressRightBulletButten);
 		inputSystem->BindAction(IA_Quit, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
-		inputSystem->BindAction(IA_RightDraw, ETriggerEvent::Triggered, this, &AMonGPlayer::RightDrawing);
 	}
+
 }
 
 void AMonGPlayer::Move(const FInputActionValue& Values)
@@ -153,6 +158,7 @@ void AMonGPlayer::Move(const FInputActionValue& Values)
 		AddMovementInput(GetActorForwardVector(), axis.X);
 		AddMovementInput(GetActorRightVector(), axis.Y);
 	}
+
 }
 
 void AMonGPlayer::Look(const FInputActionValue& Values)
@@ -160,10 +166,12 @@ void AMonGPlayer::Look(const FInputActionValue& Values)
 	FVector2D axis = Values.Get<FVector2D>();
 	AddControllerYawInput(axis.X);
 	AddControllerPitchInput(axis.Y);
+
 }
 
 void AMonGPlayer::LeftClean()
 {
+	
 	if (isLeftCleanerHold == true)
 	{
 		if (isLeftHold == true)
@@ -187,7 +195,10 @@ void AMonGPlayer::LeftClean()
 					}
 				}
 			}
+
 		}
+			
+		
 	}
 }
 
@@ -319,8 +330,8 @@ void AMonGPlayer::PressUIBulletButten()
 		}
 
 	}
-
-
+		
+	
 	if (isLeftCleanerHold == true)
 	{
 		isRightCleanerHold = false;
@@ -357,13 +368,6 @@ void AMonGPlayer::PressRightBulletButten()
 			cleaner->Shoot();
 		}
 	}
-
-}
-
-
-
-void AMonGPlayer::RightDrawing()
-{
 	if (marker != nullptr)
 	{
 		if (isRightHold == true)
@@ -373,9 +377,6 @@ void AMonGPlayer::RightDrawing()
 	}
 }
 
-
-
-
 void AMonGPlayer::GameEnding()
 {
 	endWidgetComp->SetVisibility(true);
@@ -384,7 +385,7 @@ void AMonGPlayer::GameEnding()
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	PRINTTOScreen(FString::Printf(TEXT("overllap")));
+	//PRINTTOScreen(FString::Printf(TEXT("overllap")));
 
 	//allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
@@ -415,7 +416,7 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	
 	//allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
 	if (cleaner != nullptr)
@@ -429,7 +430,8 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
 		}
 	}
-
+	
 }
+
 
 
