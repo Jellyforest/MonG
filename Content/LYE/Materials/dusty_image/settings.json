@@ -1,0 +1,23 @@
+{
+  "prompt_text": "powdered cement in a pile, soft and dusty, like sand, highly detailed, uniform appearance, grey",
+  "patch": {
+    "ext": "png",
+    "dtype": "uint8",
+    "width": 512,
+    "height": 512,
+    "url": "https://static-dev.withpoly.com/v3/textures/patches/63bf8b81-81b4-49c0-9c40-0849a300e014.png",
+    "patch_id": "Za65pFyqN7"
+  },
+  "seamless_prompt_text": "powdered cement in a pile, soft and dusty, like sand, highly detailed, uniform appearance, grey",
+  "seamless_patch_scale": 0.8,
+  "upscale_prompt_text": "powdered cement in a pile, soft and dusty, like sand, highly detailed, uniform appearance, grey",
+  "upscale_resolution": 2048,
+  "is_seamless": true,
+  "pbr_mode": "organic",
+  "pbr_generate_color": true,
+  "pbr_generate_normal": true,
+  "pbr_generate_height": true,
+  "pbr_generate_ao": true,
+  "pbr_generate_roughness": true,
+  "pbr_generate_metallic": false
+}
