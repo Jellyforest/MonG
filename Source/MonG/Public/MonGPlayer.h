@@ -105,7 +105,8 @@ public:
 	UPROPERTY()
 	class AMarker* marker;
 
-
+	UPROPERTY()
+	class APostit* postit;
 
 
 	//동작함수

@@ -23,4 +23,24 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Postit Settings")
+	class UMaterial* markerInk;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Postit Settings")
+	class UCanvasRenderTarget2D* postitLander;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Postit Settings")
+	class UMaterialInstanceDynamic* boardMarker;
+	UPROPERTY()
+	class AMarker* marker;
+
+	UFUNCTION()
+	void Drawing();
+	UPROPERTY()
+	FVector endPos;
+	UPROPERTY()
+	FVector startPos;
+	FName drawLocation;
+	FName size;
+	//FVector2D locationToDraw;
+
 };
