@@ -44,7 +44,7 @@ public:
 	class UInputAction* IA_LeftHold;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightHold;
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Input")
 	class UInputAction* IA_Quit;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightA;
@@ -120,6 +120,7 @@ public:
 	void LeftPut();
 	void RightHold();
 	void RightPut();
+	UFUNCTION(BluePrintCallable)
 	void PressUIBulletButten();
 	void UIButten();
 	void PressRightBulletButten();
