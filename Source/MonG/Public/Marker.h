@@ -29,8 +29,12 @@ public:
 	class UStaticMeshComponent* markerMesh;
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
 	class UStaticMeshComponent* markerLead;
+
+
 	UPROPERTY()
-	class APostit* postit;
+	FVector endPos;
+	UPROPERTY()
+	FVector startPos;
 
 	UPROPERTY(EditAnywhere, BluePrintReadWrite,Category="markerSettings")
 	class UMaterialInterface* M_Marker;
@@ -43,6 +47,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DrawingLine();
-
+	
+	bool isMarker=false;
+	FVector2D locationToDraw;
 
 };

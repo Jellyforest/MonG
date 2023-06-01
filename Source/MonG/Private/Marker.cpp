@@ -28,13 +28,21 @@ AMarker::AMarker()
 	{
 		M_Marker = tempMat.Object;
 	}
+	//¸¶Ä¿ »ö±ò
+	//SetVectorParameterValueOnMaterials(FName("doorStateColor"), FVector4(0.505f, 0.015f, 0.00974f, 1));
+	ConstructorHelpers::FObjectFinder<UMaterialInstance> penColor(TEXT("/Script/Engine.MaterialInstanceConstant'/Game/JY/Blueprints/M_Marker_Inst.M_Marker_Inst'"));
+	if (penColor.Succeeded())
+	{
+		markerLead->SetMaterial(0, penColor.Object);
 
+	}
 }
 
 // Called when the game starts or when spawned
 void AMarker::BeginPlay()
 {
 	Super::BeginPlay();
+	
 
 
 }
@@ -44,34 +52,56 @@ void AMarker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 }
 
 void AMarker::DrawingLine()
 {
-	FVector startPos = markerLead->GetComponentLocation();
-	FVector endPos = startPos + markerLead->GetForwardVector() * 1;
-	FHitResult drawInfo;
-	FCollisionQueryParams params;
-	//params.AddIgnoredActor(this);
-	FVector NewSize = FVector(300);
-	FRotator NewRotator;
-	bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
-	if (isdraw && M_Marker)
+	APostit* postit = Cast<APostit>(UGameplayStatics::GetActorOfClass(GetWorld(), APostit::StaticClass()));
+	if (postit)
 	{
-		PRINTTOScreen(FString::Printf(TEXT("Overlap")));
-		postit = Cast<APostit>(drawInfo.GetActor());
-		if (postit)
+		startPos = markerLead->GetComponentLocation();
+		endPos = startPos + markerLead->GetForwardVector() * 1;
+		FHitResult drawInfo;
+		FCollisionQueryParams params;
+		//FVector2D locationToDraw;
+		//UGameplayStatics::FindCollisionUV(drawInfo, 0, locationToDraw);
+		//params.AddIgnoredActor(this);
+		//FVector NewSize = FVector(500);
+		//FRotator NewRotator;
+		//bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
+		bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_Visibility, params);
+		if (isdraw == true)
 		{
+			PRINTTOScreen(FString::Printf(TEXT("WhiteBoard")));
+			isdraw = UGameplayStatics::FindCollisionUV(drawInfo, 0, locationToDraw);
+			postit = Cast<APostit>(drawInfo.GetActor());
 			DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
-			RangeDecal = UGameplayStatics::SpawnDecalAtLocation(this, M_Marker, NewSize, startPos, NewRotator, 0.0f);
-			RangeDecal->SetRelativeRotation(NewRotator);
-			RangeDecal->SetRelativeScale3D(FVector(0.05f));
-			//SetFadeOut(0.0f, 1.0f);
-
+			postit->Drawing();
+		
 		}
+
 	}
+	
+	//if (isdraw && M_Marker)
+	//{
+	//	PRINTTOScreen(FString::Printf(TEXT("Overlap")));
+	//	postit = Cast<APostit>(drawInfo.GetActor());
+	//	DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
+	//	isMarker = true;
+		//postit->Drawing();
+		//if (postit !=nullptr )
+		//{
 
-
+				//postit->Drawing();
+				//RangeDecal = UGameplayStatics::SpawnDecalAtLocation(this, M_Marker, NewSize, startPos, NewRotator, 0.0f);
+				//RangeDecal->SetRelatipostit = Cast<APostit>(drawInfo.GetActor());
+	//	DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);veRotation(NewRotator);
+				//RangeDecal->SetRelativeScale3D(FVector(0.05f));
+				//SetFadeOut(0.0f, 1.0f);
+		//}
+	//}
+	
 }
 
 

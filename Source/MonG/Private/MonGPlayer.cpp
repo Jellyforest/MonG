@@ -27,6 +27,8 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include "ActorStartWidget.h"
 #include "Marker.h"
+#include "Postit.h"
+
 
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
@@ -369,6 +371,8 @@ void AMonGPlayer::RightDrawing()
 		if (isRightHold == true)
 		{
 			marker->DrawingLine();
+			//postit->Drawing();
+
 		}
 	}
 }
