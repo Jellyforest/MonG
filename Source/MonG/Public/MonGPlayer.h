@@ -105,9 +105,12 @@ public:
 	UPROPERTY()
 	class AMarker* marker;
 
+	//포스트잇
 	UPROPERTY()
 	class APostit* postit;
-
+	//
+	UPROPERTY()
+	class ADustStrollSpawner* dustStrollSpawner;	
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -150,7 +153,9 @@ public:
 	bool isGameStart = false;
 	bool isRightCleanerHold = false;
 	bool isLeftCleanerHold =false;
-
+	bool isEndWidgetCompoff = false;
+	bool isStartWidgetOff = false;
+	bool isStartWidgetOffAndShoot = true;
 
 };
 

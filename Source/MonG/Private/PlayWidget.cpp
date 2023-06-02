@@ -28,12 +28,17 @@ void UPlayWidget::NativeConstruct()
 		}
 		else if (timer == 0)
 		{
-			AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-			AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
-			monGPlayer->GameEnding();
-			monGPlayer->isGameStart = false;
-			isEnd = true;
-			timer = -1;
+			if (isEnd == false)
+			{
+				AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
+				AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+				monGPlayer->GameEnding();
+				monGPlayer->isGameStart = false;
+				isEnd = true;
+				timer = 0;
+			}
+			
+		//	timer = -1;
 			//monGgm->ShowEndingUI();
 		}
 		

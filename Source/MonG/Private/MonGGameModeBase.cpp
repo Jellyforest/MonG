@@ -6,6 +6,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "StartWidget.h"
 #include "EndingWidget.h"
+#include "MonGSaveGame.h"
 
 
 void AMonGGameModeBase::BeginPlay()
@@ -21,9 +22,6 @@ void AMonGGameModeBase::AddScore(int32 score)
 	//dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	//score = dust->point;
 	currentScore += score;
-
-	FString filePath = FString("../../../Content/SaveScore/ScoreData.txt");
-
 }
 
 void AMonGGameModeBase::ShowStartUI()
@@ -50,3 +48,95 @@ void AMonGGameModeBase::ShowEndingUI()
 	//}
 }
 
+void AMonGGameModeBase::SaveScore()
+{
+	UMonGSaveGame* scoreDataInstance = Cast<UMonGSaveGame>(UGameplayStatics::CreateSaveGameObject(UMonGSaveGame::StaticClass()));
+	if (scoreDataInstance)
+	{
+		scoreDataInstance->saveSlotName = "ScoreData";
+		scoreDataInstance->saveIndex = 0;
+
+		scoreDataInstance->firstScore = firstScore;
+		scoreDataInstance->secondScore = secondScore;
+		scoreDataInstance->thirdScore = thirdScore;
+		scoreDataInstance->fourthScore = fourthScore;
+		scoreDataInstance->fifthScore = fifthScore;
+		scoreDataInstance->sixthScore = sixthScore;
+		scoreDataInstance->seventhScore = seventhScore;
+	}
+}
+
+void AMonGGameModeBase::LoadScore()
+{
+	UMonGSaveGame* loadDataInstance = Cast<UMonGSaveGame>(UGameplayStatics::CreateSaveGameObject(UMonGSaveGame::StaticClass()));
+	if (loadDataInstance)
+	{
+		loadDataInstance->saveSlotName = "ScoreData";
+		loadDataInstance->saveIndex = 0;
+
+		loadDataInstance = Cast<UMonGSaveGame>(UGameplayStatics::LoadGameFromSlot(loadDataInstance->saveSlotName, loadDataInstance->saveIndex));
+		if (loadDataInstance)
+		{
+			firstScore = loadDataInstance->firstScore;
+			secondScore = loadDataInstance->secondScore;
+			thirdScore = loadDataInstance->thirdScore;
+			loadDataInstance->fourthScore = fourthScore;
+			loadDataInstance->fifthScore = fifthScore;
+			loadDataInstance->sixthScore = sixthScore;
+			loadDataInstance->seventhScore = seventhScore;
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+if (currentScore >= firstScore)
+{
+	sixthScore = seventhScore;
+	fifthScore = sixthScore;
+	fourthScore = fifthScore;
+	thirdScore = fourthScore;
+	secondScore = firstScore;
+	firstScore = currentScore;
+}
+else if (firstScore < currentScore && currentScore >= secondScore)
+{
+	sixthScore = seventhScore;
+	fifthScore = sixthScore;
+	fourthScore = fifthScore;
+	thirdScore = fourthScore;
+	secondScore = currentScore;
+}
+else if (secondScore < currentScore && currentScore >= thirdScore)
+{
+	sixthScore = seventhScore;
+	fifthScore = sixthScore;
+	fourthScore = fifthScore;
+	thirdScore = currentScore;
+}
+//else if (thirdScore<currentScore>=fourthScore)
+*/

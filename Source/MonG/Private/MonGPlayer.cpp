@@ -28,6 +28,7 @@
 #include "ActorStartWidget.h"
 #include "Marker.h"
 #include "Postit.h"
+#include "DustStrollSpawner.h"
 
 
 
@@ -98,6 +99,8 @@ void AMonGPlayer::BeginPlay()
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
 	actorStartWidget = Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
 	playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
+	dustStrollSpawner = Cast<ADustStrollSpawner>(UGameplayStatics::GetActorOfClass(GetWorld(), ADustStrollSpawner::StaticClass()));
+
 
 	if (playerController)
 	{
@@ -299,34 +302,42 @@ void AMonGPlayer::RightPut()
 
 void AMonGPlayer::PressUIBulletButten()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("butten"));
 	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+
 	if (actorStartWidget != nullptr)
 	{
-		if (actorStartWidget->isShowStartUI == true)
+		
+		if (actorStartWidget != nullptr && actorStartWidget->isShowStartUI == true && isStartWidgetOff == false)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
 			actorStartWidget->Destroy();
 			isGameStart = true;
+			isStartWidgetOff = true;
 		}
 	}
-	if (endingWidget != nullptr)
-	{
-		if (playWidget->isEnd == true)
+		if (isEndWidgetCompoff == true)
 		{
-			endWidgetComp->SetVisibility(false);
+			//PRINTTOScreen(FString::Printf(TEXT("widgetoff")));
+			UE_LOG(LogTemp, Warning, TEXT("widgetoff"));
 			isGameStart = true;
+			FTimerHandle endWidgetOffTimer;
+			FTimerDelegate timerDelegate;
+			timerDelegate.BindLambda([this]()->void {
+			endWidgetComp->SetVisibility(false);
+				});
+			GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 			//APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 			//UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
+			isEndWidgetCompoff = false;
 		}
-
-	}
-
-
+	
 	if (isLeftCleanerHold == true)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("hold"));
+
 		isRightCleanerHold = false;
-		//PRINTTOScreen(FString::Printf(TEXT("left")));
 
 		if (cleaner != nullptr)
 		{
@@ -359,10 +370,7 @@ void AMonGPlayer::PressRightBulletButten()
 			cleaner->Shoot();
 		}
 	}
-
 }
-
-
 
 void AMonGPlayer::RightDrawing()
 {
@@ -377,13 +385,14 @@ void AMonGPlayer::RightDrawing()
 	}
 }
 
-
-
-
 void AMonGPlayer::GameEnding()
 {
-	endWidgetComp->SetVisibility(true);
-
+	if (isEndWidgetCompoff == false)
+	{
+		endWidgetComp->SetVisibility(true);
+		dustStrollSpawner->Destroy();
+		isEndWidgetCompoff = true;
+	}
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
