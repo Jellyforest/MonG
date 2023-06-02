@@ -33,6 +33,7 @@ void APostit::BeginPlay()
 	Super::BeginPlay();
 
 	boardMarker = UMaterialInstanceDynamic::Create(markerInk, this);
+	marker = Cast<AMarker>(UGameplayStatics::GetActorOfClass(GetWorld(), AMarker::StaticClass()));
 
 	UKismetRenderingLibrary::ClearRenderTarget2D(GetWorld(), postitLander);
 
@@ -42,26 +43,27 @@ void APostit::BeginPlay()
 void APostit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	boardMarker->SetScalarParameterValue(size, DeltaTime);
 
 }
 
 void APostit::Drawing()
 {
-	marker = Cast<AMarker>(UGameplayStatics::GetActorOfClass(GetWorld(), AMarker::StaticClass()));
-
-	if (marker != nullptr)
-	{
 		//UE_LOG(LogTemp, Warning, TEXT("APostit :: Drawing"))
 		PRINTTOScreen(FString::Printf(TEXT("Drawwwwwwwwwwwing")));
 		//drawLocation = marker->endPos;
-		//FVector2D Vec2D(1.0f, 2.0f);
-		//FVector Vec3D(Vec2D.X, Vec2D.Y, 3.0f);
-		FVector2D _locationToDraw = marker->locationToDraw;
-		FVector vecLocationToDraw(_locationToDraw, 0.1f); 
-		FLinearColor lineLocationToDraw(vecLocationToDraw);
-		boardMarker->SetVectorParameterValue(drawLocation, lineLocationToDraw);
-		UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), postitLander, boardMarker);
-	}
+		if (marker != nullptr)
+		{
+			FVector2D _locationToDraw = marker->locationToDraw;
+			FVector vecLocationToDraw(_locationToDraw, 0.1f); 
+			FLinearColor lineLocationToDraw(vecLocationToDraw);
+			boardMarker->SetVectorParameterValue(drawLocation, lineLocationToDraw);
+			UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), postitLander, boardMarker);
+		}
+	
+}
+
+void APostit::DrawSize(float drawSize)
+{
+	boardMarker->SetScalarParameterValue(drawSizePram, drawSize);
 }
 
