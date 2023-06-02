@@ -321,13 +321,7 @@ void AMonGPlayer::PressUIBulletButten()
 		{
 			//PRINTTOScreen(FString::Printf(TEXT("widgetoff")));
 			UE_LOG(LogTemp, Warning, TEXT("widgetoff"));
-			isGameStart = true;
-			FTimerHandle endWidgetOffTimer;
-			FTimerDelegate timerDelegate;
-			timerDelegate.BindLambda([this]()->void {
-			endWidgetComp->SetVisibility(false);
-				});
-			GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
+			
 			//APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 			//UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
 			isEndWidgetCompoff = false;
@@ -360,10 +354,12 @@ void AMonGPlayer::UIButten()
 
 void AMonGPlayer::PressRightBulletButten()
 {
-	//PRINTTOScreen(FString::Printf(TEXT("right")));
+	PRINTTOScreen(FString::Printf(TEXT("right")));
 
 	if (isRightCleanerHold == true)
 	{
+		PRINTTOScreen(FString::Printf(TEXT("rightShoot")));
+
 		isLeftCleanerHold = false;
 		if (cleaner != nullptr)
 		{
@@ -391,6 +387,13 @@ void AMonGPlayer::GameEnding()
 	{
 		endWidgetComp->SetVisibility(true);
 		dustStrollSpawner->Destroy();
+		FTimerHandle endWidgetOffTimer;
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([this]()->void {
+			isGameStart = true;
+		endWidgetComp->SetVisibility(false);
+			});
+		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
 	}
 }
