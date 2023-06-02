@@ -34,15 +34,24 @@ public:
 
 	//먼지점수
 	void AddScore(int32 score);
-
+	
+	
 	//위젯
 	void ShowStartUI();
 	void ShowEndingUI();
+	void SaveScore();
+	void LoadScore();
 
 	//현재점수
 	int32 currentScore;
+	int32 firstScore;
+	int32 secondScore;
+	int32 thirdScore;
+	int32 fourthScore;
+	int32 fifthScore;
+	int32 sixthScore;
+	int32 seventhScore;
 
-	
 
 	bool isShowStartUI = false;
 	bool isShowEndingUI = false;

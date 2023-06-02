@@ -51,4 +51,6 @@ public:
 	bool isMarker=false;
 	FVector2D locationToDraw;
 
+
+
 };

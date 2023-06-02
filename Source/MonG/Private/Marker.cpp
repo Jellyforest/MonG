@@ -70,15 +70,15 @@ void AMarker::DrawingLine()
 		//FVector NewSize = FVector(500);
 		//FRotator NewRotator;
 		//bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
-		bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_Visibility, params);
+		bool isdraw = GetWorld()->LineTraceSingleByChannel(drawInfo, startPos, endPos, ECC_GameTraceChannel10, params);
 		if (isdraw == true)
 		{
 			PRINTTOScreen(FString::Printf(TEXT("WhiteBoard")));
 			isdraw = UGameplayStatics::FindCollisionUV(drawInfo, 0, locationToDraw);
 			postit = Cast<APostit>(drawInfo.GetActor());
 			DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
+			
 			postit->Drawing();
-		
 		}
 
 	}

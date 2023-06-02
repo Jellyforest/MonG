@@ -35,12 +35,14 @@ public:
 
 	UFUNCTION()
 	void Drawing();
+	UFUNCTION()
+	void DrawSize(float drawSize);
 	UPROPERTY()
 	FVector endPos;
 	UPROPERTY()
 	FVector startPos;
 	FName drawLocation;
-	FName size;
+	FName drawSizePram;
 	//FVector2D locationToDraw;
 
 };
