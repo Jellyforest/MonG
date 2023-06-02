@@ -51,8 +51,7 @@ void AWaterBullet::Tick(float DeltaTime)
 void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	dustStrollSpawner = Cast<ADustStrollSpawner>(OtherActor);
-	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (dustStrollSpawner != nullptr)
 	{
 

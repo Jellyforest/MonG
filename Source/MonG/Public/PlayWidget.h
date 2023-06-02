@@ -34,6 +34,9 @@ public:
 	UPROPERTY()
 	class AMonGPlayer* monGPlayer;
 
+	UPROPERTY()
+	class AMonGGameModeBase* monGgm;
+
 	bool isEnd = false;
 
 };

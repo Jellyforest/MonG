@@ -14,4 +14,12 @@ class MONG_API UScoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* currentScoreTB;
+
+	void PrintCurrentScore();
+
 };

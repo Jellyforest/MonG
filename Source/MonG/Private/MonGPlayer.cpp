@@ -115,6 +115,8 @@ void AMonGPlayer::BeginPlay()
 	right->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::RightOnOverlap);
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+
 }
 
 // Called every frame
@@ -147,6 +149,8 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_Quit, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 		inputSystem->BindAction(IA_RightDraw, ETriggerEvent::Triggered, this, &AMonGPlayer::RightDrawing);
+		inputSystem->BindAction(IA_GameExit, ETriggerEvent::Triggered, this, &AMonGPlayer::MonGExit);
+		
 	}
 }
 
@@ -303,8 +307,7 @@ void AMonGPlayer::RightPut()
 void AMonGPlayer::PressUIBulletButten()
 {
 	UE_LOG(LogTemp, Warning, TEXT("butten"));
-	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+	
 
 	if (actorStartWidget != nullptr)
 	{
@@ -343,8 +346,7 @@ void AMonGPlayer::PressUIBulletButten()
 
 void AMonGPlayer::UIButten()
 {
-	AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+
 	monGgm->isShowStartUI = false;
 	if (cleaner != nullptr)
 	{
@@ -396,6 +398,13 @@ void AMonGPlayer::GameEnding()
 		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
 	}
+}
+
+//³ª°¡±â
+void AMonGPlayer::MonGExit()
+{
+	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+	UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

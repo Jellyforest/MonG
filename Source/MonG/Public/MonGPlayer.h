@@ -1,3 +1,4 @@
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -50,6 +51,9 @@ public:
 	class UInputAction* IA_RightA;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightDraw;
+	//나가기 키
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_GameExit;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
 
@@ -108,9 +112,14 @@ public:
 	//포스트잇
 	UPROPERTY()
 	class APostit* postit;
-	//
+	//먼지보스
 	UPROPERTY()
 	class ADustStrollSpawner* dustStrollSpawner;	
+	//게임모드
+	UPROPERTY()
+	class AMonGGameModeBase* monGgm;
+
+
 
 	//동작함수
 	void Move(const FInputActionValue& Values);
@@ -132,7 +141,8 @@ public:
 	
 	//ending위젯 함수
 	void GameEnding();
-
+	//나가기
+	void MonGExit();
 
 	//청소기 
 	UFUNCTION()

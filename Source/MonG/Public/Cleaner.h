@@ -53,6 +53,8 @@ public:
 	class AMonGPlayer* monGPlayer;
 	UPROPERTY()
 	class ADust* dust;
+	UPROPERTY()
+	class AMonGGameModeBase* monGgm;
 
 	FVector monGDirection;
 	bool isShoot = false;

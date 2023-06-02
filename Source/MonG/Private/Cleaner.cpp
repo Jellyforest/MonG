@@ -75,8 +75,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
 		//////////Á¡¼ö
-		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-		AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+		monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 		monGgm->AddScore(dust->point);
 		dust->getPoint = true;
 

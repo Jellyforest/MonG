@@ -14,6 +14,7 @@
 void UPlayWidget::NativeConstruct()
 {
 	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 
 	Construct();
 	UpdateCanTick();
@@ -30,8 +31,7 @@ void UPlayWidget::NativeConstruct()
 		{
 			if (isEnd == false)
 			{
-				AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-				AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+				
 				monGPlayer->GameEnding();
 				monGPlayer->isGameStart = false;
 				isEnd = true;
@@ -49,8 +49,7 @@ void UPlayWidget::NativeConstruct()
 	FTimerHandle countScore;
 	FTimerDelegate timerDelegate1;
 	timerDelegate1.BindLambda([this]()->void {
-		AGameModeBase* gm = UGameplayStatics::GetGameMode(this);
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(gm);
+		
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore))); });
 	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.01, true);
 
