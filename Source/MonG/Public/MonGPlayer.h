@@ -104,6 +104,10 @@ public:
 	//½ÃÀÛÀ§Á¬
 	UPROPERTY()
 	class AActorStartWidget* actorStartWidget;
+	
+	//Á¡¼ö À§Á¬
+	UPROPERTY()
+	class AScoreWidgetActor* scoreWidgetActor;
 
 	//¸¶Ä¿Ææ
 	UPROPERTY()

@@ -56,13 +56,13 @@ void AMonGGameModeBase::SaveScore()
 		scoreDataInstance->saveSlotName = "ScoreData";
 		scoreDataInstance->saveIndex = 0;
 
-		scoreDataInstance->firstScore = firstScore;
-		scoreDataInstance->secondScore = secondScore;
-		scoreDataInstance->thirdScore = thirdScore;
-		scoreDataInstance->fourthScore = fourthScore;
-		scoreDataInstance->fifthScore = fifthScore;
-		scoreDataInstance->sixthScore = sixthScore;
-		scoreDataInstance->seventhScore = seventhScore;
+		firstScore = scoreDataInstance->firstScore;
+		secondScore = scoreDataInstance->secondScore;
+		thirdScore = scoreDataInstance->thirdScore;
+		fourthScore = scoreDataInstance->fourthScore;
+		fifthScore = scoreDataInstance->fifthScore;
+		sixthScore = scoreDataInstance->sixthScore;
+		seventhScore = scoreDataInstance->seventhScore;
 	}
 }
 
@@ -80,10 +80,10 @@ void AMonGGameModeBase::LoadScore()
 			firstScore = loadDataInstance->firstScore;
 			secondScore = loadDataInstance->secondScore;
 			thirdScore = loadDataInstance->thirdScore;
-			loadDataInstance->fourthScore = fourthScore;
-			loadDataInstance->fifthScore = fifthScore;
-			loadDataInstance->sixthScore = sixthScore;
-			loadDataInstance->seventhScore = seventhScore;
+			fourthScore = loadDataInstance->fourthScore;
+			fifthScore = loadDataInstance->fifthScore;
+			sixthScore = loadDataInstance->sixthScore;
+			seventhScore = loadDataInstance->seventhScore;
 		}
 
 	}

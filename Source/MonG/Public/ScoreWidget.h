@@ -19,7 +19,23 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* currentScoreTB;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordFirst;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordSecond;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordThird;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordFourth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordFifth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordSixth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* recordSeventh;
 
+	
 	void PrintCurrentScore();
+
 
 };

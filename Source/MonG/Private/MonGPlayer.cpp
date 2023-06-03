@@ -29,6 +29,7 @@
 #include "Marker.h"
 #include "Postit.h"
 #include "DustStrollSpawner.h"
+#include "ScoreWidgetActor.h"
 
 
 
@@ -387,6 +388,8 @@ void AMonGPlayer::GameEnding()
 {
 	if (isEndWidgetCompoff == false)
 	{
+		monGgm->LoadScore();
+
 		endWidgetComp->SetVisibility(true);
 		dustStrollSpawner->Destroy();
 		FTimerHandle endWidgetOffTimer;
@@ -397,6 +400,16 @@ void AMonGPlayer::GameEnding()
 			});
 		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
+
+		FTimerHandle scoreWidgetOnTimer;
+		FTimerDelegate timerDelegate1;
+		timerDelegate1.BindLambda([this]()->void {
+			UE_LOG(LogTemp, Warning, TEXT("scorewidget"));
+			scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+			scoreWidgetActor->SetActorLocation(FVector(22, 293, 297));
+			});
+		GetWorld()->GetTimerManager().SetTimer(scoreWidgetOnTimer, timerDelegate1, 6.0f, false);
+		
 	}
 }
 

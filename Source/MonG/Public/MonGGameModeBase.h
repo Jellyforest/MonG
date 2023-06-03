@@ -42,6 +42,9 @@ public:
 	void SaveScore();
 	void LoadScore();
 
+	FORCEINLINE int32 GetCurrentScore() { return currentScore; }
+
+
 	//현재점수
 	int32 currentScore;
 	int32 firstScore;

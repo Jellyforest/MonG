@@ -13,7 +13,26 @@ void UScoreWidget::PrintCurrentScore()
 	if (monGgm != nullptr)
 	{
 		// 현재 점수(정수) -> FText (문자열) 형태로 변환한다.
-		//FText scoreText = FText::AsNumber(myGM->GetCurrentScore());
+		FText scoreText = FText::AsNumber(monGgm->GetCurrentScore());
+
+		currentScoreTB -> SetText(scoreText);
+
+		// 순위점수 출력
+		FText recordFirstText = FText::AsNumber(monGgm->firstScore);
+		FText recordSecondText = FText::AsNumber(monGgm->secondScore);
+		FText recordThirdText = FText::AsNumber(monGgm->thirdScore);
+		FText recordFourthText = FText::AsNumber(monGgm->fourthScore);
+		FText recordFifthText = FText::AsNumber(monGgm->fifthScore);
+		FText recordSixthText = FText::AsNumber(monGgm->sixthScore);
+		FText recordSeventhText = FText::AsNumber(monGgm->seventhScore);
+		recordFirst->SetText(recordFirstText);
+		recordSecond->SetText(recordSecondText);
+		recordThird->SetText(recordThirdText);
+		recordFourth->SetText(recordFourthText);
+		recordFifth->SetText(recordFifthText);
+		recordSixth->SetText(recordSixthText);
+		recordSeventh->SetText(recordSeventhText);
+		
 	}
 
 	//curScore 텍스트 블록의 값으로 설정한다.
