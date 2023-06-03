@@ -13,9 +13,10 @@ UCLASS()
 class MONG_API UMonGSaveGame : public USaveGame
 {
 	GENERATED_BODY()
-	
-public:
 
+
+
+public:
 	UPROPERTY(EditAnywhere,Category="ScoreSettings")
 	int32 currentScore;
 	UPROPERTY(EditAnywhere,Category="ScoreSettings")

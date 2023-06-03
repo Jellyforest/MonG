@@ -30,6 +30,7 @@
 #include "Postit.h"
 #include "DustStrollSpawner.h"
 #include "ScoreWidgetActor.h"
+#include "ScoreWidget.h"
 
 
 
@@ -117,7 +118,7 @@ void AMonGPlayer::BeginPlay()
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-
+	score_UI = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
 }
 
 // Called every frame
@@ -406,6 +407,7 @@ void AMonGPlayer::GameEnding()
 		timerDelegate1.BindLambda([this]()->void {
 			UE_LOG(LogTemp, Warning, TEXT("scorewidget"));
 			scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+			
 			scoreWidgetActor->SetActorLocation(FVector(22, 293, 297));
 			});
 		GetWorld()->GetTimerManager().SetTimer(scoreWidgetOnTimer, timerDelegate1, 6.0f, false);
@@ -464,7 +466,8 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			isRightCleanerHold = false;
 			//PRINTTOScreen(FString::Printf(TEXT("left")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+						cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
+
 		}
 	}
 

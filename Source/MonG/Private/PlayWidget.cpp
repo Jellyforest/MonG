@@ -8,6 +8,7 @@
 #include "MonGPlayer.h"
 #include "EndingWidget.h"
 #include <UMG/Public/Components/WidgetComponent.h>
+#include "ScoreWidget.h"
 
 
 
@@ -15,6 +16,7 @@ void UPlayWidget::NativeConstruct()
 {
 	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	scoreWidget = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
 
 	Construct();
 	UpdateCanTick();
@@ -36,6 +38,7 @@ void UPlayWidget::NativeConstruct()
 				monGPlayer->isGameStart = false;
 				isEnd = true;
 				timer = 0;
+				scoreWidget->PrintCurrentScore();
 			}
 			
 		//	timer = -1;

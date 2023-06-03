@@ -34,7 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* recordSeventh;
 
-	
+
+
+
 	void PrintCurrentScore();
 
 

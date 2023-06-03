@@ -5,15 +5,16 @@
 #include <Kismet/GameplayStatics.h>
 #include "Components/TextBlock.h"
 #include "MonGGameModeBase.h"
+#include "PlayWidget.h"
 
 void UScoreWidget::PrintCurrentScore()
 {
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-
 	if (monGgm != nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("printcurrentscore"));
 		// 현재 점수(정수) -> FText (문자열) 형태로 변환한다.
-		FText scoreText = FText::AsNumber(monGgm->GetCurrentScore());
+		FText scoreText = FText::AsNumber(monGgm->currentScore);
 
 		currentScoreTB -> SetText(scoreText);
 

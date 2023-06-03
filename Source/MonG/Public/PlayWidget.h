@@ -36,6 +36,9 @@ public:
 
 	UPROPERTY()
 	class AMonGGameModeBase* monGgm;
+	
+	UPROPERTY()
+	class UScoreWidget* scoreWidget;
 
 	bool isEnd = false;
 
