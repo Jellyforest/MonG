@@ -14,9 +14,12 @@ class MONG_API UScoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
-
 public:
 
+	virtual void NativeConstruct() override;
+
+public:
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* currentScoreTB;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
@@ -33,10 +36,18 @@ public:
 	class UTextBlock* recordSixth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* recordSeventh;
+	*/
 
+	UPROPERTY()
+	class UPlayWidget* playWidget;
 
+	UPROPERTY()
+	class AMonGGameModeBase* monGgm;
 
+	UPROPERTY()
+	class AMonGPlayer* monGPlayer;
 
+	UFUNCTION()
 	void PrintCurrentScore();
 
 

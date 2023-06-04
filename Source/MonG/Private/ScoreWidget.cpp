@@ -2,23 +2,39 @@
 
 
 #include "ScoreWidget.h"
-#include <Kismet/GameplayStatics.h>
 #include "Components/TextBlock.h"
 #include "MonGGameModeBase.h"
 #include "PlayWidget.h"
+#include "Components/EditableText.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+
+void UScoreWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+
+}
 
 void UScoreWidget::PrintCurrentScore()
 {
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	if (monGgm != nullptr)
-	{
+	UE_LOG(LogTemp, Warning, TEXT("fx-printcurrent"));
+
+	//if ( monGPlayer != nullptr)
+	//{
 		UE_LOG(LogTemp, Warning, TEXT("printcurrentscore"));
 		// 현재 점수(정수) -> FText (문자열) 형태로 변환한다.
-		FText scoreText = FText::AsNumber(monGgm->currentScore);
+		//FText scoreText = FText::AsNumber(monGgm->currentScore);
+		//FText scoreText = playWidget->text_Score;
+		//currentScoreTB->SetText(scoreText);
+		//currentScoreTB = playWidget->text_Score;
 
-		currentScoreTB -> SetText(scoreText);
-
+		
 		// 순위점수 출력
+	/*
 		FText recordFirstText = FText::AsNumber(monGgm->firstScore);
 		FText recordSecondText = FText::AsNumber(monGgm->secondScore);
 		FText recordThirdText = FText::AsNumber(monGgm->thirdScore);
@@ -33,8 +49,9 @@ void UScoreWidget::PrintCurrentScore()
 		recordFifth->SetText(recordFifthText);
 		recordSixth->SetText(recordSixthText);
 		recordSeventh->SetText(recordSeventhText);
+		*/
+	//}
 		
-	}
 
 	//curScore 텍스트 블록의 값으로 설정한다.
 	//currentScoreTB->SetText(scoreText);

@@ -22,14 +22,7 @@ public:
 
 	UPROPERTY()
 	class ADust* dust;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
-	TSubclassOf<class UStartWidget> startWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
-	TSubclassOf<class UEndingWidget> endingWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
-	class UStartWidget* start_UI;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WidgetSettings")
-	class UEndingWidget* ending_UI;
+
 
 
 	//먼지점수
@@ -37,8 +30,6 @@ public:
 	
 	
 	//위젯
-	void ShowStartUI();
-	void ShowEndingUI();
 	void SaveScore();
 	void LoadScore();
 
@@ -56,7 +47,5 @@ public:
 	int32 seventhScore;
 
 
-	bool isShowStartUI = false;
-	bool isShowEndingUI = false;
 	
 };

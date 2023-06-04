@@ -14,28 +14,29 @@ class MONG_API UMonGSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 
-
+public:
+	UMonGSaveGame();
 
 public:
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 currentScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 firstScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 secondScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 thirdScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 fourthScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 fifthScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 sixthScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 seventhScore;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	FString saveSlotName;
-	UPROPERTY(EditAnywhere,Category="ScoreSettings")
+	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 saveIndex;	
 
 

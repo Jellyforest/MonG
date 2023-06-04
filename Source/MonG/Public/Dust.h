@@ -44,6 +44,5 @@ public:
 	UPROPERTY(EditAnywhere,Category="Score Settings")
 	int32 point;
 	bool getPoint=false;
-	//»Æ¿Œ
 
 };

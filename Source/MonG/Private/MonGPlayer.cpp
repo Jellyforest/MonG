@@ -29,7 +29,6 @@
 #include "Marker.h"
 #include "Postit.h"
 #include "DustStrollSpawner.h"
-#include "ScoreWidgetActor.h"
 #include "ScoreWidget.h"
 
 
@@ -182,7 +181,7 @@ void AMonGPlayer::LeftClean()
 
 			if (cleaner != nullptr)
 			{
-				PRINTTOScreen(FString::Printf(TEXT("leftCleeeeeeaning")));
+				//PRINTTOScreen(FString::Printf(TEXT("leftCleeeeeeaning")));
 				//마우스 클릭시 청소기 돌아가게
 				isLeftClean = true;
 				//청소효과
@@ -308,7 +307,7 @@ void AMonGPlayer::RightPut()
 
 void AMonGPlayer::PressUIBulletButten()
 {
-	UE_LOG(LogTemp, Warning, TEXT("butten"));
+	//UE_LOG(LogTemp, Warning, TEXT("butten"));
 	
 
 	if (actorStartWidget != nullptr)
@@ -316,25 +315,18 @@ void AMonGPlayer::PressUIBulletButten()
 		
 		if (actorStartWidget != nullptr && actorStartWidget->isShowStartUI == true && isStartWidgetOff == false)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
+		////////	monGgm->Record
+			monGgm->SaveScore();
+			//UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
 			actorStartWidget->Destroy();
 			isGameStart = true;
 			isStartWidgetOff = true;
 		}
 	}
-		if (isEndWidgetCompoff == true)
-		{
-			//PRINTTOScreen(FString::Printf(TEXT("widgetoff")));
-			UE_LOG(LogTemp, Warning, TEXT("widgetoff"));
-			
-			//APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
-			//UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
-			isEndWidgetCompoff = false;
-		}
 	
 	if (isLeftCleanerHold == true)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("hold"));
+		//UE_LOG(LogTemp, Warning, TEXT("hold"));
 
 		isRightCleanerHold = false;
 
@@ -349,7 +341,7 @@ void AMonGPlayer::PressUIBulletButten()
 void AMonGPlayer::UIButten()
 {
 
-	monGgm->isShowStartUI = false;
+//	monGgm->isShowStartUI = false;
 	if (cleaner != nullptr)
 	{
 		cleaner->isShoot = false;
@@ -358,11 +350,11 @@ void AMonGPlayer::UIButten()
 
 void AMonGPlayer::PressRightBulletButten()
 {
-	PRINTTOScreen(FString::Printf(TEXT("right")));
+	//PRINTTOScreen(FString::Printf(TEXT("right")));
 
 	if (isRightCleanerHold == true)
 	{
-		PRINTTOScreen(FString::Printf(TEXT("rightShoot")));
+		//PRINTTOScreen(FString::Printf(TEXT("rightShoot")));
 
 		isLeftCleanerHold = false;
 		if (cleaner != nullptr)
@@ -401,17 +393,6 @@ void AMonGPlayer::GameEnding()
 			});
 		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
-
-		FTimerHandle scoreWidgetOnTimer;
-		FTimerDelegate timerDelegate1;
-		timerDelegate1.BindLambda([this]()->void {
-			UE_LOG(LogTemp, Warning, TEXT("scorewidget"));
-			scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
-			
-			scoreWidgetActor->SetActorLocation(FVector(22, 293, 297));
-			});
-		GetWorld()->GetTimerManager().SetTimer(scoreWidgetOnTimer, timerDelegate1, 6.0f, false);
-		
 	}
 }
 
@@ -424,7 +405,7 @@ void AMonGPlayer::MonGExit()
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	PRINTTOScreen(FString::Printf(TEXT("overllap")));
+	//PRINTTOScreen(FString::Printf(TEXT("overllap")));
 
 	//allObject = Cast<AAllObject>(OtherActor);
 	cleaner = Cast<ACleaner>(OtherActor);
@@ -442,7 +423,7 @@ void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 	if (marker != nullptr)
 	{
-		PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
+		//PRINTTOScreen(FString::Printf(TEXT("Rightholddddddd")));
 
 		if (isRightHold == true)
 		{
@@ -466,7 +447,7 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			isRightCleanerHold = false;
 			//PRINTTOScreen(FString::Printf(TEXT("left")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-						cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
+			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
 
 		}
 	}

@@ -3,3 +3,8 @@
 
 #include "MonGSaveGame.h"
 
+
+UMonGSaveGame::UMonGSaveGame()
+{
+
+}

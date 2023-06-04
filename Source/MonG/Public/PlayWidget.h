@@ -13,10 +13,10 @@ UCLASS()
 class MONG_API UPlayWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+	virtual void NativeConstruct() override;
+
 public:
 
-	virtual void NativeConstruct() override;
 
 	virtual void Tick(float DeltaTime);
 
@@ -39,6 +39,9 @@ public:
 	
 	UPROPERTY()
 	class UScoreWidget* scoreWidget;
+	
+	UPROPERTY()
+	class AScoreWidgetActor* scoreWidgetActor;
 
 	bool isEnd = false;
 

@@ -25,9 +25,10 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreWidgetSettings")
 	TSubclassOf <class UScoreWidget> scoreWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreWidgetSettings")
-	class UScoreWidget* score_UI;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreWidgetSettings")
+	//class UScoreWidget* score_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreWidgetSettings")
 	class UWidgetComponent* scoreWidgetComp;
 
+	void WidgetAppeared();
 };
