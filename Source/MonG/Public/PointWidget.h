@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "ScoreWidget.generated.h"
+#include "PointWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MONG_API UScoreWidget : public UUserWidget
+class MONG_API UPointWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
-public:
+	public:
 
 	virtual void NativeConstruct() override;
+	virtual void Tick(float DeltaTime);
 
 public:
 	
@@ -46,7 +46,7 @@ public:
 
 
 	UFUNCTION()
-	void PrintCurrentScore();
+	void PrintingCurrentScore();
 
 
 };

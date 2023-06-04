@@ -46,6 +46,7 @@ public:
 	int32 sixthScore;
 	int32 seventhScore;
 
-
+	UFUNCTION(BlueprintCallable)
+    static UWorld* MyGetWorld();
 	
 };

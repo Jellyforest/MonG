@@ -30,6 +30,9 @@
 #include "Postit.h"
 #include "DustStrollSpawner.h"
 #include "ScoreWidget.h"
+#include "ScoreWidgetActor.h"
+#include "PointWidget.h"
+
 
 
 
@@ -315,7 +318,7 @@ void AMonGPlayer::PressUIBulletButten()
 		
 		if (actorStartWidget != nullptr && actorStartWidget->isShowStartUI == true && isStartWidgetOff == false)
 		{
-		////////	monGgm->Record
+		//////////	monGgm->Record
 			monGgm->SaveScore();
 			//UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
 			actorStartWidget->Destroy();
@@ -393,6 +396,12 @@ void AMonGPlayer::GameEnding()
 			});
 		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
+		////////////////////////////
+		scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+		scoreWidgetActor->WidgetAppeared();
+		scoreWidget = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
+		scoreWidget->PrintCurrentScore();
+
 	}
 }
 

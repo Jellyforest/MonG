@@ -10,18 +10,23 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include "ScoreWidget.h"
 #include "ScoreWidgetActor.h"
+#include "PointWidget.h"
 
 
 
 void UPlayWidget::NativeConstruct()
 {
-	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
-	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	scoreWidget = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
-	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
-
+	Super::NativeConstruct();
 	Construct();
 	UpdateCanTick();
+
+	monGPlayer = Cast<AMonGPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AMonGPlayer::StaticClass()));
+	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	/////////scoreWidget = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
+	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+	///////////////pointWidget = Cast<UPointWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPointWidget::StaticClass()));
+
+	
 	FTimerHandle countTime;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {
@@ -35,17 +40,10 @@ void UPlayWidget::NativeConstruct()
 		{
 			if (isEnd == false)
 			{
-
 				monGPlayer->GameEnding();
 				monGPlayer->isGameStart = false;
 				isEnd = true;
 				timer = 0;
-				scoreWidget->PrintCurrentScore();
-				if (scoreWidgetActor != nullptr)
-				{
-					scoreWidgetActor->WidgetAppeared();
-
-				}
 			}
 
 		}

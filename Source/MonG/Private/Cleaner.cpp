@@ -87,7 +87,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 				dust->Destroy();
 			}
 			});
-		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.5f, false);
+		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.2f, false);
 	}
 }
 

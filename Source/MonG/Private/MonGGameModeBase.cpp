@@ -20,6 +20,36 @@ void AMonGGameModeBase::AddScore(int32 score)
 }
 
 
+UWorld* AMonGGameModeBase::MyGetWorld()
+{
+	UWorld* PIE = nullptr;
+	UWorld* GamePreview = nullptr;
+
+	for (FWorldContext const& Context : GEngine->GetWorldContexts())
+	{
+		switch (Context.WorldType)
+		{
+		case EWorldType::PIE:
+			PIE = Context.World();
+			break;
+		case EWorldType::GamePreview:
+			GamePreview = Context.World();
+			break;
+		}
+	}
+
+	if (PIE)
+	{
+		return PIE;
+	}
+	else if (GamePreview)
+	{
+		return GamePreview;
+	}
+
+	return nullptr;
+}
+
 
 void AMonGGameModeBase::SaveScore()
 {
@@ -64,6 +94,32 @@ void AMonGGameModeBase::LoadScore()
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

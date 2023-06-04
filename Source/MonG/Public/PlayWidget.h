@@ -39,7 +39,9 @@ public:
 	
 	UPROPERTY()
 	class UScoreWidget* scoreWidget;
-	
+	UPROPERTY()
+	class UPointWidget* pointWidget;
+
 	UPROPERTY()
 	class AScoreWidgetActor* scoreWidgetActor;
 

@@ -108,6 +108,10 @@ public:
 	//Á¡¼ö À§Á¬
 	UPROPERTY()
 	class UScoreWidget* score_UI; 
+	UPROPERTY()
+	class AScoreWidgetActor* scoreWidgetActor;
+	UPROPERTY()
+	class UScoreWidget* scoreWidget;
 
 	//¸¶Ä¿Ææ
 	UPROPERTY()
