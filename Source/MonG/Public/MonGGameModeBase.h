@@ -23,8 +23,6 @@ public:
 	UPROPERTY()
 	class ADust* dust;
 
-
-
 	//먼지점수
 	void AddScore(int32 score);
 	
@@ -45,8 +43,8 @@ public:
 	int32 fifthScore;
 	int32 sixthScore;
 	int32 seventhScore;
-
-	UFUNCTION(BlueprintCallable)
-    static UWorld* MyGetWorld();
 	
+	TArray <int32> scoreArray;
+
+	void RecordScore();
 };

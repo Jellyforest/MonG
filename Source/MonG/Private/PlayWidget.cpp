@@ -42,6 +42,7 @@ void UPlayWidget::NativeConstruct()
 			{
 				monGPlayer->GameEnding();
 				monGPlayer->isGameStart = false;
+			//	UE_LOG(LogTemp, Warning, TEXT(" Player Widget isGameStart : %d"), monGPlayer->isGameStart)
 				isEnd = true;
 				timer = 0;
 			}

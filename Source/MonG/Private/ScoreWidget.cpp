@@ -4,34 +4,50 @@
 #include "ScoreWidget.h"
 #include "Components/TextBlock.h"
 #include "MonGGameModeBase.h"
-#include "PlayWidget.h"
-#include "Components/EditableText.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
+
+
 
 void UScoreWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	auto monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+
+	monGgm = Cast<AMonGGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	scoreTextArray = {recordFirst, recordSecond, recordThird, recordFourth, recordFifth, recordSixth, recordSeventh};
+
 
 }
+
 
 void UScoreWidget::PrintCurrentScore()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("fx-printcurrent"));
-//	EGetWorldErrorMode* errorWidgetMode;
-	//UWorld* World = GEngine->GetWorldFromContextObject(this, EGetWorldErrorMode::LogAndReturnNull);
-	auto monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	monGgm->MyGetWorld();
-	
-		//auto playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
-		UE_LOG(LogTemp, Warning, TEXT("printcurrentscore"));
-		// 현재 점수(정수) -> FText (문자열) 형태로 변환한다.
+	if (monGgm != nullptr)
+	{
 		FText scoreText = FText::AsNumber(monGgm->currentScore);
-		//FText scoreText = playWidget->text_Score;
+		currentScoreTB->SetText(scoreText);
+
+	}
+//	auto dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
+//	if(dust)
+//	{
+		// 현재 점수(정수) -> FText (문자열) 형태로 변환한다.
+	
+
 		//currentScoreTB->SetText(scoreText);
-		//currentScoreTB = playWidget->text_Score;
+//	}
+	//monGgm->MyGetWorld();
+	//if (monGgm)
+	//{
+			//auto playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
+		//	UE_LOG(LogTemp, Warning, TEXT("printcurrentscore"));
+			
+			//FText scoreText = playWidget->text_Score;
+			//currentScoreTB->SetText(scoreText);
+			//currentScoreTB = playWidget->text_Score;
+
+	//}
 
 
 		// 순위점수 출력
@@ -67,5 +83,39 @@ void UScoreWidget::PrintCurrentScore()
 	recordFirst->SetText(recordFirstText);
 	recordSecond->SetText(recordSecondText);
 	recordThird->SetText(recordThirdText);
+	*/
+}
+
+void UScoreWidget::PrintRanking()
+{
+	for (int i = 0; i < scoreTextArray.Num(); i++)
+	{
+		if (monGgm->scoreArray.IsValidIndex(i))
+		{
+			scoreTextArray[i]->SetText(FText::FromString(FString::FromInt(monGgm->scoreArray[i])));
+		}
+	}
+
+	/*
+	FText recordFirstText = FText::AsNumber(monGgm->scoreArray[0]);
+	recordFirst->SetText(recordFirstText);
+	if (monGgm->scoreArray.IsValidIndex(1))
+	{
+		FText recordSecondText = FText::AsNumber(monGgm->scoreArray[1]);
+		recordSecond->SetText(recordSecondText);
+	}
+
+	FText recordThirdText = FText::AsNumber(monGgm->scoreArray[2]);
+	FText recordFourthText = FText::AsNumber(monGgm->scoreArray[3]);
+	FText recordFifthText = FText::AsNumber(monGgm->scoreArray[4]);
+	FText recordSixthText = FText::AsNumber(monGgm->scoreArray[5]);
+	FText recordSeventhText = FText::AsNumber(monGgm->scoreArray[6]);
+
+	recordThird->SetText(recordThirdText);
+	recordFourth->SetText(recordFourthText);
+	recordFifth->SetText(recordFifthText);
+	recordSixth->SetText(recordSixthText);
+	recordSeventh->SetText(recordSeventhText);
+	recordFirst->SetText(recordFirstText);
 	*/
 }

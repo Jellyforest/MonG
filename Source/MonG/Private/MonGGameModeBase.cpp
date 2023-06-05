@@ -5,11 +5,14 @@
 #include "Dust.h"
 #include <Kismet/GameplayStatics.h>
 #include "MonGSaveGame.h"
+#include "ScoreWidgetActor.h"
+#include "ScoreWidget.h"
+#include <UMG/Public/Components/WidgetComponent.h>
 
 
 void AMonGGameModeBase::BeginPlay()
 {
-
+	LoadScore();
 }
 
 void AMonGGameModeBase::AddScore(int32 score)
@@ -17,37 +20,7 @@ void AMonGGameModeBase::AddScore(int32 score)
 	//dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	//score = dust->point;
 	currentScore += score;
-}
-
-
-UWorld* AMonGGameModeBase::MyGetWorld()
-{
-	UWorld* PIE = nullptr;
-	UWorld* GamePreview = nullptr;
-
-	for (FWorldContext const& Context : GEngine->GetWorldContexts())
-	{
-		switch (Context.WorldType)
-		{
-		case EWorldType::PIE:
-			PIE = Context.World();
-			break;
-		case EWorldType::GamePreview:
-			GamePreview = Context.World();
-			break;
-		}
-	}
-
-	if (PIE)
-	{
-		return PIE;
-	}
-	else if (GamePreview)
-	{
-		return GamePreview;
-	}
-
-	return nullptr;
+	//UE_LOG(LogTemp, Warning, TEXT("GameModeBase SCORE : %d"), currentScore);
 }
 
 
@@ -59,13 +32,7 @@ void AMonGGameModeBase::SaveScore()
 		scoreDataInstance->saveSlotName = "ScoreData";
 		scoreDataInstance->saveIndex = 0;
 
-		firstScore = scoreDataInstance->firstScore;
-		secondScore = scoreDataInstance->secondScore;
-		thirdScore = scoreDataInstance->thirdScore;
-		fourthScore = scoreDataInstance->fourthScore;
-		fifthScore = scoreDataInstance->fifthScore;
-		sixthScore = scoreDataInstance->sixthScore;
-		seventhScore = scoreDataInstance->seventhScore;
+		scoreDataInstance->saveScoreArray =scoreArray;
 
 		UGameplayStatics::SaveGameToSlot(scoreDataInstance, scoreDataInstance->saveSlotName, scoreDataInstance->saveIndex);
 	}
@@ -82,92 +49,223 @@ void AMonGGameModeBase::LoadScore()
 		loadDataInstance = Cast<UMonGSaveGame>(UGameplayStatics::LoadGameFromSlot(loadDataInstance->saveSlotName, loadDataInstance->saveIndex));
 		if (loadDataInstance)
 		{
-			firstScore = loadDataInstance->firstScore;
-			secondScore = loadDataInstance->secondScore;
-			thirdScore = loadDataInstance->thirdScore;
-			fourthScore = loadDataInstance->fourthScore;
-			fifthScore = loadDataInstance->fifthScore;
-			sixthScore = loadDataInstance->sixthScore;
-			seventhScore = loadDataInstance->seventhScore;
+			scoreArray = loadDataInstance->saveScoreArray;
 		}
 
 	}
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-if (currentScore >= firstScore)
+void AMonGGameModeBase::RecordScore()
 {
-	sixthScore = seventhScore;
-	fifthScore = sixthScore;
-	fourthScore = fifthScore;
-	thirdScore = fourthScore;
-	secondScore = firstScore;
-	firstScore = currentScore;
+	AScoreWidgetActor* scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+	UScoreWidget* scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+
+	if (scoreArray.Num() < 7)
+	{
+		// 무조건 더한다
+		scoreArray.Add(currentScore);
+		// 정렬한다
+		scoreArray.Sort([](const int& A, const int& B) {
+			return A > B;
+			});
+	}
+	else
+	{
+		// 만약 랭킹의 꼴찌보다 잘했다면
+		if (currentScore > scoreArray[scoreArray.Num() - 1])
+		{
+			// 하나 더하고
+			scoreArray.Add(currentScore);
+			// 정렬한다
+			scoreArray.Sort([](const int& A, const int& B) {
+				return A > B;
+				});
+			// 꼴찌 하나 뺀다
+			UE_LOG(LogTemp, Warning, TEXT("%d"), scoreArray.Num());
+			scoreArray.RemoveAt(scoreArray.Num()-1, 1, false);
+		}
+	}
+
+	SaveScore();
+	scoreWidget->PrintRanking();
+
 }
-else if (firstScore < currentScore && currentScore >= secondScore)
-{
-	sixthScore = seventhScore;
-	fifthScore = sixthScore;
-	fourthScore = fifthScore;
-	thirdScore = fourthScore;
-	secondScore = currentScore;
-}
-else if (secondScore < currentScore && currentScore >= thirdScore)
-{
-	sixthScore = seventhScore;
-	fifthScore = sixthScore;
-	fourthScore = fifthScore;
-	thirdScore = currentScore;
-}
-//else if (thirdScore<currentScore>=fourthScore)
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

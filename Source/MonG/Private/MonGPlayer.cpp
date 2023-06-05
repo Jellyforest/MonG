@@ -29,8 +29,8 @@
 #include "Marker.h"
 #include "Postit.h"
 #include "DustStrollSpawner.h"
-#include "ScoreWidget.h"
 #include "ScoreWidgetActor.h"
+#include "ScoreWidget.h"
 #include "PointWidget.h"
 
 
@@ -120,7 +120,6 @@ void AMonGPlayer::BeginPlay()
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	score_UI = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
 }
 
 // Called every frame
@@ -384,7 +383,7 @@ void AMonGPlayer::GameEnding()
 {
 	if (isEndWidgetCompoff == false)
 	{
-		monGgm->LoadScore();
+
 
 		endWidgetComp->SetVisibility(true);
 		dustStrollSpawner->Destroy();
@@ -399,9 +398,10 @@ void AMonGPlayer::GameEnding()
 		////////////////////////////
 		scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
 		scoreWidgetActor->WidgetAppeared();
-		scoreWidget = Cast<UScoreWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UScoreWidget::StaticClass()));
-		scoreWidget->PrintCurrentScore();
 
+		auto scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+		scoreWidget->PrintCurrentScore();
+		monGgm->RecordScore();
 	}
 }
 

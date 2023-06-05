@@ -21,8 +21,6 @@ ADust::ADust()
 	dustMesh->SetupAttachment(dustComp);
 	dustMesh->SetRelativeScale3D(FVector(0.3f));
 	
-	
-
 }
 
 // Called when the game starts or when spawned

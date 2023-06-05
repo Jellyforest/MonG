@@ -19,25 +19,10 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 currentScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 firstScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 secondScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 thirdScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 fourthScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 fifthScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 sixthScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
-	int32 seventhScore;
-	UPROPERTY(EditAnywhere,Category="SaveData")
 	FString saveSlotName;
 	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 saveIndex;	
 
-
+	UPROPERTY()
+	TArray <int32> saveScoreArray;
 };

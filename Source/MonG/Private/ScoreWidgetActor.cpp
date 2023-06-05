@@ -34,10 +34,13 @@ void AScoreWidgetActor::Tick(float DeltaTime)
 void AScoreWidgetActor::WidgetAppeared()
 {
 	UE_LOG(LogTemp, Warning, TEXT("widgetAppeared"));
+	SetActorLocation(FVector(22, 293, 297));
+	/*
 	FTimerHandle scoreWidgetOnTimer;
 	FTimerDelegate timerDelegate1;
 	timerDelegate1.BindLambda([this]()->void {
 		SetActorLocation(FVector(22, 293, 297));
 		});
 	GetWorld()->GetTimerManager().SetTimer(scoreWidgetOnTimer, timerDelegate1, 3.0f, false);
+	*/
 }

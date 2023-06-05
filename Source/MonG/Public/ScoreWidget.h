@@ -22,7 +22,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* currentScoreTB;
-	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* recordFirst;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
@@ -37,7 +36,7 @@ public:
 	class UTextBlock* recordSixth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* recordSeventh;
-	*/
+	
 
 	//UPROPERTY()
 //	class UPlayWidget* playWidget;
@@ -47,6 +46,13 @@ public:
 
 	UFUNCTION()
 	void PrintCurrentScore();
+	
+	UFUNCTION()
+	void PrintRanking();
 
+	UPROPERTY()
+	class AMonGGameModeBase* monGgm;
+	
+	TArray <UTextBlock*> scoreTextArray;
 
 };
