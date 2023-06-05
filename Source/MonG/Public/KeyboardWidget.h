@@ -17,6 +17,9 @@ protected:
 	virtual void NativeConstruct() override;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, meta=(BindWidget))
+	class UEditableText* editText_id;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, meta=(BindWidget))
 	class UButton* btn_Q;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, meta=(BindWidget))
 	class UButton* btn_W;

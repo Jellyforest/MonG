@@ -85,6 +85,11 @@ AMonGPlayer::AMonGPlayer()
 		leftMesh->SetRelativeLocation(FVector(-2.9f, 0.5f, 4.5f));
 		leftMesh->SetRelativeRotation(FRotator(-25, -180, 90));
 	}
+
+	rightAim = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightAim"));
+	rightAim->SetupAttachment(RootComponent);
+	rightAim->SetTrackingMotionSource(FName("rightAim"));
+
 	//ending¿ß¡¨
 	ending_UI = CreateDefaultSubobject<UEndingWidget>(TEXT("ending_UI"));
 	endWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("endWidgetComp"));
@@ -120,6 +125,9 @@ void AMonGPlayer::BeginPlay()
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+
+	
+
 }
 
 // Called every frame
@@ -127,6 +135,17 @@ void AMonGPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	startPos = rightAim->GetComponentLocation();
+	endPos = startPos + rightAim->GetForwardVector() * 100;
+	FHitResult lineInfo;
+	FCollisionQueryParams params;
+	bool isLineInfo = GetWorld()->LineTraceSingleByChannel(lineInfo, startPos, endPos, ECC_GameTraceChannel17, params);
+	if (isLineInfo == true)
+	{
+		PRINTTOScreen(FString::Printf(TEXT("WhiteBoard")));
+		DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
+
+	}
 }
 
 // Called to bind functionality to input

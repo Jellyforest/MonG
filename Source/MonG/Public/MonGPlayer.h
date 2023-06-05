@@ -79,7 +79,9 @@ public:
 	class USkeletalMeshComponent* leftMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="MotionController")
 	class UInputMappingContext* IMC_Hands;
-
+	// 집게손가락 모션컨트롤러
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MotionController", meta = (AllowPrivateAccess = true))
+	class UMotionControllerComponent* rightAim;
 	
 	//청소진동
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
@@ -122,7 +124,11 @@ public:
 	//게임모드
 	UPROPERTY()
 	class AMonGGameModeBase* monGgm;
-
+	//Line
+	UPROPERTY()
+	FVector endPos;
+	UPROPERTY()
+	FVector startPos;
 
 
 	//동작함수

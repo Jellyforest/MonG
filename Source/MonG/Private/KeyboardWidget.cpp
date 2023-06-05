@@ -2,10 +2,15 @@
 
 
 #include "KeyboardWidget.h"
+#include "Components/TextBlock.h"
+#include "Components/Button.h"
+#include "Components/EditableText.h"
+
 
 void UKeyboardWidget::NativeConstruct()
 {
-	//Q_btn->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_Q);
+	editText_id->SetText(FText::FromString(""));
+	btn_Q->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_Q);
 
 }
 
