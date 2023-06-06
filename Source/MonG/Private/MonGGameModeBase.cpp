@@ -8,6 +8,8 @@
 #include "ScoreWidgetActor.h"
 #include "ScoreWidget.h"
 #include <UMG/Public/Components/WidgetComponent.h>
+#include "KeyboardWidget.h"
+#include "KeyBoard.h"
 
 
 void AMonGGameModeBase::BeginPlay()
@@ -56,15 +58,18 @@ void AMonGGameModeBase::LoadScore()
 
 }
 
+
 void AMonGGameModeBase::RecordScore()
 {
 	AScoreWidgetActor* scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
 	UScoreWidget* scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
-
+	AKeyBoard* keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
+	UKeyboardWidget* keyboardWidget = Cast<UKeyboardWidget>(keyboard->keyboardWidgetComp->GetWidget());
 	if (scoreArray.Num() < 7)
 	{
 		// 무조건 더한다
 		scoreArray.Add(currentScore);
+		scoreIDArray.Add(keyboardWidget->resultArray);
 		// 정렬한다
 		scoreArray.Sort([](const int& A, const int& B) {
 			return A > B;
@@ -77,6 +82,7 @@ void AMonGGameModeBase::RecordScore()
 		{
 			// 하나 더하고
 			scoreArray.Add(currentScore);
+			scoreIDArray.Add(keyboardWidget->resultArray);
 			// 정렬한다
 			scoreArray.Sort([](const int& A, const int& B) {
 				return A > B;
@@ -84,6 +90,7 @@ void AMonGGameModeBase::RecordScore()
 			// 꼴찌 하나 뺀다
 			UE_LOG(LogTemp, Warning, TEXT("%d"), scoreArray.Num());
 			scoreArray.RemoveAt(scoreArray.Num()-1, 1, false);
+			scoreIDArray.RemoveAt(scoreArray.Num() - 1, 1, false);
 		}
 	}
 
@@ -92,6 +99,10 @@ void AMonGGameModeBase::RecordScore()
 
 }
 
+void AMonGGameModeBase::RecordID()
+{
+
+}
 
 
 

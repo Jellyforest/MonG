@@ -36,7 +36,24 @@ public:
 	class UTextBlock* recordSixth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
 	class UTextBlock* recordSeventh;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreSettings", meta = (BindWidget))
+	class UTextBlock* currentText;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+	class UTextBlock* text_First;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Second;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Third;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Fourth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Fifth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Sixth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreTextSettings", meta = (BindWidget))
+		class UTextBlock* text_Seventh;
+
 
 	//UPROPERTY()
 //	class UPlayWidget* playWidget;
@@ -54,5 +71,6 @@ public:
 	class AMonGGameModeBase* monGgm;
 	
 	TArray <UTextBlock*> scoreTextArray;
+	TArray <UTextBlock*> idArray;
 
 };

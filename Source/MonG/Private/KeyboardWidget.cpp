@@ -5,6 +5,8 @@
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 #include "Components/EditableText.h"
+#include "MonGGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UKeyboardWidget::NativeConstruct()
@@ -46,13 +48,25 @@ void UKeyboardWidget::NativeConstruct()
 	btn_N->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_N);
 	btn_M->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_M);
 	btn_Enter->OnClicked.AddDynamic(this, &UKeyboardWidget::Enter);
-
+	idTextArray.SetNum(4); 
 }
 
 void UKeyboardWidget::Click_Q()
 {
 	UE_LOG(LogTemp, Warning, TEXT("click q"));
 	idTextArray.Add(TEXT("Q"));
+
+	//for (int32 i = 0; i != idTextArray.Num(); ++i)
+	//{
+	//	editText_id->SetText(FText::FromString(""));
+		//UE_LOG(LogTemp, Warning, TEXT("Info= %s"), *idTextArray[i]);
+		//resultArray += idTextArray[i];
+	//}
+		//resultArray = editText_id;
+			
+
+	//editText_id->SetText(FText::FromString(idTextArray[4]));
+
 }
 
 void UKeyboardWidget::Click_W()
@@ -60,7 +74,20 @@ void UKeyboardWidget::Click_W()
 	UE_LOG(LogTemp, Warning, TEXT("click W"));
 	idTextArray.Add(TEXT("W"));
 	
+	/*
+	for (int32 i = 0; i != idTextArray.Num(); ++i)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Info= %s"), *idTextArray[i]);
+		resultArray += idTextArray[i];
+		//editText_id->SetText(FText::FromString(""));
+	}
+	for (int32 i = 0; i != idTextArray.Num(); ++i)
+	{
+		idTextArray[i];
+		editText_id->SetText(FText::FromString(FString::ToHexBlob(idTextArray));
 
+	}
+	*/
 }
 
 void UKeyboardWidget::Click_E()
@@ -123,6 +150,9 @@ void UKeyboardWidget::Click_P()
 		resultArray += idTextArray[i];
 		editText_id->SetText(FText::FromString(resultArray));
 	}
+	/////////////////////////////////
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	monGgm->RecordScore();
 }
 
 void UKeyboardWidget::Click_A()
@@ -209,9 +239,14 @@ void UKeyboardWidget::Enter()
 {
 	for (int32 i = 0; i != idTextArray.Num(); ++i)
 	{
+		editText_id->SetText(FText::FromString(""));
 		UE_LOG(LogTemp, Warning, TEXT("Info= %s"), *idTextArray[i]);
 		resultArray += idTextArray[i];
 		editText_id->SetText(FText::FromString(resultArray));
+
 	}
+	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	monGgm->RecordScore();
+
 }
 

@@ -29,7 +29,8 @@ public:
 	class UBoxComponent* aComp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="KeyBoardSettings")
 	class UBoxComponent* bComp;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="KeyBoardSettings")
+	class UWidgetComponent* keyboardWidgetComp;
 	
 
 };

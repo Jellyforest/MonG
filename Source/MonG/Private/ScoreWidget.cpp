@@ -5,6 +5,9 @@
 #include "Components/TextBlock.h"
 #include "MonGGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "KeyboardWidget.h"
+#include "KeyBoard.h"
+#include <UMG/Public/Components/WidgetComponent.h>
 
 
 
@@ -15,19 +18,23 @@ void UScoreWidget::NativeConstruct()
 	monGgm = Cast<AMonGGameModeBase>(GetWorld()->GetAuthGameMode());
 
 	scoreTextArray = {recordFirst, recordSecond, recordThird, recordFourth, recordFifth, recordSixth, recordSeventh};
-
+	idArray = { text_First, text_Second, text_Third, text_Fourth, text_Fifth, text_Sixth, text_Seventh };
 
 }
 
 
 void UScoreWidget::PrintCurrentScore()
 {
+	AKeyBoard* keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
+	UKeyboardWidget* keyboardWidget = Cast<UKeyboardWidget>(keyboard->keyboardWidgetComp->GetWidget());
+
 
 	if (monGgm != nullptr)
 	{
 		FText scoreText = FText::AsNumber(monGgm->currentScore);
 		currentScoreTB->SetText(scoreText);
-
+		//FText iDText = FText::FromString(keyboardWidget->resultArray);
+		//currentText->SetText(iDText);
 	}
 //	auto dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 //	if(dust)
@@ -88,13 +95,21 @@ void UScoreWidget::PrintCurrentScore()
 
 void UScoreWidget::PrintRanking()
 {
-	for (int i = 0; i < scoreTextArray.Num(); i++)
+	for (int32 i = 0; i < scoreTextArray.Num(); i++)
 	{
 		if (monGgm->scoreArray.IsValidIndex(i))
 		{
 			scoreTextArray[i]->SetText(FText::FromString(FString::FromInt(monGgm->scoreArray[i])));
 		}
 	}
+	for (int32 i = 0; i < idArray.Num(); i++)
+	{
+		if (monGgm->scoreIDArray.IsValidIndex(i))
+		{
+			idArray[i]->SetText((FText::FromString(monGgm->scoreIDArray[i])));
+		}
+	}
+		
 
 	/*
 	FText recordFirstText = FText::AsNumber(monGgm->scoreArray[0]);

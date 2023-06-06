@@ -23,6 +23,8 @@ public:
 	UPROPERTY(EditAnywhere,Category="SaveData")
 	int32 saveIndex;	
 
+
+
 	UPROPERTY()
 	TArray <int32> saveScoreArray;
 };

@@ -27,7 +27,7 @@ public:
 	void AddScore(int32 score);
 	
 	
-	//위젯
+	//점수 저장
 	void SaveScore();
 	void LoadScore();
 
@@ -45,6 +45,8 @@ public:
 	int32 seventhScore;
 	
 	TArray <int32> scoreArray;
+	TArray <FString> scoreIDArray;
 
 	void RecordScore();
+	void RecordID();
 };

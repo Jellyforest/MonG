@@ -4,6 +4,7 @@
 #include "KeyBoard.h"
 #include <Components/StaticMeshComponent.h>
 #include <Components/BoxComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 
 // Sets default values
 AKeyBoard::AKeyBoard()
@@ -21,6 +22,7 @@ AKeyBoard::AKeyBoard()
 	bComp->SetBoxExtent(FVector(0.2, 2.1, 2.9));
 	bComp->SetRelativeScale3D(FVector(1, 1.2, 1.2));
 	bComp->SetCollisionProfileName(TEXT("B"));
+	keyboardWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("keyboardWidgetComp"));
 }
 
 // Called when the game starts or when spawned

@@ -464,7 +464,6 @@ void AMonGPlayer::GameEnding()
 
 		auto scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
 		scoreWidget->PrintCurrentScore();
-		monGgm->RecordScore();
 	}
 }
 
