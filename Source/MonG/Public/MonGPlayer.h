@@ -82,7 +82,11 @@ public:
 	// 집게손가락 모션컨트롤러
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MotionController", meta = (AllowPrivateAccess = true))
 	class UMotionControllerComponent* rightAim;
-	
+	//위젯상호작용
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="WidgetController")
+	class UWidgetInteractionComponent* widgetInteractionComp;
+
+
 	//청소진동
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CleanerSettings")
 	class UHapticFeedbackEffect_Curve* HF_Clean;
@@ -177,6 +181,9 @@ public:
 	bool isStartWidgetOff = false;
 	bool isStartWidgetOffAndShoot = true;
 
+
+	//위젯상호작용 키
+	bool pressed = true;
 };
 
 

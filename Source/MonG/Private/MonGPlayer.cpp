@@ -32,7 +32,8 @@
 #include "ScoreWidgetActor.h"
 #include "ScoreWidget.h"
 #include "PointWidget.h"
-
+#include <HeadMountedDisplayFunctionLibrary.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 
 
@@ -89,6 +90,8 @@ AMonGPlayer::AMonGPlayer()
 	rightAim = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("rightAim"));
 	rightAim->SetupAttachment(RootComponent);
 	rightAim->SetTrackingMotionSource(FName("rightAim"));
+	widgetInteractionComp = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("widgetInteractionComp"));
+	widgetInteractionComp->SetupAttachment(rightAim);
 
 	//ending위젯
 	ending_UI = CreateDefaultSubobject<UEndingWidget>(TEXT("ending_UI"));
@@ -126,7 +129,27 @@ void AMonGPlayer::BeginPlay()
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 
+	/////////////////////////////
+	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled() == false)
+	{
+		// Hand 을 테스트 할 수 있는 위치로 이동
+		rightHand->SetRelativeLocation(FVector(20, 20, 50));
+		rightAim->SetRelativeLocation(FVector(20, 20, 50));
+		// 카메라의 Use Pawn Control Rotation 을 활성화
+		camera->bUsePawnControlRotation = true;
+	}
+	// 만약 HMD 가 열결되어 있다면
+	else
+	{
+		// -> 기본 트랙킹 offset 설정
+		UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Eye);
+	}
 	
+	if (widgetInteractionComp)
+	{
+		widgetInteractionComp->InteractionDistance = 1000.0f;
+		widgetInteractionComp->bEnableHitTesting = true;
+	}
 
 }
 
@@ -135,17 +158,23 @@ void AMonGPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
+	/*
 	startPos = rightAim->GetComponentLocation();
 	endPos = startPos + rightAim->GetForwardVector() * 100;
 	FHitResult lineInfo;
 	FCollisionQueryParams params;
 	bool isLineInfo = GetWorld()->LineTraceSingleByChannel(lineInfo, startPos, endPos, ECC_GameTraceChannel17, params);
+	params.AddIgnoredActor(this);
+
 	if (isLineInfo == true)
 	{
 		PRINTTOScreen(FString::Printf(TEXT("WhiteBoard")));
 		DrawDebugLine(GetWorld(), startPos, endPos, FColor::Red, false, -1, 0, -1);
 
 	}
+
+	*/
 }
 
 // Called to bind functionality to input
@@ -224,6 +253,8 @@ void AMonGPlayer::LeftClean()
 
 void AMonGPlayer::RightClean()
 {
+	pressed = true;
+
 	if (isRightCleanerHold == true)
 	{
 		if (isRightHold == true)
@@ -248,6 +279,19 @@ void AMonGPlayer::RightClean()
 			}
 		}
 
+	}
+	else if(widgetInteractionComp && widgetInteractionComp->IsOverInteractableWidget())
+	{
+		if (pressed == true)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("widgetpress"));
+			widgetInteractionComp->PressPointerKey(EKeys::LeftMouseButton);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("widgetrelease"));
+			widgetInteractionComp->ReleaseKey(EKeys::LeftMouseButton);
+		}
 	}
 }
 
