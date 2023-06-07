@@ -24,9 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnerSettings")
 	class UStaticMeshComponent* spawnerMesh;
-	UPROPERTY(EditAnywhere, Category = "SpawnerSettings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnerSettings")
 	class UBoxComponent* spawnerComp;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "SpawnerSettings")
 	class UArrowComponent* arrow;

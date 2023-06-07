@@ -153,7 +153,7 @@ void AMonGPlayer::BeginPlay()
 	*/
 	if (widgetInteractionComp)
 	{
-		widgetInteractionComp->InteractionDistance = 300.0f;
+		widgetInteractionComp->InteractionDistance = 100.0f;
 		widgetInteractionComp->bEnableHitTesting = false;
 	}
 	keyboard->keyboardWidgetComp->SetVisibility(false);

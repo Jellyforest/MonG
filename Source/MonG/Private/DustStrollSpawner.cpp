@@ -13,13 +13,14 @@ ADustStrollSpawner::ADustStrollSpawner()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	spawnerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("spawnerComp"));
-	SetRootComponent(spawnerComp);
-	spawnerComp->SetCollisionProfileName(TEXT("MonGBossPreset"));
+	
 	spawnerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("spawnerMesh"));
-	spawnerMesh->SetupAttachment(spawnerComp);
+	SetRootComponent(spawnerMesh);
+	spawnerComp = CreateDefaultSubobject<UBoxComponent>(TEXT("spawnerComp"));
+	spawnerComp->SetCollisionProfileName(TEXT("MonGBossPreset"));
+	spawnerComp->SetupAttachment(spawnerMesh);
 	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
-	arrow->SetupAttachment(spawnerComp);
+	arrow->SetupAttachment(spawnerMesh);
 }
 
 // Called when the game starts or when spawned
