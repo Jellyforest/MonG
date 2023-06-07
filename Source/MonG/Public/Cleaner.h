@@ -41,8 +41,9 @@ public:
 	class UArrowComponent* arrow;
 	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
 	TSubclassOf<class AWaterBullet> waterBullet;
- 
-
+	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
+	class UAudioComponent* bubbleSound;
+	
 	UFUNCTION()
 	void CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION(BlueprintCallable, Category = "WaterBulletSettings")

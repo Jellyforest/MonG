@@ -39,6 +39,12 @@ ACleaner::ACleaner()
 	cleanerStick->SetCollisionProfileName(TEXT("CleanerStickPreset"));
 	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
 	arrow->SetupAttachment(cleanerHead);
+	//bubbleSound = CreateDefaultSubobject<UAudioComponent>("bubbleSound");
+	ConstructorHelpers::FObjectFinder<USoundWave>tempSound(TEXT("/Script/Engine.SoundWave'/Game/JY/Music/bubble.bubble'"));
+	//if (tempSound.Succeeded())
+//	{
+		//bubleSound->SetSoundCueAudioEditor(tempSound.Object);
+	//}
 }
 
 // Called when the game starts or when spawned
@@ -101,11 +107,8 @@ void ACleaner::Shoot()
 	{
 
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-		//ConstructorHelpers::FObjectFinder<USoundCue> tempSound(TEXT("/Script/Engine.SoundCue'/Game/Asset/Music/bbuble_Cue.bbuble_Cue'"));
-	//	if (tempSound.Succeeded())
-		//{
-		//	bubleSound = tempSound.Object;
-	//	}
+		
+		
 
 		isShoot = true;
 	}
