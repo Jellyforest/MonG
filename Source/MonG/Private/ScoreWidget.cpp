@@ -8,6 +8,8 @@
 #include "KeyboardWidget.h"
 #include "KeyBoard.h"
 #include <UMG/Public/Components/WidgetComponent.h>
+#include "PlayWidget.h"
+#include "PlayWidgetActor.h"
 
 
 
@@ -16,7 +18,8 @@ void UScoreWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	monGgm = Cast<AMonGGameModeBase>(GetWorld()->GetAuthGameMode());
-
+	playWidgetActor = Cast<APlayWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayWidgetActor::StaticClass()));
+	playWidget = Cast<UPlayWidget>(playWidgetActor->playWidgetComp->GetWidget());
 	scoreTextArray = {recordFirst, recordSecond, recordThird, recordFourth, recordFifth, recordSixth, recordSeventh};
 	idArray = { text_First, text_Second, text_Third, text_Fourth, text_Fifth, text_Sixth, text_Seventh };
 
@@ -31,10 +34,11 @@ void UScoreWidget::PrintCurrentScore()
 
 	if (monGgm != nullptr)
 	{
-		FText scoreText = FText::AsNumber(monGgm->currentScore);
+		FText scoreText = FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore));
 		currentScoreTB->SetText(scoreText);
-		//FText iDText = FText::FromString(keyboardWidget->resultArray);
-		//currentText->SetText(iDText);
+
+		FText iDText = FText::FromString(keyboardWidget->resultArray);
+		currentText->SetText(iDText);
 	}
 //	auto dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 //	if(dust)

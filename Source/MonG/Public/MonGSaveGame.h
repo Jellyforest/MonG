@@ -26,5 +26,6 @@ public:
 
 
 	UPROPERTY()
-	TArray <int32> saveScoreArray;
+	TMap <FString, int32> rankingMap;
+
 };

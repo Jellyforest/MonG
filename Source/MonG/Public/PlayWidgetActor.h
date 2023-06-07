@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "KeyBoard.generated.h"
+#include "PlayWidgetActor.generated.h"
 
 UCLASS()
-class MONG_API AKeyBoard : public AActor
+class MONG_API APlayWidgetActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AKeyBoard();
+	APlayWidgetActor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -22,12 +22,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="playWidgetSettings")
+	class UWidgetComponent* playWidgetComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="KeyBoardSettings")
-	class UStaticMeshComponent* keyboardMesh;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="KeyBoardSettings")
-	class UWidgetComponent* keyboardWidgetComp;
-	
+
 
 };

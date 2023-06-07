@@ -70,6 +70,13 @@ public:
 	UPROPERTY()
 	class AMonGGameModeBase* monGgm;
 	
+	//게임플레위젯
+	UPROPERTY()
+	class UPlayWidget* playWidget;
+	
+	UPROPERTY()
+	class APlayWidgetActor* playWidgetActor;
+
 	TArray <UTextBlock*> scoreTextArray;
 	TArray <UTextBlock*> idArray;
 

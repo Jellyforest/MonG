@@ -34,6 +34,8 @@
 #include "PointWidget.h"
 #include <HeadMountedDisplayFunctionLibrary.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include "PlayWidgetActor.h"
+#include "KeyBoard.h"
 
 
 
@@ -128,8 +130,12 @@ void AMonGPlayer::BeginPlay()
 	left->OnComponentBeginOverlap.AddDynamic(this, &AMonGPlayer::LeftOnOverlap);
 	dust = Cast<ADust>(UGameplayStatics::GetActorOfClass(GetWorld(), ADust::StaticClass()));
 	monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+	scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+	keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
 
 	/////////////////////////////
+	/*
 	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled() == false)
 	{
 		// Hand 을 테스트 할 수 있는 위치로 이동
@@ -144,12 +150,13 @@ void AMonGPlayer::BeginPlay()
 		// -> 기본 트랙킹 offset 설정
 		UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Eye);
 	}
-	
+	*/
 	if (widgetInteractionComp)
 	{
-		widgetInteractionComp->InteractionDistance = 1000.0f;
-		widgetInteractionComp->bEnableHitTesting = true;
+		widgetInteractionComp->InteractionDistance = 300.0f;
+		widgetInteractionComp->bEnableHitTesting = false;
 	}
+	keyboard->keyboardWidgetComp->SetVisibility(false);
 
 }
 
@@ -199,7 +206,8 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Started, this, &AMonGPlayer::PressRightBulletButten);
 		inputSystem->BindAction(IA_Quit, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
-		inputSystem->BindAction(IA_RightDraw, ETriggerEvent::Triggered, this, &AMonGPlayer::RightDrawing);
+		inputSystem->BindAction(IA_Draw, ETriggerEvent::Started, this, &AMonGPlayer::RightDrawing);
+		inputSystem->BindAction(IA_Draw, ETriggerEvent::Completed, this, &AMonGPlayer::RightStopDrawing);
 		inputSystem->BindAction(IA_GameExit, ETriggerEvent::Triggered, this, &AMonGPlayer::MonGExit);
 		
 	}
@@ -381,7 +389,10 @@ void AMonGPlayer::PressUIBulletButten()
 		if (actorStartWidget != nullptr && actorStartWidget->isShowStartUI == true && isStartWidgetOff == false)
 		{
 		//////////	monGgm->Record
-			monGgm->SaveScore();
+		//	monGgm->SaveScore();
+			monGgm->LoadScore();
+			scoreWidget->PrintRanking();
+
 			//UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
 			actorStartWidget->Destroy();
 			isGameStart = true;
@@ -431,6 +442,8 @@ void AMonGPlayer::PressRightBulletButten()
 
 void AMonGPlayer::RightDrawing()
 {
+	//pressed = true;
+
 	if (marker != nullptr)
 	{
 		if (isRightHold == true)
@@ -440,15 +453,41 @@ void AMonGPlayer::RightDrawing()
 
 		}
 	}
+	if (widgetInteractionComp)
+	{
+		//if (pressed == true)
+		//{
+			widgetInteractionComp->PressPointerKey(EKeys::LeftMouseButton);
+			//widgetInteractionComp->PressPointerKey(FKey(TEXT("LeftMouseButton")));
+			//pressed = false;
+		//}
+		
+	}
+	
+}
+
+void AMonGPlayer::RightStopDrawing()
+{
+	if (widgetInteractionComp)
+	{
+		//widgetInteractionComp->ReleasePointerKey(FKey(TEXT("LeftMouseButton")));
+		widgetInteractionComp->ReleasePointerKey(EKeys::LeftMouseButton);
+	}
 }
 
 void AMonGPlayer::GameEnding()
 {
+	playWidgetActor = Cast<APlayWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayWidgetActor::StaticClass()));
+
 	if (isEndWidgetCompoff == false)
 	{
 
 
 		endWidgetComp->SetVisibility(true);
+		if (widgetInteractionComp)
+		{
+			widgetInteractionComp->bEnableHitTesting = true;
+		}
 		dustStrollSpawner->Destroy();
 		FTimerHandle endWidgetOffTimer;
 		FTimerDelegate timerDelegate;
@@ -459,11 +498,11 @@ void AMonGPlayer::GameEnding()
 		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
 		isEndWidgetCompoff = true;
 		////////////////////////////
-		scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
 		scoreWidgetActor->WidgetAppeared();
-
-		auto scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+		keyboard->keyboardWidgetComp->SetVisibility(true);
+		playWidgetActor->playWidgetComp->SetVisibility(false);
 		scoreWidget->PrintCurrentScore();
+		
 	}
 }
 
@@ -518,7 +557,7 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			isRightCleanerHold = false;
 			//PRINTTOScreen(FString::Printf(TEXT("left")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			cleaner->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
+			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
 
 		}
 	}

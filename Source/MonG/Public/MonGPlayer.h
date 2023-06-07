@@ -50,7 +50,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_RightA;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	class UInputAction* IA_RightDraw;
+	class UInputAction* IA_Draw;
 	//나가기 키
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_GameExit;
@@ -106,6 +106,8 @@ public:
 	//게임플레위젯
 	UPROPERTY()
 	class UPlayWidget* playWidget;
+	UPROPERTY()
+	class APlayWidgetActor* playWidgetActor;
 
 	//시작위젯
 	UPROPERTY()
@@ -114,11 +116,14 @@ public:
 	//점수 위젯
 	UPROPERTY()
 	class AScoreWidgetActor* scoreWidgetActor;
-
+	UPROPERTY()
+	class UScoreWidget* scoreWidget;
 	//마커펜
 	UPROPERTY()
 	class AMarker* marker;
-
+	//키보드
+	UPROPERTY()
+	class AKeyBoard* keyboard;
 	//포스트잇
 	UPROPERTY()
 	class APostit* postit;
@@ -152,7 +157,7 @@ public:
 	void PressRightBulletButten();
 	//그림그리기
 	void RightDrawing();
-	
+	void RightStopDrawing();
 	//ending위젯 함수
 	void GameEnding();
 	//나가기
@@ -183,7 +188,7 @@ public:
 
 
 	//위젯상호작용 키
-	bool pressed = true;
+	bool pressed = false;
 };
 
 

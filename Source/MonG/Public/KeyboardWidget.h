@@ -83,7 +83,15 @@ public:
 	TArray<FString> idTextArray;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
 	FString resultArray;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
+	FString scoreID;
 
+	UPROPERTY()
+	class AScoreWidgetActor* scoreWidgetActor;
+	UPROPERTY()
+	class UScoreWidget* scoreWidget;
+	UPROPERTY()
+	class AKeyBoard* keyboard;
 
 	UFUNCTION(BlueprintCallable)
 	void Click_Q();

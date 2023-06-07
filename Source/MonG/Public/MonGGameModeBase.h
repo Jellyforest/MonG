@@ -22,6 +22,10 @@ public:
 
 	UPROPERTY()
 	class ADust* dust;
+	UPROPERTY()
+	class AScoreWidgetActor* scoreWidgetActor;
+	UPROPERTY()
+	class UScoreWidget* scoreWidget;
 
 	//먼지점수
 	void AddScore(int32 score);
@@ -44,9 +48,13 @@ public:
 	int32 sixthScore;
 	int32 seventhScore;
 	
+
 	TArray <int32> scoreArray;
 	TArray <FString> scoreIDArray;
+	TMap <FString, int32> rankingMap;
 
-	void RecordScore();
-	void RecordID();
+	
+	void PlusRanking(FString scoreID);
+	void RankingData();
+	
 };

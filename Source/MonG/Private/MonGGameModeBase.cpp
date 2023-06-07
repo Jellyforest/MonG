@@ -10,12 +10,16 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include "KeyboardWidget.h"
 #include "KeyBoard.h"
+#include "Components/TextBlock.h"
 
 
 void AMonGGameModeBase::BeginPlay()
 {
 	LoadScore();
+	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+	scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
 }
+
 
 void AMonGGameModeBase::AddScore(int32 score)
 {
@@ -34,7 +38,7 @@ void AMonGGameModeBase::SaveScore()
 		scoreDataInstance->saveSlotName = "ScoreData";
 		scoreDataInstance->saveIndex = 0;
 
-		scoreDataInstance->saveScoreArray =scoreArray;
+		scoreDataInstance->rankingMap =rankingMap;
 
 		UGameplayStatics::SaveGameToSlot(scoreDataInstance, scoreDataInstance->saveSlotName, scoreDataInstance->saveIndex);
 	}
@@ -51,7 +55,7 @@ void AMonGGameModeBase::LoadScore()
 		loadDataInstance = Cast<UMonGSaveGame>(UGameplayStatics::LoadGameFromSlot(loadDataInstance->saveSlotName, loadDataInstance->saveIndex));
 		if (loadDataInstance)
 		{
-			scoreArray = loadDataInstance->saveScoreArray;
+			rankingMap = loadDataInstance->rankingMap;
 		}
 
 	}
@@ -59,50 +63,68 @@ void AMonGGameModeBase::LoadScore()
 }
 
 
-void AMonGGameModeBase::RecordScore()
+
+
+void AMonGGameModeBase::PlusRanking(FString scoreID)
 {
-	AScoreWidgetActor* scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
-	UScoreWidget* scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
 	AKeyBoard* keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
 	UKeyboardWidget* keyboardWidget = Cast<UKeyboardWidget>(keyboard->keyboardWidgetComp->GetWidget());
+
 	if (scoreArray.Num() < 7)
-	{
-		// 무조건 더한다
-		scoreArray.Add(currentScore);
-		scoreIDArray.Add(keyboardWidget->resultArray);
-		// 정렬한다
-		scoreArray.Sort([](const int& A, const int& B) {
+	{	
+		scoreID = keyboardWidget->resultArray;
+
+		rankingMap.Add(scoreID, currentScore);
+		rankingMap.ValueSort([](const int& A, const int& B) {
 			return A > B;
 			});
 	}
-	else
+	else if (currentScore > scoreArray[scoreArray.Num() - 1])
 	{
-		// 만약 랭킹의 꼴찌보다 잘했다면
-		if (currentScore > scoreArray[scoreArray.Num() - 1])
+		rankingMap.Add(scoreID, currentScore);
+		rankingMap.ValueSort([](const int& A, const int& B) {
+			return A > B;
+			});
+		rankingMap.GenerateKeyArray(scoreIDArray);
+			
+		// 맨 꼴찌 key를 알아낸다
+		FString lastRankedName = scoreIDArray[scoreIDArray.Num() - 1];
+
+		rankingMap.Remove(lastRankedName);
+		
+	}
+	
+	RankingData();
+	SaveScore();
+
+}
+
+void AMonGGameModeBase::RankingData()
+{
+	scoreArray.Empty();
+	scoreIDArray.Empty();
+
+	rankingMap.GenerateValueArray(scoreArray);
+	rankingMap.GenerateKeyArray(scoreIDArray);
+
+	for (int32 i = 0; i < scoreWidget->scoreTextArray.Num(); i++)
+	{
+		if (scoreArray.IsValidIndex(i))
 		{
-			// 하나 더하고
-			scoreArray.Add(currentScore);
-			scoreIDArray.Add(keyboardWidget->resultArray);
-			// 정렬한다
-			scoreArray.Sort([](const int& A, const int& B) {
-				return A > B;
-				});
-			// 꼴찌 하나 뺀다
-			UE_LOG(LogTemp, Warning, TEXT("%d"), scoreArray.Num());
-			scoreArray.RemoveAt(scoreArray.Num()-1, 1, false);
-			scoreIDArray.RemoveAt(scoreArray.Num() - 1, 1, false);
+			scoreWidget->scoreTextArray[i]->SetText(FText::FromString(FString::FromInt(scoreArray[i])));
 		}
 	}
-
-	SaveScore();
+	for (int32 i = 0; i < scoreWidget->idArray.Num(); i++)
+	{
+		if (scoreIDArray.IsValidIndex(i))
+		{
+			scoreWidget->idArray[i]->SetText((FText::FromString(scoreIDArray[i])));
+		}
+	}
 	scoreWidget->PrintRanking();
 
 }
 
-void AMonGGameModeBase::RecordID()
-{
-
-}
 
 
 

@@ -7,7 +7,12 @@
 #include "Components/EditableText.h"
 #include "MonGGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "ScoreWidgetActor.h"
+#include "ScoreWidget.h"
+#include <UMG/Public/Components/WidgetComponent.h>
+#include "KeyBoard.h"
 
+#define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
 void UKeyboardWidget::NativeConstruct()
 {
@@ -20,7 +25,7 @@ void UKeyboardWidget::NativeConstruct()
 	///		buttonArray[i]->SetText(FText::FromString((spellArray)));
 	///	}
 	//}
-	editText_id->SetText(FText::FromString(""));
+	//editText_id->SetText(FText::FromString(""));
 	btn_Q->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_Q);
 	btn_W->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_W);
 	btn_E->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_E);
@@ -48,7 +53,7 @@ void UKeyboardWidget::NativeConstruct()
 	btn_N->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_N);
 	btn_M->OnClicked.AddDynamic(this, &UKeyboardWidget::Click_M);
 	btn_Enter->OnClicked.AddDynamic(this, &UKeyboardWidget::Enter);
-	idTextArray.SetNum(4); 
+	//idTextArray.SetNum(4); 
 }
 
 void UKeyboardWidget::Click_Q()
@@ -144,15 +149,7 @@ void UKeyboardWidget::Click_P()
 	UE_LOG(LogTemp, Warning, TEXT("click p"));
 
 	idTextArray.Add(TEXT("P"));
-	for (int32 i = 0; i != idTextArray.Num(); ++i)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Info= %s"), *idTextArray[i]);
-		resultArray += idTextArray[i];
-		editText_id->SetText(FText::FromString(resultArray));
-	}
-	/////////////////////////////////
-	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	monGgm->RecordScore();
+
 }
 
 void UKeyboardWidget::Click_A()
@@ -240,13 +237,19 @@ void UKeyboardWidget::Enter()
 	for (int32 i = 0; i != idTextArray.Num(); ++i)
 	{
 		editText_id->SetText(FText::FromString(""));
-		UE_LOG(LogTemp, Warning, TEXT("Info= %s"), *idTextArray[i]);
 		resultArray += idTextArray[i];
 		editText_id->SetText(FText::FromString(resultArray));
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), SetText(FText::FromString(resultArray)));
+		//PRINTTOScreen((TEXT("%s"), resultArray));
 
 	}
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
-	monGgm->RecordScore();
+	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
+	scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+	keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
 
+	scoreWidget->PrintCurrentScore();
+	monGgm->PlusRanking(scoreID);
+	keyboard->keyboardWidgetComp->SetVisibility(false);
 }
 

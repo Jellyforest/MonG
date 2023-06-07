@@ -58,7 +58,7 @@ void UPlayWidget::NativeConstruct()
 	timerDelegate1.BindLambda([this]()->void {
 		
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore))); });
-	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.01, true);
+	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.001, true);
 
 }
 

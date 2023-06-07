@@ -13,16 +13,17 @@ AKeyBoard::AKeyBoard()
 	PrimaryActorTick.bCanEverTick = true;
 
 	keyboardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("keyboardMesh"));
-	SetRootComponent(RootComponent);
-	aComp = CreateDefaultSubobject<UBoxComponent>(TEXT("aComp"));
-	aComp->SetBoxExtent(FVector(0.2, 2.1, 2.9));
-	aComp->SetRelativeScale3D(FVector(1, 1.2, 1.2));
-	aComp->SetCollisionProfileName(TEXT("A"));
-	bComp = CreateDefaultSubobject<UBoxComponent>(TEXT("bComp"));
-	bComp->SetBoxExtent(FVector(0.2, 2.1, 2.9));
-	bComp->SetRelativeScale3D(FVector(1, 1.2, 1.2));
-	bComp->SetCollisionProfileName(TEXT("B"));
+	
+	//aComp = CreateDefaultSubobject<UBoxComponent>(TEXT("aComp"));
+	///aComp->SetBoxExtent(FVector(0.2, 2.1, 2.9));
+	//aComp->SetRelativeScale3D(FVector(1, 1.2, 1.2));
+	//aComp->SetCollisionProfileName(TEXT("A"));
+	//bComp = CreateDefaultSubobject<UBoxComponent>(TEXT("bComp"));
+	//bComp->SetBoxExtent(FVector(0.2, 2.1, 2.9));
+	//bComp->SetRelativeScale3D(FVector(1, 1.2, 1.2));
+	//bComp->SetCollisionProfileName(TEXT("B"));
 	keyboardWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("keyboardWidgetComp"));
+	SetRootComponent(keyboardWidgetComp);
 }
 
 // Called when the game starts or when spawned
