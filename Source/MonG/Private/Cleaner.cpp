@@ -12,6 +12,8 @@
 #include "CleaningEffect.h"
 #include <Components/ArrowComponent.h>
 #include "WaterBullet.h"
+#include "Sound/SoundCue.h"
+
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -99,6 +101,12 @@ void ACleaner::Shoot()
 	{
 
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
+		//ConstructorHelpers::FObjectFinder<USoundCue> tempSound(TEXT("/Script/Engine.SoundCue'/Game/Asset/Music/bbuble_Cue.bbuble_Cue'"));
+	//	if (tempSound.Succeeded())
+		//{
+		//	bubleSound = tempSound.Object;
+	//	}
+
 		isShoot = true;
 	}
 }

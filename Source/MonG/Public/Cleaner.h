@@ -61,5 +61,7 @@ public:
 
 	int32 bullet = 15;
 
+	UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
+	class USoundCue* bubleSound;
 
 };
