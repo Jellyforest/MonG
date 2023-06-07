@@ -78,7 +78,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 		monGgm->AddScore(dust->point);
 		dust->getPoint = true;
-
+		
 		FTimerHandle destroyTimer;
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([this]()->void {
@@ -88,6 +88,7 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 			}
 			});
 		GetWorld()->GetTimerManager().SetTimer(destroyTimer, timerDelegate, 0.2f, false);
+		
 	}
 }
 

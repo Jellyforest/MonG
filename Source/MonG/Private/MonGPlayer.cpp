@@ -292,12 +292,12 @@ void AMonGPlayer::RightClean()
 	{
 		if (pressed == true)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("widgetpress"));
+			//UE_LOG(LogTemp, Warning, TEXT("widgetpress"));
 			widgetInteractionComp->PressPointerKey(EKeys::LeftMouseButton);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("widgetrelease"));
+			//UE_LOG(LogTemp, Warning, TEXT("widgetrelease"));
 			widgetInteractionComp->ReleaseKey(EKeys::LeftMouseButton);
 		}
 	}

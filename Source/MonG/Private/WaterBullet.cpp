@@ -7,6 +7,9 @@
 #include "DustStrollSpawner.h"
 #include <Kismet/GameplayStatics.h>
 #include "MonGGameModeBase.h"
+#include <UMG/Public/Components/WidgetComponent.h>
+#include "PlayWidget.h"
+#include "PlayWidgetActor.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -52,10 +55,13 @@ void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* 
 {
 	dustStrollSpawner = Cast<ADustStrollSpawner>(OtherActor);
 	AMonGGameModeBase* monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	playWidgetActor = Cast<APlayWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayWidgetActor::StaticClass()));
+	playWidget = Cast<UPlayWidget>(playWidgetActor->playWidgetComp->GetWidget());
+
 	if (dustStrollSpawner != nullptr)
 	{
 
-		PRINTTOScreen(FString::Printf(TEXT("BulletOverlap")));
+		//PRINTTOScreen(FString::Printf(TEXT("BulletOverlap")));
 		if (dustStrollSpawner->HP > 0)
 		{
 			dustStrollSpawner->HP -= 30;
@@ -65,7 +71,7 @@ void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* 
 		{
 			monGgm->AddScore(point);
 			dustStrollSpawner->Destroy();
-
+			playWidget->timer = 0;
 		}
 	}
 
