@@ -40,7 +40,10 @@ ACleaner::ACleaner()
 	cleanerStick->SetCollisionProfileName(TEXT("CleanerStickPreset"));
 	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
 	arrow->SetupAttachment(cleanerHead);
-	cleanerbubbleSoundComp = CreateDefaultSubobject<UAudioComponent>("bubbleSound");
+	cleanerSoundComp = CreateDefaultSubobject<UAudioComponent>("bubbleSound");
+	cleanerbubbleSoundComp = CreateDefaultSubobject<UAudioComponent>("cleanerbubbleSoundComp");
+	cleanerSoundComp->SetupAttachment(RootComponent);
+	cleanerbubbleSoundComp->SetupAttachment(RootComponent);
 	//ConstructorHelpers::FObjectFinder<USoundWave>tempSound(TEXT("/Script/Engine.SoundWave'/Game/JY/Music/bubble.bubble'"));
 	//if (tempSound.Succeeded())
 //	{
@@ -88,7 +91,6 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		monGgm->AddScore(dust->point);
 		dust->getPoint = true;
 		UGameplayStatics::PlaySound2D(this, cleanerSoundBase);	
-		cleanerbubbleSoundComp->Play(0);
 
 		FTimerHandle destroyTimer;
 		FTimerDelegate timerDelegate;
@@ -110,8 +112,8 @@ void ACleaner::Shoot()
 	{
 
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-		UGameplayStatics::PlaySound2D(this, bubbleSoundBase);
-		
+		//UGameplayStatics::PlaySound2D(this, bubbleSoundBase);
+		cleanerbubbleSoundComp->Play();
 
 		isShoot = true;
 	}

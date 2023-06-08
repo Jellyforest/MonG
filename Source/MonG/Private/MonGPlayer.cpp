@@ -36,6 +36,7 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "PlayWidgetActor.h"
 #include "KeyBoard.h"
+#include <Components/AudioComponent.h>
 
 
 
@@ -272,6 +273,8 @@ void AMonGPlayer::RightClean()
 			{
 				//마우스 클릭시 청소기 돌아가게
 				isRightClean = true;
+				cleaner->cleanerSoundComp->Play(0);
+
 				//청소효과
 				AActor* cleanFX = GetWorld()->SpawnActor<ACleaningEffect>(cleaner->cleaningEffect, cleaner->cleanerHeadComp->GetComponentLocation(), cleaner->cleanerHeadComp->GetComponentRotation());
 				cleanFX->AttachToComponent(cleaner->cleanerHeadComp, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
@@ -314,6 +317,8 @@ void AMonGPlayer::LeftStopClean()
 void AMonGPlayer::RightStopClean()
 {
 	isRightClean = false;
+	cleaner->cleanerSoundComp->Stop();
+
 }
 
 void AMonGPlayer::LeftHold()
