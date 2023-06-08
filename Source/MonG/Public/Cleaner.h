@@ -65,12 +65,13 @@ public:
 	//UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
 	///class USoundCue* bubleSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
-	class USoundBase* bubbleSoundBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
 	class USoundBase* cleanerSoundBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
+	class UAudioComponent* cleanerSoundComp;
+	
+	UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
 	class UAudioComponent* cleanerbubbleSoundComp;
 };
