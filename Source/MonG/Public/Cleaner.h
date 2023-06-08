@@ -41,8 +41,8 @@ public:
 	class UArrowComponent* arrow;
 	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
 	TSubclassOf<class AWaterBullet> waterBullet;
-	UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
-	class UAudioComponent* bubbleSound;
+	//UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "WaterBulletSettings")
+	//class UAudioComponent* bubbleSound;
 	
 	UFUNCTION()
 	void CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -62,7 +62,15 @@ public:
 
 	int32 bullet = 15;
 
-	UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
-	class USoundCue* bubleSound;
+	//UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
+	///class USoundCue* bubleSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = cleanerSound)
+	class USoundBase* bubbleSoundBase;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
+	class USoundBase* cleanerSoundBase;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
+	class UAudioComponent* cleanerbubbleSoundComp;
 };

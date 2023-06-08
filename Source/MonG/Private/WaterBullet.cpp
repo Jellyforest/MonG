@@ -65,6 +65,7 @@ void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* 
 		if (dustStrollSpawner->HP > 0)
 		{
 			dustStrollSpawner->HP -= 30;
+			UGameplayStatics::PlaySound2D(this, bulletSoundBase);
 			this->Destroy();
 		}
 		if (dustStrollSpawner->HP == 0)

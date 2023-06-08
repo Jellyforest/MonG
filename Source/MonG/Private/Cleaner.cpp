@@ -13,6 +13,7 @@
 #include <Components/ArrowComponent.h>
 #include "WaterBullet.h"
 #include "Sound/SoundCue.h"
+#include <Components/AudioComponent.h>
 
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
@@ -39,11 +40,11 @@ ACleaner::ACleaner()
 	cleanerStick->SetCollisionProfileName(TEXT("CleanerStickPreset"));
 	arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("arrow"));
 	arrow->SetupAttachment(cleanerHead);
-	//bubbleSound = CreateDefaultSubobject<UAudioComponent>("bubbleSound");
-	ConstructorHelpers::FObjectFinder<USoundWave>tempSound(TEXT("/Script/Engine.SoundWave'/Game/JY/Music/bubble.bubble'"));
+	cleanerbubbleSoundComp = CreateDefaultSubobject<UAudioComponent>("bubbleSound");
+	//ConstructorHelpers::FObjectFinder<USoundWave>tempSound(TEXT("/Script/Engine.SoundWave'/Game/JY/Music/bubble.bubble'"));
 	//if (tempSound.Succeeded())
 //	{
-		//bubleSound->SetSoundCueAudioEditor(tempSound.Object);
+		//bubleSound->SetSound(tempSound.Object);
 	//}
 }
 
@@ -86,7 +87,9 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 		monGgm->AddScore(dust->point);
 		dust->getPoint = true;
-		
+		UGameplayStatics::PlaySound2D(this, cleanerSoundBase);	
+		cleanerbubbleSoundComp->Play(0);
+
 		FTimerHandle destroyTimer;
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([this]()->void {
@@ -107,7 +110,7 @@ void ACleaner::Shoot()
 	{
 
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-		
+		UGameplayStatics::PlaySound2D(this, bubbleSoundBase);
 		
 
 		isShoot = true;
