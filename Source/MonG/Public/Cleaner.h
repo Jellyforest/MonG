@@ -67,7 +67,7 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
-	class USoundBase* cleanerSoundBase;
+	class USoundBase* bubbleSoundBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = cleanerSound)
 	class UAudioComponent* cleanerSoundComp;

@@ -317,7 +317,11 @@ void AMonGPlayer::LeftStopClean()
 void AMonGPlayer::RightStopClean()
 {
 	isRightClean = false;
-	cleaner->cleanerSoundComp->Stop();
+	if (cleaner)
+	{
+		cleaner->cleanerSoundComp->Stop();
+
+	}
 
 }
 

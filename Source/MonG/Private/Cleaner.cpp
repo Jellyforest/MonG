@@ -86,11 +86,11 @@ void ACleaner::CleaningTime(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		dust->dustComp->SetSimulatePhysics(false);
 		dust->dustComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		dust->AttachToComponent(cleanerHead, FAttachmentTransformRules::KeepWorldTransform);
-		//////////점수
+		/////////점수
 		monGgm = Cast<AMonGGameModeBase>(UGameplayStatics::GetGameMode(this));
 		monGgm->AddScore(dust->point);
 		dust->getPoint = true;
-		UGameplayStatics::PlaySound2D(this, cleanerSoundBase);	
+		//UGameplayStatics::PlaySound2D(this, cleanerSoundBase);	
 
 		FTimerHandle destroyTimer;
 		FTimerDelegate timerDelegate;
@@ -112,8 +112,8 @@ void ACleaner::Shoot()
 	{
 
 		GetWorld()->SpawnActor<AWaterBullet>(waterBullet, arrow->GetComponentLocation(), arrow->GetComponentRotation());
-		//UGameplayStatics::PlaySound2D(this, bubbleSoundBase);
-		cleanerbubbleSoundComp->Play();
+		UGameplayStatics::PlaySound2D(this, bubbleSoundBase);
+		//cleanerbubbleSoundComp->Play();
 
 		isShoot = true;
 	}

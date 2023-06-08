@@ -54,9 +54,9 @@ public:
 	int32 pointThree = 30;
 	int32 pointFive = 5;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 HP = 3000;
+	int32 HP = 300;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 MaxHP = 3000;
+	int32 MaxHP = 300;
 	//»Æ¿Œ
 
 	UFUNCTION(BlueprintCallable)
