@@ -60,7 +60,7 @@ void UKeyboardWidget::Click_Q()
 {
 	UE_LOG(LogTemp, Warning, TEXT("click q"));
 	idTextArray.Add(TEXT("Q"));
-
+	editText_id->SetText(FText::FromString("Q"));
 	//for (int32 i = 0; i != idTextArray.Num(); ++i)
 	//{
 	//	editText_id->SetText(FText::FromString(""));
@@ -68,8 +68,7 @@ void UKeyboardWidget::Click_Q()
 		//resultArray += idTextArray[i];
 	//}
 		//resultArray = editText_id;
-			
-
+		
 	//editText_id->SetText(FText::FromString(idTextArray[4]));
 
 }
@@ -78,7 +77,8 @@ void UKeyboardWidget::Click_W()
 {
 	UE_LOG(LogTemp, Warning, TEXT("click W"));
 	idTextArray.Add(TEXT("W"));
-	
+	editText_id->SetText(FText::FromString("W"));
+
 	/*
 	for (int32 i = 0; i != idTextArray.Num(); ++i)
 	{
@@ -99,7 +99,8 @@ void UKeyboardWidget::Click_E()
 {
 	UE_LOG(LogTemp, Warning, TEXT("click E"));
 	idTextArray.Add(TEXT("E"));
-	
+	editText_id->SetText(FText::FromString("E"));
+
 }
 
 void UKeyboardWidget::Click_R()
@@ -107,6 +108,8 @@ void UKeyboardWidget::Click_R()
 	UE_LOG(LogTemp, Warning, TEXT("click R"));
 
 	idTextArray.Add(TEXT("R"));
+	editText_id->SetText(FText::FromString("R"));
+
 }
 
 void UKeyboardWidget::Click_T()
@@ -114,6 +117,8 @@ void UKeyboardWidget::Click_T()
 	UE_LOG(LogTemp, Warning, TEXT("click T"));
 
 	idTextArray.Add(TEXT("T"));
+	editText_id->SetText(FText::FromString("T"));
+
 }
 
 void UKeyboardWidget::Click_Y()
@@ -121,6 +126,8 @@ void UKeyboardWidget::Click_Y()
 	UE_LOG(LogTemp, Warning, TEXT("click Y"));
 
 	idTextArray.Add(TEXT("Y"));
+	editText_id->SetText(FText::FromString("Y"));
+
 }
 
 void UKeyboardWidget::Click_U()
@@ -128,6 +135,8 @@ void UKeyboardWidget::Click_U()
 	UE_LOG(LogTemp, Warning, TEXT("click U"));
 
 	idTextArray.Add(TEXT("U"));
+	editText_id->SetText(FText::FromString("U"));
+
 }
 
 void UKeyboardWidget::Click_I()
@@ -135,6 +144,8 @@ void UKeyboardWidget::Click_I()
 	UE_LOG(LogTemp, Warning, TEXT("click I"));
 
 	idTextArray.Add(TEXT("I"));
+	editText_id->SetText(FText::FromString("I"));
+
 }
 
 void UKeyboardWidget::Click_O()
@@ -142,6 +153,8 @@ void UKeyboardWidget::Click_O()
 	UE_LOG(LogTemp, Warning, TEXT("click o"));
 
 	idTextArray.Add(TEXT("O"));
+	editText_id->SetText(FText::FromString("O"));
+
 }
 
 void UKeyboardWidget::Click_P()
@@ -149,87 +162,121 @@ void UKeyboardWidget::Click_P()
 	UE_LOG(LogTemp, Warning, TEXT("click p"));
 
 	idTextArray.Add(TEXT("P"));
+	editText_id->SetText(FText::FromString("P"));
 
 }
 
 void UKeyboardWidget::Click_A()
 {
 	idTextArray.Add(TEXT("A"));
+	editText_id->SetText(FText::FromString("A"));
+
 }
 
 void UKeyboardWidget::Click_S()
 {
 	idTextArray.Add(TEXT("S"));
+	editText_id->SetText(FText::FromString("S"));
+
 }
 
 void UKeyboardWidget::Click_D()
 {
 	idTextArray.Add(TEXT("D"));
+	editText_id->SetText(FText::FromString("D"));
+
 }
 
 void UKeyboardWidget::Click_F()
 {
 	idTextArray.Add(TEXT("F"));
+	editText_id->SetText(FText::FromString("F"));
+
 }
 
 void UKeyboardWidget::Click_G()
 {
 	idTextArray.Add(TEXT("G"));
+	editText_id->SetText(FText::FromString("G"));
+
 }
 
 void UKeyboardWidget::Click_H()
 {
 	idTextArray.Add(TEXT("H"));
+	editText_id->SetText(FText::FromString("H"));
+
 }
 
 void UKeyboardWidget::Click_J()
 {
 	idTextArray.Add(TEXT("J"));
+	editText_id->SetText(FText::FromString("J"));
+
 }
 
 void UKeyboardWidget::Click_K()
 {
 	idTextArray.Add(TEXT("K"));
+	editText_id->SetText(FText::FromString("K"));
+
 }
 
 void UKeyboardWidget::Click_L()
 {
 	idTextArray.Add(TEXT("L"));
+	editText_id->SetText(FText::FromString("L"));
+
 }
 
 void UKeyboardWidget::Click_Z()
 {
 	idTextArray.Add(TEXT("Z"));
+	editText_id->SetText(FText::FromString("Z"));
+
 }
 
 void UKeyboardWidget::Click_X()
 {
 	idTextArray.Add(TEXT("X"));
+	editText_id->SetText(FText::FromString("X"));
+
 }
 
 void UKeyboardWidget::Click_C()
 {
 	idTextArray.Add(TEXT("C"));
+	editText_id->SetText(FText::FromString("C"));
+
+
 }
 
 void UKeyboardWidget::Click_V()
 {
 	idTextArray.Add(TEXT("V"));
+	editText_id->SetText(FText::FromString("V"));
+
 }
 
 void UKeyboardWidget::Click_B()
 {
 	idTextArray.Add(TEXT("B"));
+	editText_id->SetText(FText::FromString("B"));
+
 }
 
 void UKeyboardWidget::Click_N()
 {
 	idTextArray.Add(TEXT("N"));
+	editText_id->SetText(FText::FromString("N"));
+
 }
 
 void UKeyboardWidget::Click_M()
 {
 	idTextArray.Add(TEXT("M"));
+	editText_id->SetText(FText::FromString("M"));
+
 }
 
 void UKeyboardWidget::Enter()

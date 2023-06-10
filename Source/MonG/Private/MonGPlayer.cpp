@@ -154,7 +154,7 @@ void AMonGPlayer::BeginPlay()
 	*/
 	if (widgetInteractionComp)
 	{
-		widgetInteractionComp->InteractionDistance = 100.0f;
+		widgetInteractionComp->InteractionDistance = 150.0f;
 		widgetInteractionComp->bEnableHitTesting = false;
 	}
 	keyboard->keyboardWidgetComp->SetVisibility(false);
@@ -504,13 +504,15 @@ void AMonGPlayer::GameEnding()
 			isGameStart = true;
 		endWidgetComp->SetVisibility(false);
 			});
-		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 5.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(endWidgetOffTimer, timerDelegate, 3.0f, false);
 		isEndWidgetCompoff = true;
 		////////////////////////////
 		scoreWidgetActor->WidgetAppeared();
 		keyboard->keyboardWidgetComp->SetVisibility(true);
 		playWidgetActor->playWidgetComp->SetVisibility(false);
 		scoreWidget->PrintCurrentScore();
+		scoreWidget->PrintRanking();
+
 		
 	}
 }
@@ -566,11 +568,12 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			isRightCleanerHold = false;
 			//PRINTTOScreen(FString::Printf(TEXT("left")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
-
+			//cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
+			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
 		}
 	}
 
+	//AttachToComponent(player->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("WeaponSocket"));
 }
 
 
