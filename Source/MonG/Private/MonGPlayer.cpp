@@ -516,6 +516,7 @@ void AMonGPlayer::GameEnding()
 		playWidgetActor->SetActorLocation(FVector(256, 279, 294));
 		scoreWidget->PrintCurrentScore();
 		wall->SetActorLocation(FVector(963,306, 94));
+
 		
 	}
 }

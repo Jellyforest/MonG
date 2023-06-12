@@ -27,7 +27,6 @@ void UPlayWidget::NativeConstruct()
 	///////////////pointWidget = Cast<UPointWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPointWidget::StaticClass()));
 
 	
-	FTimerHandle countTime;
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindLambda([this]()->void {
 		if (timer > 0 && monGPlayer->isGameStart == true)
@@ -46,6 +45,7 @@ void UPlayWidget::NativeConstruct()
 				isEnd = true;
 				timer = 0;
 				GetWorld()->GetTimerManager().ClearTimer(countScore);
+				GetWorld()->GetTimerManager().ClearTimer(countTime);
 			}
 
 		}
@@ -70,4 +70,5 @@ void UPlayWidget::Tick(float DeltaTime)
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore)));
 	*/
 }
+
 

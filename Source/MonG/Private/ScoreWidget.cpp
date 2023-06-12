@@ -142,7 +142,8 @@ void UScoreWidget::PrintRanking()
 
 void UScoreWidget::Click_Restart()
 {
+	GetWorld()->GetTimerManager().ClearTimer(playWidget->countScore);
 	UGameplayStatics::OpenLevel(GetWorld(), TEXT("ShoolClass"));
-	UE_LOG(LogTemp, Warning, TEXT("restart"));
+	//UE_LOG(LogTemp, Warning, TEXT("restart"));
 }
 

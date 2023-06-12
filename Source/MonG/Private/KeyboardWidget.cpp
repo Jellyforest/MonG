@@ -11,6 +11,7 @@
 #include "ScoreWidget.h"
 #include <UMG/Public/Components/WidgetComponent.h>
 #include "KeyBoard.h"
+#include "PlayWidget.h"
 
 #define PRINTTOScreen(msg) GEngine->AddOnScreenDebugMessage(0, 1, FColor::Blue, msg)
 
@@ -298,7 +299,7 @@ void UKeyboardWidget::Enter()
 	scoreWidget->PrintCurrentScore();
 	monGgm->PlusRanking(scoreID);
 	keyboard->keyboardWidgetComp->SetVisibility(false);
-
+	
 
 }
 

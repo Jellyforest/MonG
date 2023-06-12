@@ -11,6 +11,7 @@
 #include "KeyboardWidget.h"
 #include "KeyBoard.h"
 #include "Components/TextBlock.h"
+#include "PlayWidget.h"
 
 
 void AMonGGameModeBase::BeginPlay()
@@ -42,6 +43,8 @@ void AMonGGameModeBase::SaveScore()
 
 		UGameplayStatics::SaveGameToSlot(scoreDataInstance, scoreDataInstance->saveSlotName, scoreDataInstance->saveIndex);
 	}
+
+	
 }
 
 void AMonGGameModeBase::LoadScore()
