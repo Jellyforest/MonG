@@ -10,7 +10,6 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include "PlayWidget.h"
 #include "PlayWidgetActor.h"
-#include "Components/Button.h"
 
 
 
@@ -23,7 +22,7 @@ void UScoreWidget::NativeConstruct()
 	playWidget = Cast<UPlayWidget>(playWidgetActor->playWidgetComp->GetWidget());
 	scoreTextArray = {recordFirst, recordSecond, recordThird, recordFourth, recordFifth, recordSixth, recordSeventh};
 	idArray = { text_First, text_Second, text_Third, text_Fourth, text_Fifth, text_Sixth, text_Seventh };
-	btn_Restart->OnClicked.AddDynamic(this, &UScoreWidget::Click_Restart);
+
 }
 
 
@@ -139,10 +138,3 @@ void UScoreWidget::PrintRanking()
 	recordFirst->SetText(recordFirstText);
 	*/
 }
-
-void UScoreWidget::Click_Restart()
-{
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("ShoolClass"));
-	UE_LOG(LogTemp, Warning, TEXT("restart"));
-}
-

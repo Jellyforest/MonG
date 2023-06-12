@@ -36,7 +36,7 @@ public:
 	//먼지 방향
 	FVector monGDirection;
 	//시간이 지나면 먼지 삭제
-	float destroyTime = 3.5f;
+	float destroyTime = 4;
 	float currentTime = 0;
 	UPROPERTY()
 	AMonGPlayer* monGPlayer;

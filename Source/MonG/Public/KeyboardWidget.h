@@ -148,6 +148,4 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Enter();
 
-
-
 };

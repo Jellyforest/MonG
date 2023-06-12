@@ -80,8 +80,4 @@ public:
 	TArray <UTextBlock*> scoreTextArray;
 	TArray <UTextBlock*> idArray;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, meta=(BindWidget))
-	class UButton* btn_Restart;
-	UFUNCTION(BlueprintCallable)
-	void Click_Restart();
 };
