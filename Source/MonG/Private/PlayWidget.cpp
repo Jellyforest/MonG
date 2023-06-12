@@ -45,6 +45,7 @@ void UPlayWidget::NativeConstruct()
 			//	UE_LOG(LogTemp, Warning, TEXT(" Player Widget isGameStart : %d"), monGPlayer->isGameStart)
 				isEnd = true;
 				timer = 0;
+				GetWorld()->GetTimerManager().ClearTimer(countScore);
 			}
 
 		}
@@ -53,12 +54,11 @@ void UPlayWidget::NativeConstruct()
 	GetWorld()->GetTimerManager().SetTimer(countTime, timerDelegate, 1, true);
 
 	//Á¡¼ö
-	FTimerHandle countScore;
 	FTimerDelegate timerDelegate1;
 	timerDelegate1.BindLambda([this]()->void {
 		
 	text_Score->SetText(FText::FromString(FString::Printf(TEXT("%d"), monGgm->currentScore))); });
-	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, 0.001, true);
+	GetWorld()->GetTimerManager().SetTimer(countScore, timerDelegate1, GetWorld()->GetDeltaSeconds(), true);
 
 }
 

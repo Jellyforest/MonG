@@ -29,6 +29,7 @@ public:
 	//class UScoreWidget* score_UI;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ScoreWidgetSettings")
 	class UWidgetComponent* scoreWidgetComp;
-
 	void WidgetAppeared();
+
+	
 };

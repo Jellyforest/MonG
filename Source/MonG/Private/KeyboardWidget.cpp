@@ -298,5 +298,7 @@ void UKeyboardWidget::Enter()
 	scoreWidget->PrintCurrentScore();
 	monGgm->PlusRanking(scoreID);
 	keyboard->keyboardWidgetComp->SetVisibility(false);
+
+
 }
 

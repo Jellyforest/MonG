@@ -47,4 +47,6 @@ public:
 
 	bool isEnd = false;
 
+	FTimerHandle countScore;
+
 };

@@ -138,7 +138,9 @@ public:
 	FVector endPos;
 	UPROPERTY()
 	FVector startPos;
-
+	//wall
+	UPROPERTY()
+	class AWall* wall;
 
 	//동작함수
 	void Move(const FInputActionValue& Values);

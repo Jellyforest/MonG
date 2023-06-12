@@ -37,6 +37,7 @@
 #include "PlayWidgetActor.h"
 #include "KeyBoard.h"
 #include <Components/AudioComponent.h>
+#include "Wall.h"
 
 
 
@@ -134,6 +135,7 @@ void AMonGPlayer::BeginPlay()
 	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
 	scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
 	keyboard = Cast<AKeyBoard>(UGameplayStatics::GetActorOfClass(GetWorld(), AKeyBoard::StaticClass()));
+	wall = Cast<AWall>(UGameplayStatics::GetActorOfClass(GetWorld(), AWall::StaticClass()));
 
 	/////////////////////////////
 	/*
@@ -154,7 +156,7 @@ void AMonGPlayer::BeginPlay()
 	*/
 	if (widgetInteractionComp)
 	{
-		widgetInteractionComp->InteractionDistance = 150.0f;
+		widgetInteractionComp->InteractionDistance = 1500.0f;
 		widgetInteractionComp->bEnableHitTesting = false;
 	}
 	keyboard->keyboardWidgetComp->SetVisibility(false);
@@ -399,7 +401,8 @@ void AMonGPlayer::PressUIBulletButten()
 		{
 		//////////	monGgm->Record
 		//	monGgm->SaveScore();
-			monGgm->LoadScore();
+			//monGgm->LoadScore();
+			//monGgm->RankingData();
 			scoreWidget->PrintRanking();
 
 			//UE_LOG(LogTemp, Warning, TEXT("startwidgetoff"));
@@ -510,9 +513,9 @@ void AMonGPlayer::GameEnding()
 		scoreWidgetActor->WidgetAppeared();
 		keyboard->keyboardWidgetComp->SetVisibility(true);
 		playWidgetActor->playWidgetComp->SetVisibility(false);
+		playWidgetActor->SetActorLocation(FVector(256, 279, 294));
 		scoreWidget->PrintCurrentScore();
-		scoreWidget->PrintRanking();
-
+		wall->SetActorLocation(FVector(963,306, 94));
 		
 	}
 }
@@ -569,7 +572,8 @@ void AMonGPlayer::LeftOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 			//PRINTTOScreen(FString::Printf(TEXT("left")));
 			cleaner->cleanerStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			//cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform,FName("cleanerSocket"));
-			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+			cleaner->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform);
+
 		}
 	}
 

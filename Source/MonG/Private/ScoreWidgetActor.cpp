@@ -34,7 +34,7 @@ void AScoreWidgetActor::Tick(float DeltaTime)
 void AScoreWidgetActor::WidgetAppeared()
 {
 	UE_LOG(LogTemp, Warning, TEXT("widgetAppeared"));
-	SetActorLocation(FVector(22, 293, 297));
+	SetActorLocation(FVector(17, 293, 297));
 	/*
 	FTimerHandle scoreWidgetOnTimer;
 	FTimerDelegate timerDelegate1;
