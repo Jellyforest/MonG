@@ -55,8 +55,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_GameExit;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_MonGNewLevel;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_BossDie;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class APlayerController* playerController;
-
+	
 
 
 	//카메라
@@ -164,6 +168,8 @@ public:
 	void GameEnding();
 	//나가기
 	void MonGExit();
+	void MonGNewLevel();
+	void BossDie();
 
 	//청소기 
 	UFUNCTION()
@@ -188,9 +194,14 @@ public:
 	bool isStartWidgetOff = false;
 	bool isStartWidgetOffAndShoot = true;
 
+	bool doOnce = false;
 
 	//위젯상호작용 키
 	bool pressed = false;
+
+	UPROPERTY(EditAnywhere,Category="Score Settings")
+	int32 point=500;
+	
 };
 
 

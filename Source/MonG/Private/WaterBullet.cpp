@@ -65,11 +65,13 @@ void AWaterBullet::WaterShoot(UPrimitiveComponent* OverlappedComponent, AActor* 
 		if (dustStrollSpawner->HP > 0)
 		{
 			dustStrollSpawner->HP -= 30;
-			UGameplayStatics::PlaySound2D(this, bulletSoundBase);
+			//UGameplayStatics::PlaySound2D(this, bulletSoundBase);
+			UE_LOG(LogTemp, Warning, TEXT("%d"), dustStrollSpawner->HP);
 			this->Destroy();
 		}
-		if (dustStrollSpawner->HP == 0)
+		if (dustStrollSpawner->HP <= 0)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("hp=0"));
 			monGgm->AddScore(point);
 			dustStrollSpawner->Destroy();
 			playWidget->timer = 0;

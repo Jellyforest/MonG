@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include <UMG/Public/Blueprint/UserWidget.h>
 #include "MonGPlayer.h"
+#include <UMG/Public/Blueprint/UserWidget.h>
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include "EnhancedInputSubsystems.h"
 #include <Engine/LocalPlayer.h>
@@ -38,6 +38,7 @@
 #include "KeyBoard.h"
 #include <Components/AudioComponent.h>
 #include "Wall.h"
+#include "DustStrollSpawner.h"
 
 
 
@@ -114,7 +115,8 @@ void AMonGPlayer::BeginPlay()
 	endWidgetComp->SetVisibility(false);
 	playerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController());
 	actorStartWidget = Cast<AActorStartWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), AActorStartWidget::StaticClass()));
-	playWidget = Cast<UPlayWidget>(UGameplayStatics::GetActorOfClass(GetWorld(), UPlayWidget::StaticClass()));
+	playWidgetActor = Cast<APlayWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayWidgetActor::StaticClass()));
+	playWidget = Cast<UPlayWidget>(playWidgetActor->playWidgetComp->GetWidget());
 	dustStrollSpawner = Cast<ADustStrollSpawner>(UGameplayStatics::GetActorOfClass(GetWorld(), ADustStrollSpawner::StaticClass()));
 
 
@@ -211,7 +213,10 @@ void AMonGPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		inputSystem->BindAction(IA_RightA, ETriggerEvent::Completed, this, &AMonGPlayer::UIButten);
 		inputSystem->BindAction(IA_Draw, ETriggerEvent::Started, this, &AMonGPlayer::RightDrawing);
 		inputSystem->BindAction(IA_Draw, ETriggerEvent::Completed, this, &AMonGPlayer::RightStopDrawing);
+		
 		inputSystem->BindAction(IA_GameExit, ETriggerEvent::Triggered, this, &AMonGPlayer::MonGExit);
+		inputSystem->BindAction(IA_MonGNewLevel, ETriggerEvent::Triggered, this, &AMonGPlayer::MonGNewLevel);
+		inputSystem->BindAction(IA_BossDie, ETriggerEvent::Triggered, this, &AMonGPlayer::BossDie);
 		
 	}
 }
@@ -526,6 +531,31 @@ void AMonGPlayer::MonGExit()
 {
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 	UKismetSystemLibrary::QuitGame(GetWorld(), playerCon, EQuitPreference::Quit, true);
+}
+
+void AMonGPlayer::MonGNewLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("ShoolClass"));
+	GetWorld()->GetTimerManager().ClearTimer(playWidget->countScore);
+
+}
+
+void AMonGPlayer::BossDie()
+{
+	if (dustStrollSpawner !=nullptr)
+	{
+		dustStrollSpawner->Destroy();
+
+		if (playWidget != nullptr)
+		{
+			if (doOnce == false)
+			{
+				monGgm->AddScore(point);
+				playWidget->timer = 0;
+				doOnce = true;
+			}
+		}
+	}
 }
 
 void AMonGPlayer::RightOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

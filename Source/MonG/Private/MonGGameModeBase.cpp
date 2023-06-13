@@ -19,6 +19,7 @@ void AMonGGameModeBase::BeginPlay()
 	LoadScore();
 	scoreWidgetActor = Cast<AScoreWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AScoreWidgetActor::StaticClass()));
 	scoreWidget = Cast<UScoreWidget>(scoreWidgetActor->scoreWidgetComp->GetWidget());
+	currentScore = 0;
 }
 
 

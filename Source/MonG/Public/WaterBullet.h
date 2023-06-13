@@ -47,6 +47,6 @@ public:
 	UPROPERTY()
 	class APlayWidgetActor* playWidgetActor;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WaterBulletSettings")
-	class USoundBase* bulletSoundBase;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WaterBulletSettings")
+	//class USoundBase* bulletSoundBase;
 };
