@@ -535,8 +535,9 @@ void AMonGPlayer::MonGExit()
 
 void AMonGPlayer::MonGNewLevel()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("ShoolClass"));
 	GetWorld()->GetTimerManager().ClearTimer(playWidget->countScore);
+
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("ShoolClass"));
 
 }
 
